@@ -1,0 +1,1342 @@
+2026-08-02 14:51:14.134 +08:00 [INF] 
+   __     ___   ______                                           _    
+   \ \   / (_) |  ____|                                         | |   
+    \ \_/ / _  | |__ _ __ __ _ _ __ ___   _____      _____  _ __| | __
+     \   / | | |  __| '__/ _` | '_ ` _ \ / _ \ \ /\ / / _ \| '__| |/ /
+      | |  | | | |  | | | (_| | | | | | |  __/\ V  V / (_) | |  |   < 
+      |_|  |_| |_|  |_|  \__,_|_| |_| |_|\___| \_/\_/ \___/|_|  |_|\_\
+
+2026-08-02 14:51:14.142 +08:00 [INF] Yi框架-Abp.vNext，启动！
+2026-08-02 14:51:14.427 +08:00 [INF] 当前主机启动环境-【Development】
+2026-08-02 14:51:14.427 +08:00 [INF] 当前主机启动地址-【http://*:5000】
+2026-08-02 14:51:20.347 +08:00 [INF] Loaded ABP modules:
+2026-08-02 14:51:20.347 +08:00 [INF] - Yi.Abp.Web.YiAbpWebModule
+2026-08-02 14:51:20.347 +08:00 [INF]   - Yi.Abp.SqlsugarCore.YiAbpSqlSugarCoreModule
+2026-08-02 14:51:20.347 +08:00 [INF]     - Yi.Abp.Domain.YiAbpDomainModule
+2026-08-02 14:51:20.347 +08:00 [INF]       - Yi.Abp.Domain.Shared.YiAbpDomainSharedModule
+2026-08-02 14:51:20.347 +08:00 [INF]         - Yi.Framework.Rbac.Domain.Shared.YiFrameworkRbacDomainSharedModule
+2026-08-02 14:51:20.347 +08:00 [INF]           - Volo.Abp.Domain.AbpDddDomainSharedModule
+2026-08-02 14:51:20.347 +08:00 [INF]             - Volo.Abp.MultiTenancy.AbpMultiTenancyAbstractionsModule
+2026-08-02 14:51:20.347 +08:00 [INF]               - Volo.Abp.VirtualFileSystem.AbpVirtualFileSystemModule
+2026-08-02 14:51:20.347 +08:00 [INF]               - Volo.Abp.Localization.AbpLocalizationModule
+2026-08-02 14:51:20.347 +08:00 [INF]                 - Volo.Abp.Settings.AbpSettingsModule
+2026-08-02 14:51:20.347 +08:00 [INF]                   - Volo.Abp.Localization.AbpLocalizationAbstractionsModule
+2026-08-02 14:51:20.347 +08:00 [INF]                   - Volo.Abp.Security.AbpSecurityModule
+2026-08-02 14:51:20.347 +08:00 [INF]                   - Volo.Abp.Data.AbpDataModule
+2026-08-02 14:51:20.347 +08:00 [INF]                     - Volo.Abp.ObjectExtending.AbpObjectExtendingModule
+2026-08-02 14:51:20.347 +08:00 [INF]                       - Volo.Abp.Validation.AbpValidationAbstractionsModule
+2026-08-02 14:51:20.347 +08:00 [INF]                     - Volo.Abp.Uow.AbpUnitOfWorkModule
+2026-08-02 14:51:20.347 +08:00 [INF]                     - Volo.Abp.EventBus.Abstractions.AbpEventBusAbstractionsModule
+2026-08-02 14:51:20.347 +08:00 [INF]                 - Volo.Abp.Threading.AbpThreadingModule
+2026-08-02 14:51:20.347 +08:00 [INF]           - Yi.Framework.Mapster.YiFrameworkMapsterModule
+2026-08-02 14:51:20.347 +08:00 [INF]             - Yi.Framework.Core.YiFrameworkCoreModule
+2026-08-02 14:51:20.347 +08:00 [INF]             - Volo.Abp.ObjectMapping.AbpObjectMappingModule
+2026-08-02 14:51:20.347 +08:00 [INF]         - Yi.Framework.AuditLogging.Domain.Shared.YiFrameworkAuditLoggingDomainSharedModule
+2026-08-02 14:51:20.347 +08:00 [INF]         - Volo.Abp.SettingManagement.AbpSettingManagementDomainSharedModule
+2026-08-02 14:51:20.347 +08:00 [INF]           - Volo.Abp.Validation.AbpValidationModule
+2026-08-02 14:51:20.347 +08:00 [INF]           - Volo.Abp.Features.AbpFeaturesModule
+2026-08-02 14:51:20.347 +08:00 [INF]             - Volo.Abp.MultiTenancy.AbpMultiTenancyModule
+2026-08-02 14:51:20.347 +08:00 [INF]             - Volo.Abp.Authorization.AbpAuthorizationAbstractionsModule
+2026-08-02 14:51:20.347 +08:00 [INF]       - Yi.Framework.TenantManagement.Domain.YiFrameworkTenantManagementDomainModule
+2026-08-02 14:51:20.347 +08:00 [INF]         - Volo.Abp.Domain.AbpDddDomainModule
+2026-08-02 14:51:20.347 +08:00 [INF]           - Volo.Abp.Auditing.AbpAuditingModule
+2026-08-02 14:51:20.347 +08:00 [INF]             - Volo.Abp.Json.AbpJsonModule
+2026-08-02 14:51:20.347 +08:00 [INF]               - Volo.Abp.Json.SystemTextJson.AbpJsonSystemTextJsonModule
+2026-08-02 14:51:20.347 +08:00 [INF]                 - Volo.Abp.Json.AbpJsonAbstractionsModule
+2026-08-02 14:51:20.347 +08:00 [INF]                 - Volo.Abp.Timing.AbpTimingModule
+2026-08-02 14:51:20.347 +08:00 [INF]             - Volo.Abp.Auditing.AbpAuditingContractsModule
+2026-08-02 14:51:20.347 +08:00 [INF]           - Volo.Abp.EventBus.AbpEventBusModule
+2026-08-02 14:51:20.347 +08:00 [INF]             - Volo.Abp.Guids.AbpGuidsModule
+2026-08-02 14:51:20.347 +08:00 [INF]             - Volo.Abp.BackgroundWorkers.AbpBackgroundWorkersModule
+2026-08-02 14:51:20.347 +08:00 [INF]             - Volo.Abp.DistributedLocking.AbpDistributedLockingAbstractionsModule
+2026-08-02 14:51:20.347 +08:00 [INF]           - Volo.Abp.ExceptionHandling.AbpExceptionHandlingModule
+2026-08-02 14:51:20.347 +08:00 [INF]           - Volo.Abp.Specifications.AbpSpecificationsModule
+2026-08-02 14:51:20.347 +08:00 [INF]           - Volo.Abp.Caching.AbpCachingModule
+2026-08-02 14:51:20.347 +08:00 [INF]             - Volo.Abp.Serialization.AbpSerializationModule
+2026-08-02 14:51:20.347 +08:00 [INF]         - Volo.Abp.TenantManagement.AbpTenantManagementDomainSharedModule
+2026-08-02 14:51:20.347 +08:00 [INF]       - Yi.Framework.Rbac.Domain.YiFrameworkRbacDomainModule
+2026-08-02 14:51:20.347 +08:00 [INF]         - Yi.Framework.Caching.FreeRedis.YiFrameworkCachingFreeRedisModule
+2026-08-02 14:51:20.347 +08:00 [INF]         - Volo.Abp.AspNetCore.SignalR.AbpAspNetCoreSignalRModule
+2026-08-02 14:51:20.347 +08:00 [INF]           - Volo.Abp.AspNetCore.AbpAspNetCoreModule
+2026-08-02 14:51:20.347 +08:00 [INF]             - Volo.Abp.Http.AbpHttpModule
+2026-08-02 14:51:20.347 +08:00 [INF]               - Volo.Abp.Http.AbpHttpAbstractionsModule
+2026-08-02 14:51:20.347 +08:00 [INF]               - Volo.Abp.Minify.AbpMinifyModule
+2026-08-02 14:51:20.347 +08:00 [INF]             - Volo.Abp.Authorization.AbpAuthorizationModule
+2026-08-02 14:51:20.347 +08:00 [INF]             - Volo.Abp.AspNetCore.AbpAspNetCoreAbstractionsModule
+2026-08-02 14:51:20.347 +08:00 [INF]         - Volo.Abp.Imaging.AbpImagingImageSharpModule
+2026-08-02 14:51:20.347 +08:00 [INF]           - Volo.Abp.Imaging.AbpImagingAbstractionsModule
+2026-08-02 14:51:20.347 +08:00 [INF]         - Volo.Abp.DistributedLocking.AbpDistributedLockingModule
+2026-08-02 14:51:20.347 +08:00 [INF]       - Yi.Framework.AuditLogging.Domain.YiFrameworkAuditLoggingDomainModule
+2026-08-02 14:51:20.347 +08:00 [INF]       - Yi.Framework.SettingManagement.Domain.YiFrameworkSettingManagementDomainModule
+2026-08-02 14:51:20.347 +08:00 [INF]     - Yi.Framework.Rbac.SqlSugarCore.YiFrameworkRbacSqlSugarCoreModule
+2026-08-02 14:51:20.347 +08:00 [INF]       - Yi.Framework.SqlSugarCore.YiFrameworkSqlSugarCoreModule
+2026-08-02 14:51:20.347 +08:00 [INF]     - Yi.Framework.SettingManagement.SqlSugarCore.YiFrameworkSettingManagementSqlSugarCoreModule
+2026-08-02 14:51:20.347 +08:00 [INF]     - Yi.Framework.AuditLogging.SqlSugarCore.YiFrameworkAuditLoggingSqlSugarCoreModule
+2026-08-02 14:51:20.347 +08:00 [INF]     - Yi.Framework.TenantManagement.SqlSugarCore.YiFrameworkTenantManagementSqlSugarCoreModule
+2026-08-02 14:51:20.347 +08:00 [INF]     - Yi.Framework.Contract.SqlSugarCore.YiFrameworkContractSqlSugarCoreModule
+2026-08-02 14:51:20.347 +08:00 [INF]       - Yi.Framework.Contract.Domain.YiFrameworkContractDomainModule
+2026-08-02 14:51:20.347 +08:00 [INF]         - Yi.Framework.Contract.Domain.Shared.YiFrameworkContractDomainSharedModule
+2026-08-02 14:51:20.347 +08:00 [INF]     - Yi.Framework.Compliance.SqlSugarCore.YiFrameworkComplianceSqlSugarCoreModule
+2026-08-02 14:51:20.347 +08:00 [INF]       - Yi.Framework.Compliance.Domain.YiFrameworkComplianceDomainModule
+2026-08-02 14:51:20.347 +08:00 [INF]         - Yi.Framework.Compliance.Domain.Shared.YiFrameworkComplianceDomainSharedModule
+2026-08-02 14:51:20.347 +08:00 [INF]     - Yi.Framework.AgentOrchestration.SqlSugarCore.YiFrameworkAgentOrchestrationSqlSugarCoreModule
+2026-08-02 14:51:20.347 +08:00 [INF]       - Yi.Framework.AgentOrchestration.Domain.YiFrameworkAgentOrchestrationDomainModule
+2026-08-02 14:51:20.347 +08:00 [INF]         - Yi.Framework.AgentOrchestration.Domain.Shared.YiFrameworkAgentOrchestrationDomainSharedModule
+2026-08-02 14:51:20.347 +08:00 [INF]   - Yi.Abp.Application.YiAbpApplicationModule
+2026-08-02 14:51:20.347 +08:00 [INF]     - Yi.Abp.Application.Contracts.YiAbpApplicationContractsModule
+2026-08-02 14:51:20.347 +08:00 [INF]       - Yi.Framework.Rbac.Application.Contracts.YiFrameworkRbacApplicationContractsModule
+2026-08-02 14:51:20.347 +08:00 [INF]         - Yi.Framework.Ddd.Application.Contracts.YiFrameworkDddApplicationContractsModule
+2026-08-02 14:51:20.347 +08:00 [INF]           - Volo.Abp.Application.AbpDddApplicationContractsModule
+2026-08-02 14:51:20.347 +08:00 [INF]       - Volo.Abp.SettingManagement.AbpSettingManagementApplicationContractsModule
+2026-08-02 14:51:20.347 +08:00 [INF]       - Yi.Framework.TenantManagement.Application.Contracts.YiFrameworkTenantManagementApplicationContractsModule
+2026-08-02 14:51:20.347 +08:00 [INF]     - Yi.Framework.Rbac.Application.YiFrameworkRbacApplicationModule
+2026-08-02 14:51:20.347 +08:00 [INF]       - Yi.Framework.Ddd.Application.YiFrameworkDddApplicationModule
+2026-08-02 14:51:20.347 +08:00 [INF]         - Volo.Abp.Application.AbpDddApplicationModule
+2026-08-02 14:51:20.347 +08:00 [INF]           - Volo.Abp.GlobalFeatures.AbpGlobalFeaturesModule
+2026-08-02 14:51:20.347 +08:00 [INF]     - Yi.Framework.TenantManagement.Application.YiFrameworkTenantManagementApplicationModule
+2026-08-02 14:51:20.347 +08:00 [INF]     - Yi.Framework.SettingManagement.Application.YiFrameworkSettingManagementApplicationModule
+2026-08-02 14:51:20.347 +08:00 [INF]     - Yi.Framework.Contract.Application.YiFrameworkContractApplicationModule
+2026-08-02 14:51:20.347 +08:00 [INF]       - Yi.Framework.Contract.Application.Contracts.YiFrameworkContractApplicationContractsModule
+2026-08-02 14:51:20.347 +08:00 [INF]     - Yi.Framework.Compliance.Application.YiFrameworkComplianceApplicationModule
+2026-08-02 14:51:20.347 +08:00 [INF]       - Yi.Framework.Compliance.Application.Contracts.YiFrameworkComplianceApplicationContractsModule
+2026-08-02 14:51:20.347 +08:00 [INF]     - Yi.Framework.AgentOrchestration.Application.YiFrameworkAgentOrchestrationApplicationModule
+2026-08-02 14:51:20.347 +08:00 [INF]       - Yi.Framework.AgentOrchestration.Application.Contracts.YiFrameworkAgentOrchestrationApplicationContractsModule
+2026-08-02 14:51:20.347 +08:00 [INF]   - Volo.Abp.AspNetCore.MultiTenancy.AbpAspNetCoreMultiTenancyModule
+2026-08-02 14:51:20.347 +08:00 [INF]   - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcModule
+2026-08-02 14:51:20.347 +08:00 [INF]     - Volo.Abp.ApiVersioning.AbpApiVersioningAbstractionsModule
+2026-08-02 14:51:20.347 +08:00 [INF]     - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcContractsModule
+2026-08-02 14:51:20.347 +08:00 [INF]     - Volo.Abp.UI.Navigation.AbpUiNavigationModule
+2026-08-02 14:51:20.347 +08:00 [INF]       - Volo.Abp.UI.AbpUiModule
+2026-08-02 14:51:20.347 +08:00 [INF]   - Volo.Abp.Swashbuckle.AbpSwashbuckleModule
+2026-08-02 14:51:20.347 +08:00 [INF]   - Volo.Abp.AspNetCore.Serilog.AbpAspNetCoreSerilogModule
+2026-08-02 14:51:20.347 +08:00 [INF]   - Volo.Abp.AspNetCore.Authentication.JwtBearer.AbpAspNetCoreAuthenticationJwtBearerModule
+2026-08-02 14:51:20.347 +08:00 [INF]   - Yi.Framework.AspNetCore.YiFrameworkAspNetCoreModule
+2026-08-02 14:51:20.347 +08:00 [INF]   - Yi.Framework.AspNetCore.Authentication.OAuth.YiFrameworkAspNetCoreAuthenticationOAuthModule
+2026-08-02 14:51:20.347 +08:00 [INF]   - Yi.Framework.BackgroundWorkers.Hangfire.YiFrameworkBackgroundWorkersHangfireModule
+2026-08-02 14:51:20.347 +08:00 [INF]     - Volo.Abp.BackgroundWorkers.Hangfire.AbpBackgroundWorkersHangfireModule
+2026-08-02 14:51:20.347 +08:00 [INF]       - Volo.Abp.Hangfire.AbpHangfireModule
+2026-08-02 14:51:20.347 +08:00 [INF]     - Volo.Abp.BackgroundJobs.Hangfire.AbpBackgroundJobsHangfireModule
+2026-08-02 14:51:20.347 +08:00 [INF]       - Volo.Abp.BackgroundJobs.AbpBackgroundJobsAbstractionsModule
+2026-08-02 14:51:20.347 +08:00 [INF]   - Volo.Abp.Autofac.AbpAutofacModule
+2026-08-02 14:51:20.347 +08:00 [INF]     - Volo.Abp.Castle.AbpCastleCoreModule
+2026-08-02 14:51:20.353 +08:00 [DBG] ==========模块Initialize初始化统计-跳过0ms模块==========
+2026-08-02 14:51:20.357 +08:00 [INF] 
+==========Yi-SQL配置:==========
+数据库连接字符串：DataSource=yi-abp-dev.db
+数据库类型：Sqlite
+是否开启种子数据：True
+是否开启CodeFirst：True
+是否开启Saas多租户：True
+===============================
+
+2026-08-02 14:51:20.815 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+select Name from sqlite_master where type='table' and name<>'sqlite_sequence' order by name;
+===============================
+
+2026-08-02 14:51:20.818 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:20.828 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+CREATE TABLE IF NOT EXISTS "YiTenant"(
+"Id" uniqueidentifier NOT NULL PRIMARY KEY ,
+"Name" varchar(255) NOT NULL  ,
+"EntityVersion" integer NOT NULL  ,
+"TenantConnectionString" varchar(255) NOT NULL  ,
+"DbType" integer NOT NULL  ,
+"IsDeleted" bit NOT NULL  ,
+"DeleterId" uniqueidentifier NULL  ,
+"DeletionTime" datetime NULL  ,
+"LastModificationTime" datetime NULL  ,
+"LastModifierId" uniqueidentifier NULL  ,
+"CreationTime" datetime NOT NULL  ,
+"CreatorId" uniqueidentifier NULL  ,
+"ConcurrencyStamp" varchar(255) NOT NULL    )
+===============================
+
+2026-08-02 14:51:20.829 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:20.859 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+select Name from sqlite_master where type='table' and name<>'sqlite_sequence' order by name;
+===============================
+
+2026-08-02 14:51:20.859 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:20.869 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+CREATE TABLE IF NOT EXISTS "OperationLog"(
+"Id" uniqueidentifier NOT NULL PRIMARY KEY ,
+"Title" varchar(255) NULL  ,
+"OperType" integer NOT NULL  ,
+"RequestMethod" varchar(255) NULL  ,
+"OperUser" varchar(255) NULL  ,
+"OperIp" varchar(255) NULL  ,
+"OperLocation" varchar(255) NULL  ,
+"Method" varchar(255) NULL  ,
+"RequestParam" text NULL  ,
+"RequestResult" text NULL  ,
+"CreationTime" datetime NOT NULL  ,
+"CreatorId" uniqueidentifier NULL    )
+===============================
+
+2026-08-02 14:51:20.870 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:20.885 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+select Name from sqlite_master where type='table' and name<>'sqlite_sequence' order by name;
+===============================
+
+2026-08-02 14:51:20.885 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:20.885 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+CREATE TABLE IF NOT EXISTS "Config"(
+"Id" uniqueidentifier NOT NULL PRIMARY KEY ,
+"ConfigName" varchar(255) NOT NULL  ,
+"ConfigKey" varchar(255) NOT NULL  ,
+"ConfigValue" varchar(255) NOT NULL  ,
+"ConfigType" varchar(255) NULL  ,
+"OrderNum" integer NOT NULL  ,
+"Remark" varchar(255) NULL  ,
+"IsDeleted" bit NOT NULL  ,
+"CreationTime" datetime NOT NULL  ,
+"CreatorId" uniqueidentifier NULL  ,
+"LastModifierId" uniqueidentifier NULL  ,
+"LastModificationTime" datetime NULL  ,
+"ConcurrencyStamp" varchar(255) NOT NULL    )
+===============================
+
+2026-08-02 14:51:20.886 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:20.901 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+select Name from sqlite_master where type='table' and name<>'sqlite_sequence' order by name;
+===============================
+
+2026-08-02 14:51:20.901 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:20.901 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+CREATE TABLE IF NOT EXISTS "Dept"(
+"Id" uniqueidentifier NOT NULL PRIMARY KEY ,
+"IsDeleted" bit NOT NULL  ,
+"CreationTime" datetime NOT NULL  ,
+"CreatorId" uniqueidentifier NULL  ,
+"LastModifierId" uniqueidentifier NULL  ,
+"LastModificationTime" datetime NULL  ,
+"OrderNum" integer NOT NULL  ,
+"State" bit NOT NULL  ,
+"DeptName" varchar(255) NOT NULL  ,
+"DeptCode" varchar(255) NOT NULL  ,
+"Leader" varchar(255) NULL  ,
+"ParentId" uniqueidentifier NOT NULL  ,
+"Remark" varchar(255) NULL  ,
+"ConcurrencyStamp" varchar(255) NOT NULL    )
+===============================
+
+2026-08-02 14:51:20.902 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:20.913 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+select Name from sqlite_master where type='table' and name<>'sqlite_sequence' order by name;
+===============================
+
+2026-08-02 14:51:20.913 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:20.914 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+CREATE TABLE IF NOT EXISTS "Dictionary"(
+"Id" uniqueidentifier NOT NULL PRIMARY KEY ,
+"IsDeleted" bit NOT NULL  ,
+"OrderNum" integer NOT NULL  ,
+"State" bit NOT NULL  ,
+"Remark" varchar(255) NULL  ,
+"ListClass" varchar(255) NULL  ,
+"CssClass" varchar(255) NULL  ,
+"DictType" varchar(255) NOT NULL  ,
+"DictLabel" varchar(255) NULL  ,
+"DictValue" varchar(255) NOT NULL  ,
+"IsDefault" bit NOT NULL  ,
+"CreationTime" datetime NOT NULL  ,
+"CreatorId" uniqueidentifier NULL  ,
+"LastModifierId" uniqueidentifier NULL  ,
+"LastModificationTime" datetime NULL    )
+===============================
+
+2026-08-02 14:51:20.915 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:20.929 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+select Name from sqlite_master where type='table' and name<>'sqlite_sequence' order by name;
+===============================
+
+2026-08-02 14:51:20.929 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:20.929 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+CREATE TABLE IF NOT EXISTS "DictionaryType"(
+"Id" uniqueidentifier NOT NULL PRIMARY KEY ,
+"IsDeleted" bit NOT NULL  ,
+"OrderNum" integer NOT NULL  ,
+"State" bit NULL  ,
+"DictName" varchar(255) NOT NULL  ,
+"DictType" varchar(255) NOT NULL  ,
+"Remark" varchar(255) NULL  ,
+"CreationTime" datetime NOT NULL  ,
+"CreatorId" uniqueidentifier NULL  ,
+"LastModifierId" uniqueidentifier NULL  ,
+"LastModificationTime" datetime NULL  ,
+"ConcurrencyStamp" varchar(255) NOT NULL    )
+===============================
+
+2026-08-02 14:51:20.931 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:20.946 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+select Name from sqlite_master where type='table' and name<>'sqlite_sequence' order by name;
+===============================
+
+2026-08-02 14:51:20.946 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:20.946 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+CREATE TABLE IF NOT EXISTS "File"(
+"Id" uniqueidentifier NOT NULL PRIMARY KEY ,
+"FileSize" decimal NOT NULL  ,
+"FileName" varchar(255) NOT NULL  ,
+"FilePath" varchar(255) NOT NULL  ,
+"CreationTime" datetime NOT NULL  ,
+"CreatorId" uniqueidentifier NULL  ,
+"LastModifierId" uniqueidentifier NULL  ,
+"LastModificationTime" datetime NULL  ,
+"ConcurrencyStamp" varchar(255) NOT NULL    )
+===============================
+
+2026-08-02 14:51:20.947 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:20.964 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+select Name from sqlite_master where type='table' and name<>'sqlite_sequence' order by name;
+===============================
+
+2026-08-02 14:51:20.964 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:20.964 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+CREATE TABLE IF NOT EXISTS "LoginLog"(
+"Id" uniqueidentifier NOT NULL PRIMARY KEY ,
+"CreationTime" datetime NOT NULL  ,
+"LoginUser" varchar(255) NULL  ,
+"LoginLocation" varchar(255) NULL  ,
+"LoginIp" varchar(255) NULL  ,
+"Browser" varchar(255) NULL  ,
+"Os" varchar(255) NULL  ,
+"LogMsg" varchar(255) NULL  ,
+"CreatorId" uniqueidentifier NULL  ,
+"ConcurrencyStamp" varchar(255) NOT NULL    )
+===============================
+
+2026-08-02 14:51:20.965 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:20.966 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+SELECT count(*) FROM sqlite_master WHERE name = 'index_LoginUser'
+===============================
+
+2026-08-02 14:51:20.967 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:20.969 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+CREATE  INDEX index_LoginUser ON `LoginLog`(`LoginUser` Asc)
+===============================
+
+2026-08-02 14:51:20.970 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:20.985 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+select Name from sqlite_master where type='table' and name<>'sqlite_sequence' order by name;
+===============================
+
+2026-08-02 14:51:20.985 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:20.986 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+CREATE TABLE IF NOT EXISTS "Menu"(
+"Id" uniqueidentifier NOT NULL PRIMARY KEY ,
+"IsDeleted" bit NOT NULL  ,
+"CreationTime" datetime NOT NULL  ,
+"CreatorId" uniqueidentifier NULL  ,
+"LastModifierId" uniqueidentifier NULL  ,
+"LastModificationTime" datetime NULL  ,
+"OrderNum" integer NOT NULL  ,
+"State" bit NOT NULL  ,
+"MenuName" varchar(255) NOT NULL  ,
+"RouterName" varchar(255) NULL  ,
+"MenuType" integer NOT NULL  ,
+"PermissionCode" varchar(255) NULL  ,
+"ParentId" uniqueidentifier NOT NULL  ,
+"MenuIcon" varchar(255) NULL  ,
+"Router" varchar(255) NULL  ,
+"IsLink" bit NOT NULL  ,
+"IsCache" bit NOT NULL  ,
+"IsShow" bit NOT NULL  ,
+"Remark" varchar(255) NULL  ,
+"Component" varchar(255) NULL  ,
+"MenuSource" integer NOT NULL  ,
+"Query" varchar(255) NULL  ,
+"ConcurrencyStamp" varchar(255) NOT NULL    )
+===============================
+
+2026-08-02 14:51:20.986 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.002 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+select Name from sqlite_master where type='table' and name<>'sqlite_sequence' order by name;
+===============================
+
+2026-08-02 14:51:21.002 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.002 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+CREATE TABLE IF NOT EXISTS "Notice"(
+"Id" uniqueidentifier NOT NULL PRIMARY KEY ,
+"Title" varchar(255) NOT NULL  ,
+"Type" integer NOT NULL  ,
+"Content" text NOT NULL  ,
+"IsDeleted" bit NOT NULL  ,
+"CreationTime" datetime NOT NULL  ,
+"CreatorId" uniqueidentifier NULL  ,
+"LastModifierId" uniqueidentifier NULL  ,
+"LastModificationTime" datetime NULL  ,
+"OrderNum" integer NOT NULL  ,
+"State" bit NOT NULL  ,
+"ConcurrencyStamp" varchar(255) NOT NULL    )
+===============================
+
+2026-08-02 14:51:21.003 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.018 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+select Name from sqlite_master where type='table' and name<>'sqlite_sequence' order by name;
+===============================
+
+2026-08-02 14:51:21.018 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.018 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+CREATE TABLE IF NOT EXISTS "Post"(
+"Id" uniqueidentifier NOT NULL PRIMARY KEY ,
+"IsDeleted" bit NOT NULL  ,
+"CreationTime" datetime NOT NULL  ,
+"CreatorId" uniqueidentifier NULL  ,
+"LastModifierId" uniqueidentifier NULL  ,
+"LastModificationTime" datetime NULL  ,
+"OrderNum" integer NOT NULL  ,
+"State" bit NOT NULL  ,
+"PostCode" varchar(255) NOT NULL  ,
+"PostName" varchar(255) NOT NULL  ,
+"Remark" varchar(255) NULL  ,
+"ConcurrencyStamp" varchar(255) NOT NULL    )
+===============================
+
+2026-08-02 14:51:21.019 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.034 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+select Name from sqlite_master where type='table' and name<>'sqlite_sequence' order by name;
+===============================
+
+2026-08-02 14:51:21.034 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.034 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+CREATE TABLE IF NOT EXISTS "Role"(
+"Id" uniqueidentifier NOT NULL PRIMARY KEY ,
+"IsDeleted" bit NOT NULL  ,
+"CreationTime" datetime NOT NULL  ,
+"CreatorId" uniqueidentifier NULL  ,
+"LastModifierId" uniqueidentifier NULL  ,
+"LastModificationTime" datetime NULL  ,
+"OrderNum" integer NOT NULL  ,
+"RoleName" varchar(255) NOT NULL  ,
+"RoleCode" varchar(255) NOT NULL  ,
+"Remark" varchar(255) NULL  ,
+"DataScope" integer NOT NULL  ,
+"State" bit NOT NULL  ,
+"ConcurrencyStamp" varchar(255) NOT NULL    )
+===============================
+
+2026-08-02 14:51:21.035 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.049 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+select Name from sqlite_master where type='table' and name<>'sqlite_sequence' order by name;
+===============================
+
+2026-08-02 14:51:21.049 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.049 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+CREATE TABLE IF NOT EXISTS "RoleDept"(
+"Id" uniqueidentifier NOT NULL PRIMARY KEY ,
+"RoleId" uniqueidentifier NOT NULL  ,
+"DeptId" uniqueidentifier NOT NULL    )
+===============================
+
+2026-08-02 14:51:21.050 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.063 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+select Name from sqlite_master where type='table' and name<>'sqlite_sequence' order by name;
+===============================
+
+2026-08-02 14:51:21.063 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.063 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+CREATE TABLE IF NOT EXISTS "RoleMenu"(
+"Id" uniqueidentifier NOT NULL PRIMARY KEY ,
+"RoleId" uniqueidentifier NOT NULL  ,
+"MenuId" uniqueidentifier NOT NULL    )
+===============================
+
+2026-08-02 14:51:21.064 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.079 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+select Name from sqlite_master where type='table' and name<>'sqlite_sequence' order by name;
+===============================
+
+2026-08-02 14:51:21.079 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.079 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+CREATE TABLE IF NOT EXISTS "User"(
+"Id" uniqueidentifier NOT NULL PRIMARY KEY ,
+"IsDeleted" bit NOT NULL  ,
+"Name" varchar(255) NULL  ,
+"Age" integer NULL  ,
+"UserName" varchar(255) NOT NULL  ,
+"Password" varchar(255) NOT NULL  ,
+"Salt" varchar(255) NOT NULL  ,
+"Icon" varchar(255) NULL  ,
+"Nick" varchar(255) NULL  ,
+"Email" varchar(255) NULL  ,
+"Ip" varchar(255) NULL  ,
+"Address" varchar(255) NULL  ,
+"Phone" bigint NULL  ,
+"Introduction" varchar(255) NULL  ,
+"Remark" varchar(255) NULL  ,
+"Sex" integer NOT NULL  ,
+"DeptId" uniqueidentifier NULL  ,
+"CreationTime" datetime NOT NULL  ,
+"CreatorId" uniqueidentifier NULL  ,
+"LastModifierId" uniqueidentifier NULL  ,
+"LastModificationTime" datetime NULL  ,
+"OrderNum" integer NOT NULL  ,
+"State" bit NOT NULL  ,
+"ConcurrencyStamp" varchar(255) NOT NULL    )
+===============================
+
+2026-08-02 14:51:21.080 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.080 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+SELECT count(*) FROM sqlite_master WHERE name = 'index_UserName'
+===============================
+
+2026-08-02 14:51:21.080 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.080 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+CREATE  INDEX index_UserName ON `User`(`UserName` Asc)
+===============================
+
+2026-08-02 14:51:21.080 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.094 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+select Name from sqlite_master where type='table' and name<>'sqlite_sequence' order by name;
+===============================
+
+2026-08-02 14:51:21.094 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.094 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+CREATE TABLE IF NOT EXISTS "UserPost"(
+"Id" uniqueidentifier NOT NULL PRIMARY KEY ,
+"UserId" uniqueidentifier NOT NULL  ,
+"PostId" uniqueidentifier NOT NULL    )
+===============================
+
+2026-08-02 14:51:21.095 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.108 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+select Name from sqlite_master where type='table' and name<>'sqlite_sequence' order by name;
+===============================
+
+2026-08-02 14:51:21.108 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.108 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+CREATE TABLE IF NOT EXISTS "UserRole"(
+"Id" uniqueidentifier NOT NULL PRIMARY KEY ,
+"RoleId" uniqueidentifier NOT NULL  ,
+"UserId" uniqueidentifier NOT NULL    )
+===============================
+
+2026-08-02 14:51:21.110 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.124 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+select Name from sqlite_master where type='table' and name<>'sqlite_sequence' order by name;
+===============================
+
+2026-08-02 14:51:21.125 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.125 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+CREATE TABLE IF NOT EXISTS "Auth"(
+"Id" uniqueidentifier NOT NULL PRIMARY KEY ,
+"UserId" uniqueidentifier NOT NULL  ,
+"OpenId" varchar(255) NOT NULL  ,
+"Name" varchar(255) NOT NULL  ,
+"AuthType" varchar(255) NOT NULL  ,
+"IsDeleted" bit NOT NULL  ,
+"CreationTime" datetime NOT NULL  ,
+"ConcurrencyStamp" varchar(255) NOT NULL    )
+===============================
+
+2026-08-02 14:51:21.126 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.144 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+select Name from sqlite_master where type='table' and name<>'sqlite_sequence' order by name;
+===============================
+
+2026-08-02 14:51:21.144 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.144 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+CREATE TABLE IF NOT EXISTS "YiAuditLogAction"(
+"Id" uniqueidentifier NOT NULL PRIMARY KEY ,
+"TenantId" uniqueidentifier NULL  ,
+"AuditLogId" uniqueidentifier NOT NULL  ,
+"ServiceName" varchar(255) NULL  ,
+"MethodName" varchar(255) NULL  ,
+"Parameters" text NULL  ,
+"ExecutionTime" datetime NULL  ,
+"ExecutionDuration" integer NULL    )
+===============================
+
+2026-08-02 14:51:21.146 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.146 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+SELECT count(*) FROM sqlite_master WHERE name = 'index_AuditLogId'
+===============================
+
+2026-08-02 14:51:21.146 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.146 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+CREATE  INDEX index_AuditLogId ON `YiAuditLogAction`(`AuditLogId` Asc)
+===============================
+
+2026-08-02 14:51:21.146 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.146 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+SELECT count(*) FROM sqlite_master WHERE name = 'index_TenantId_ExecutionTime'
+===============================
+
+2026-08-02 14:51:21.146 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.146 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+CREATE  INDEX index_TenantId_ExecutionTime ON `YiAuditLogAction`(`TenantId` Asc,`ServiceName` Asc,`MethodName` Asc,`ExecutionTime` Asc)
+===============================
+
+2026-08-02 14:51:21.146 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.161 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+select Name from sqlite_master where type='table' and name<>'sqlite_sequence' order by name;
+===============================
+
+2026-08-02 14:51:21.161 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.161 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+CREATE TABLE IF NOT EXISTS "YiAuditLog"(
+"Id" uniqueidentifier NOT NULL PRIMARY KEY ,
+"ApplicationName" varchar(255) NULL  ,
+"UserId" uniqueidentifier NULL  ,
+"UserName" varchar(255) NULL  ,
+"TenantName" varchar(255) NULL  ,
+"ImpersonatorUserId" uniqueidentifier NULL  ,
+"ImpersonatorUserName" varchar(255) NULL  ,
+"ImpersonatorTenantId" uniqueidentifier NULL  ,
+"ImpersonatorTenantName" varchar(255) NULL  ,
+"ExecutionTime" datetime NULL  ,
+"ExecutionDuration" integer NULL  ,
+"ClientIpAddress" varchar(255) NULL  ,
+"ClientName" varchar(255) NULL  ,
+"ClientId" varchar(255) NULL  ,
+"CorrelationId" varchar(255) NULL  ,
+"BrowserInfo" varchar(2000) NULL  ,
+"HttpMethod" varchar(255) NULL  ,
+"Url" varchar(255) NULL  ,
+"Exceptions" text NULL  ,
+"Comments" varchar(255) NULL  ,
+"HttpStatusCode" integer NULL  ,
+"TenantId" uniqueidentifier NULL  ,
+"ConcurrencyStamp" varchar(255) NOT NULL    )
+===============================
+
+2026-08-02 14:51:21.163 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.163 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+SELECT count(*) FROM sqlite_master WHERE name = 'index_ExecutionTime'
+===============================
+
+2026-08-02 14:51:21.164 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.164 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+CREATE  INDEX index_ExecutionTime ON `YiAuditLog`(`TenantId` Asc,`ExecutionTime` Asc)
+===============================
+
+2026-08-02 14:51:21.164 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.164 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+SELECT count(*) FROM sqlite_master WHERE name = 'index_ExecutionTime_UserId'
+===============================
+
+2026-08-02 14:51:21.164 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.164 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+CREATE  INDEX index_ExecutionTime_UserId ON `YiAuditLog`(`TenantId` Asc,`UserId` Asc,`ExecutionTime` Asc)
+===============================
+
+2026-08-02 14:51:21.164 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.177 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+select Name from sqlite_master where type='table' and name<>'sqlite_sequence' order by name;
+===============================
+
+2026-08-02 14:51:21.177 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.177 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+CREATE TABLE IF NOT EXISTS "YiEntityChange"(
+"Id" uniqueidentifier NOT NULL PRIMARY KEY ,
+"AuditLogId" uniqueidentifier NOT NULL  ,
+"TenantId" uniqueidentifier NULL  ,
+"ChangeTime" datetime NULL  ,
+"ChangeType" integer NULL  ,
+"EntityTenantId" uniqueidentifier NULL  ,
+"EntityId" varchar(255) NULL  ,
+"EntityTypeFullName" varchar(255) NULL    )
+===============================
+
+2026-08-02 14:51:21.178 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.178 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+SELECT count(*) FROM sqlite_master WHERE name = 'index_AuditLogId'
+===============================
+
+2026-08-02 14:51:21.178 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.178 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+SELECT count(*) FROM sqlite_master WHERE name = 'index_TenantId_EntityId'
+===============================
+
+2026-08-02 14:51:21.178 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.178 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+CREATE  INDEX index_TenantId_EntityId ON `YiEntityChange`(`TenantId` Asc,`EntityTypeFullName` Asc,`EntityId` Asc)
+===============================
+
+2026-08-02 14:51:21.178 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.193 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+select Name from sqlite_master where type='table' and name<>'sqlite_sequence' order by name;
+===============================
+
+2026-08-02 14:51:21.193 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.193 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+CREATE TABLE IF NOT EXISTS "YiEntityPropertyChange"(
+"Id" uniqueidentifier NOT NULL PRIMARY KEY ,
+"TenantId" uniqueidentifier NULL  ,
+"EntityChangeId" uniqueidentifier NULL  ,
+"NewValue" varchar(255) NULL  ,
+"OriginalValue" varchar(255) NULL  ,
+"PropertyName" varchar(255) NULL  ,
+"PropertyTypeFullName" varchar(255) NULL    )
+===============================
+
+2026-08-02 14:51:21.195 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.195 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+SELECT count(*) FROM sqlite_master WHERE name = 'index_EntityChangeId'
+===============================
+
+2026-08-02 14:51:21.195 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.195 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+CREATE  INDEX index_EntityChangeId ON `YiEntityPropertyChange`(`EntityChangeId` Asc)
+===============================
+
+2026-08-02 14:51:21.195 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.215 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+select Name from sqlite_master where type='table' and name<>'sqlite_sequence' order by name;
+===============================
+
+2026-08-02 14:51:21.215 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.215 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+CREATE TABLE IF NOT EXISTS "Setting"(
+"Id" uniqueidentifier NOT NULL PRIMARY KEY ,
+"Name" varchar(255) NOT NULL  ,
+"Value" varchar(255) NOT NULL  ,
+"ProviderName" varchar(255) NULL  ,
+"ProviderKey" varchar(255) NULL    )
+===============================
+
+2026-08-02 14:51:21.217 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.237 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+select Name from sqlite_master where type='table' and name<>'sqlite_sequence' order by name;
+===============================
+
+2026-08-02 14:51:21.237 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.237 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+CREATE TABLE IF NOT EXISTS "ContractClause"(
+"Id" uniqueidentifier NOT NULL PRIMARY KEY ,
+"Title" varchar(255) NOT NULL  ,
+"Content" text NOT NULL  ,
+"ContractType" integer NOT NULL  ,
+"ClauseType" varchar(255) NULL  ,
+"SortOrder" integer NOT NULL  ,
+"IsRequired" bit NOT NULL  ,
+"IsDeleted" bit NOT NULL  ,
+"DeleterId" uniqueidentifier NULL  ,
+"DeletionTime" datetime NULL  ,
+"LastModificationTime" datetime NULL  ,
+"LastModifierId" uniqueidentifier NULL  ,
+"CreationTime" datetime NOT NULL  ,
+"CreatorId" uniqueidentifier NULL  ,
+"ConcurrencyStamp" varchar(255) NOT NULL    )
+===============================
+
+2026-08-02 14:51:21.239 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.253 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+select Name from sqlite_master where type='table' and name<>'sqlite_sequence' order by name;
+===============================
+
+2026-08-02 14:51:21.253 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.253 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+CREATE TABLE IF NOT EXISTS "Contract"(
+"Id" uniqueidentifier NOT NULL PRIMARY KEY ,
+"Title" varchar(255) NOT NULL  ,
+"ContractNo" varchar(255) NOT NULL  ,
+"ContractType" integer NOT NULL  ,
+"Status" integer NOT NULL  ,
+"PartyA" varchar(255) NOT NULL  ,
+"PartyB" varchar(255) NOT NULL  ,
+"Amount" decimal NOT NULL  ,
+"Currency" varchar(255) NOT NULL  ,
+"TemplateId" uniqueidentifier NULL  ,
+"FilePath" varchar(255) NULL  ,
+"SignDate" datetime NULL  ,
+"EffectiveDate" datetime NULL  ,
+"ExpiryDate" datetime NULL  ,
+"Remark" varchar(255) NULL  ,
+"IsDeleted" bit NOT NULL  ,
+"DeleterId" uniqueidentifier NULL  ,
+"DeletionTime" datetime NULL  ,
+"LastModificationTime" datetime NULL  ,
+"LastModifierId" uniqueidentifier NULL  ,
+"CreationTime" datetime NOT NULL  ,
+"CreatorId" uniqueidentifier NULL  ,
+"ConcurrencyStamp" varchar(255) NOT NULL    )
+===============================
+
+2026-08-02 14:51:21.255 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.270 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+select Name from sqlite_master where type='table' and name<>'sqlite_sequence' order by name;
+===============================
+
+2026-08-02 14:51:21.270 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.270 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+CREATE TABLE IF NOT EXISTS "ContractTemplate"(
+"Id" uniqueidentifier NOT NULL PRIMARY KEY ,
+"Name" varchar(255) NOT NULL  ,
+"ContractType" integer NOT NULL  ,
+"FilePath" varchar(255) NULL  ,
+"Description" varchar(255) NULL  ,
+"Version" varchar(255) NOT NULL  ,
+"IsActive" bit NOT NULL  ,
+"IsDeleted" bit NOT NULL  ,
+"DeleterId" uniqueidentifier NULL  ,
+"DeletionTime" datetime NULL  ,
+"LastModificationTime" datetime NULL  ,
+"LastModifierId" uniqueidentifier NULL  ,
+"CreationTime" datetime NOT NULL  ,
+"CreatorId" uniqueidentifier NULL  ,
+"ConcurrencyStamp" varchar(255) NOT NULL    )
+===============================
+
+2026-08-02 14:51:21.272 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.290 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+select Name from sqlite_master where type='table' and name<>'sqlite_sequence' order by name;
+===============================
+
+2026-08-02 14:51:21.290 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.290 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+CREATE TABLE IF NOT EXISTS "ComplianceIssue"(
+"Id" uniqueidentifier NOT NULL PRIMARY KEY ,
+"ContractId" uniqueidentifier NOT NULL  ,
+"ClauseIndex" integer NOT NULL  ,
+"ClauseTitle" varchar(255) NOT NULL  ,
+"ClauseContent" text NOT NULL  ,
+"RiskLevel" integer NOT NULL  ,
+"Status" integer NOT NULL  ,
+"Description" varchar(255) NULL  ,
+"Suggestion" varchar(255) NULL  ,
+"IsDeleted" bit NOT NULL  ,
+"DeleterId" uniqueidentifier NULL  ,
+"DeletionTime" datetime NULL  ,
+"LastModificationTime" datetime NULL  ,
+"LastModifierId" uniqueidentifier NULL  ,
+"CreationTime" datetime NOT NULL  ,
+"CreatorId" uniqueidentifier NULL  ,
+"ConcurrencyStamp" varchar(255) NOT NULL    )
+===============================
+
+2026-08-02 14:51:21.291 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.308 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+select Name from sqlite_master where type='table' and name<>'sqlite_sequence' order by name;
+===============================
+
+2026-08-02 14:51:21.308 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.308 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+CREATE TABLE IF NOT EXISTS "ReviewReport"(
+"Id" uniqueidentifier NOT NULL PRIMARY KEY ,
+"ContractId" uniqueidentifier NOT NULL  ,
+"TotalClauses" integer NOT NULL  ,
+"ReviewedClauses" integer NOT NULL  ,
+"HighRiskCount" integer NOT NULL  ,
+"MediumRiskCount" integer NOT NULL  ,
+"LowRiskCount" integer NOT NULL  ,
+"OverallScore" decimal NOT NULL  ,
+"Summary" text NULL  ,
+"IsPassed" bit NOT NULL  ,
+"IsDeleted" bit NOT NULL  ,
+"DeleterId" uniqueidentifier NULL  ,
+"DeletionTime" datetime NULL  ,
+"LastModificationTime" datetime NULL  ,
+"LastModifierId" uniqueidentifier NULL  ,
+"CreationTime" datetime NOT NULL  ,
+"CreatorId" uniqueidentifier NULL  ,
+"ConcurrencyStamp" varchar(255) NOT NULL    )
+===============================
+
+2026-08-02 14:51:21.310 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.331 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+select Name from sqlite_master where type='table' and name<>'sqlite_sequence' order by name;
+===============================
+
+2026-08-02 14:51:21.331 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.331 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+CREATE TABLE IF NOT EXISTS "AgentHeartbeat"(
+"Id" uniqueidentifier NOT NULL PRIMARY KEY ,
+"TaskId" uniqueidentifier NOT NULL  ,
+"BeatAt" datetime NOT NULL  ,
+"MemoryMB" bigint NULL  ,
+"CpuPct" real NULL  ,
+"IsDeleted" bit NOT NULL  ,
+"DeleterId" uniqueidentifier NULL  ,
+"DeletionTime" datetime NULL  ,
+"LastModificationTime" datetime NULL  ,
+"LastModifierId" uniqueidentifier NULL  ,
+"CreationTime" datetime NOT NULL  ,
+"CreatorId" uniqueidentifier NULL  ,
+"ConcurrencyStamp" varchar(255) NOT NULL    )
+===============================
+
+2026-08-02 14:51:21.332 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.347 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+select Name from sqlite_master where type='table' and name<>'sqlite_sequence' order by name;
+===============================
+
+2026-08-02 14:51:21.347 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.347 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+CREATE TABLE IF NOT EXISTS "AgentProgressLog"(
+"Id" uniqueidentifier NOT NULL PRIMARY KEY ,
+"TaskId" uniqueidentifier NOT NULL  ,
+"Progress" integer NOT NULL  ,
+"Step" varchar(255) NULL  ,
+"Message" varchar(255) NULL  ,
+"CreatedAt" datetime NOT NULL  ,
+"IsDeleted" bit NOT NULL  ,
+"DeleterId" uniqueidentifier NULL  ,
+"DeletionTime" datetime NULL  ,
+"LastModificationTime" datetime NULL  ,
+"LastModifierId" uniqueidentifier NULL  ,
+"CreationTime" datetime NOT NULL  ,
+"CreatorId" uniqueidentifier NULL  ,
+"ConcurrencyStamp" varchar(255) NOT NULL    )
+===============================
+
+2026-08-02 14:51:21.348 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.365 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+select Name from sqlite_master where type='table' and name<>'sqlite_sequence' order by name;
+===============================
+
+2026-08-02 14:51:21.365 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.365 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+CREATE TABLE IF NOT EXISTS "AgentTask"(
+"Id" uniqueidentifier NOT NULL PRIMARY KEY ,
+"AgentType" integer NOT NULL  ,
+"Status" integer NOT NULL  ,
+"Progress" integer NOT NULL  ,
+"CurrentStep" varchar(255) NULL  ,
+"Title" varchar(255) NOT NULL  ,
+"StartedAt" datetime NULL  ,
+"CompletedAt" datetime NULL  ,
+"ErrorMessage" varchar(255) NULL  ,
+"ParamsJson" text NULL  ,
+"ResultJson" text NULL  ,
+"Cancelled" bit NOT NULL  ,
+"CorrelationId" uniqueidentifier NULL  ,
+"IsDeleted" bit NOT NULL  ,
+"DeleterId" uniqueidentifier NULL  ,
+"DeletionTime" datetime NULL  ,
+"LastModificationTime" datetime NULL  ,
+"LastModifierId" uniqueidentifier NULL  ,
+"CreationTime" datetime NOT NULL  ,
+"CreatorId" uniqueidentifier NULL  ,
+"ConcurrencyStamp" varchar(255) NOT NULL    )
+===============================
+
+2026-08-02 14:51:21.366 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.381 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+select Name from sqlite_master where type='table' and name<>'sqlite_sequence' order by name;
+===============================
+
+2026-08-02 14:51:21.381 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.381 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+CREATE TABLE IF NOT EXISTS "WorkflowDefinition"(
+"Id" uniqueidentifier NOT NULL PRIMARY KEY ,
+"Name" varchar(255) NOT NULL  ,
+"Code" varchar(255) NOT NULL  ,
+"NodesJson" text NULL  ,
+"EdgesJson" text NULL  ,
+"IsDeleted" bit NOT NULL  ,
+"DeleterId" uniqueidentifier NULL  ,
+"DeletionTime" datetime NULL  ,
+"LastModificationTime" datetime NULL  ,
+"LastModifierId" uniqueidentifier NULL  ,
+"CreationTime" datetime NOT NULL  ,
+"CreatorId" uniqueidentifier NULL  ,
+"ConcurrencyStamp" varchar(255) NOT NULL    )
+===============================
+
+2026-08-02 14:51:21.382 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.398 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+select Name from sqlite_master where type='table' and name<>'sqlite_sequence' order by name;
+===============================
+
+2026-08-02 14:51:21.398 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.398 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+CREATE TABLE IF NOT EXISTS "WorkflowInstance"(
+"Id" uniqueidentifier NOT NULL PRIMARY KEY ,
+"DefinitionId" uniqueidentifier NOT NULL  ,
+"CorrelationId" uniqueidentifier NULL  ,
+"Status" integer NOT NULL  ,
+"CurrentNodeCode" varchar(255) NULL  ,
+"StartedAt" datetime NULL  ,
+"CompletedAt" datetime NULL  ,
+"IsDeleted" bit NOT NULL  ,
+"DeleterId" uniqueidentifier NULL  ,
+"DeletionTime" datetime NULL  ,
+"LastModificationTime" datetime NULL  ,
+"LastModifierId" uniqueidentifier NULL  ,
+"CreationTime" datetime NOT NULL  ,
+"CreatorId" uniqueidentifier NULL  ,
+"ConcurrencyStamp" varchar(255) NOT NULL    )
+===============================
+
+2026-08-02 14:51:21.399 +08:00 [DBG] =========Yi-SQL耗时0毫秒=====
+2026-08-02 14:51:21.557 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+SELECT 1 FROM `Config`   WHERE ( 1 = 1 )   AND NOT ( `IsDeleted`=1 )    LIMIT 0,1
+===============================
+
+2026-08-02 14:51:21.559 +08:00 [DBG] =========Yi-SQL耗时0.7486毫秒=====
+2026-08-02 14:51:21.591 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+INSERT INTO `Config`  
+           (`Id`,`ConfigName`,`ConfigKey`,`ConfigValue`,`ConfigType`,`OrderNum`,`Remark`,`IsDeleted`,`CreationTime`,`CreatorId`,`LastModifierId`,`LastModificationTime`,`ConcurrencyStamp`)
+     VALUES
+           (N'3bd5a5ce-a9ab-3659-e283-3a22d36aa866',N'初始密码',N'sys.user.initPassword',N'123456',null,1,N'初始密码',0,CAST('2026-08-02 14:51:21.579' AS DATETIME),null,null,null,N'ec3ea7d420be4325b13a42b6f94a98b3') ;
+===============================
+
+2026-08-02 14:51:21.596 +08:00 [DBG] =========Yi-SQL耗时6.0037毫秒=====
+2026-08-02 14:51:21.621 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+SELECT 1 FROM `Dept`   WHERE ( 1 = 1 )   AND NOT ( `IsDeleted`=1 )    LIMIT 0,1
+===============================
+
+2026-08-02 14:51:21.621 +08:00 [DBG] =========Yi-SQL耗时0.1483毫秒=====
+2026-08-02 14:51:21.626 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+INSERT INTO `Dept`  (`Id`,`IsDeleted`,`CreationTime`,`CreatorId`,`LastModifierId`,`LastModificationTime`,`OrderNum`,`State`,`DeptName`,`DeptCode`,`Leader`,`ParentId`,`Remark`,`ConcurrencyStamp`) VALUES('6e4d08df-698e-81a0-68d4-3a22d36aa896',0,'2026-08-02 14:51:21.622',NULL,NULL,NULL,'100',1,'橙子科技','Yi','橙子','00000000-0000-0000-0000-000000000000','如名所指','3d55ef381c0e4110a9b0acf3962f0362'),  ('6831eafc-b1c9-63aa-0f9f-3a22d36aa896',0,'2026-08-02 14:51:21.622',NULL,NULL,NULL,'100',1,'深圳总公司','SZ',NULL,'6e4d08df-698e-81a0-68d4-3a22d36aa896',NULL,'011a73ff6b6544ecb61f8b09f8d72b7e'),  ('939dbd80-c052-7b6a-655a-3a22d36aa896',0,'2026-08-02 14:51:21.622',NULL,NULL,NULL,'100',1,'江西总公司','JX',NULL,'6e4d08df-698e-81a0-68d4-3a22d36aa896',NULL,'41dd07b79e42476d81bae271dabe5228'),  ('dee8cd06-6a11-10af-583e-3a22d36aa896',0,'2026-08-02 14:51:21.622',NULL,NULL,NULL,'100',1,'研发部门','YF',NULL,'6831eafc-b1c9-63aa-0f9f-3a22d36aa896',NULL,'a3be2b2c0a5944ec9bd7d3b515c09749'),  ('606d63cf-262b-f561-5d96-3a22d36aa896',0,'2026-08-02 14:51:21.622',NULL,NULL,NULL,'100',1,'市场部门','SC',NULL,'6831eafc-b1c9-63aa-0f9f-3a22d36aa896',NULL,'f1beee68a570458d82422d2849023237'),  ('de45a14f-a374-e91c-5eae-3a22d36aa896',0,'2026-08-02 14:51:21.622',NULL,NULL,NULL,'100',1,'测试部门','CS',NULL,'6831eafc-b1c9-63aa-0f9f-3a22d36aa896',NULL,'20152128a6af4e9d972a600177588883'),  ('29b4ad0a-3d86-4ae4-bf99-3a22d36aa896',0,'2026-08-02 14:51:21.622',NULL,NULL,NULL,'100',1,'财务部门','CW',NULL,'6831eafc-b1c9-63aa-0f9f-3a22d36aa896',NULL,'eee01a2d2e86456c819ea8232eea1d60'),  ('3048dd07-e154-c54a-25ce-3a22d36aa896',0,'2026-08-02 14:51:21.622',NULL,NULL,NULL,'100',1,'运维部门','YW',NULL,'6831eafc-b1c9-63aa-0f9f-3a22d36aa896',NULL,'7f85f0d5743b42fabe91ef46c1bfdd37'),  ('72f4dbe7-3979-3311-53d8-3a22d36aa896',0,'2026-08-02 14:51:21.622',NULL,NULL,NULL,'100',1,'市场部门','SC',NULL,'939dbd80-c052-7b6a-655a-3a22d36aa896',NULL,'b0cdedb50afc43b6a5a0c801e3b801c7'),  ('8b2cd44a-bd33-69cf-3dd0-3a22d36aa896',0,'2026-08-02 14:51:21.622',NULL,NULL,NULL,'100',1,'财务部门','CW2',NULL,'939dbd80-c052-7b6a-655a-3a22d36aa896',NULL,'922374cb20d34d5aae2c1d6c9585767e') ;SELECT LAST_INSERT_ROWID();
+
+===============================
+
+2026-08-02 14:51:21.627 +08:00 [DBG] =========Yi-SQL耗时0.2843毫秒=====
+2026-08-02 14:51:21.653 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+SELECT 1 FROM `Dictionary`   WHERE ( 1 = 1 )   AND NOT ( `IsDeleted`=1 )    LIMIT 0,1
+===============================
+
+2026-08-02 14:51:21.653 +08:00 [DBG] =========Yi-SQL耗时0.1395毫秒=====
+2026-08-02 14:51:21.674 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+INSERT INTO `Dictionary`  (`Id`,`IsDeleted`,`OrderNum`,`State`,`Remark`,`ListClass`,`CssClass`,`DictType`,`DictLabel`,`DictValue`,`IsDefault`,`CreationTime`,`CreatorId`,`LastModifierId`,`LastModificationTime`) VALUES('99b95342-c5d9-8f64-894c-3a22d36aa8b7',0,'100',1,'性别男','default',NULL,'sys_user_sex','男','Male',0,'2026-08-02 14:51:21.655',NULL,NULL,NULL),  ('a5d804fe-cd2b-3fd4-1173-3a22d36aa8b7',0,'99',1,'性别女','default',NULL,'sys_user_sex','女','Woman',0,'2026-08-02 14:51:21.656',NULL,NULL,NULL),  ('52ecbe1c-2c56-1baf-7fec-3a22d36aa8b8',0,'98',1,'性别未知','default',NULL,'sys_user_sex','未知','Unknown',0,'2026-08-02 14:51:21.656',NULL,NULL,NULL),  ('5906d33b-1ffa-7fe8-c9c1-3a22d36aa8b8',0,'100',1,'显示菜单','success',NULL,'sys_show_hide','显示','true',0,'2026-08-02 14:51:21.656',NULL,NULL,NULL),  ('8ccef2db-dcf5-eca4-22de-3a22d36aa8b8',0,'99',1,'隐藏菜单','info',NULL,'sys_show_hide','隐藏','false',0,'2026-08-02 14:51:21.656',NULL,NULL,NULL),  ('8b1cf1dd-c2fa-bf9d-289c-3a22d36aa8b8',0,'100',1,'正常状态','success',NULL,'sys_normal_disable','正常','true',0,'2026-08-02 14:51:21.656',NULL,NULL,NULL),  ('57becf4c-5124-00af-6780-3a22d36aa8b8',0,'99',1,'停用状态','danger',NULL,'sys_normal_disable','停用','false',0,'2026-08-02 14:51:21.656',NULL,NULL,NULL),  ('9a56f5e1-ffe8-3013-d3ce-3a22d36aa8b8',0,'100',1,'正常状态','success',NULL,'sys_job_status','正常','0',0,'2026-08-02 14:51:21.656',NULL,NULL,NULL),  ('94f05b5d-7db2-487e-3e95-3a22d36aa8b8',0,'99',1,'停用状态','danger',NULL,'sys_job_status','暂停','1',0,'2026-08-02 14:51:21.656',NULL,NULL,NULL),  ('e29426f7-da98-527c-ab68-3a22d36aa8b8',0,'100',1,'默认分组','default',NULL,'sys_job_group','默认','DEFAULT',0,'2026-08-02 14:51:21.656',NULL,NULL,NULL),  ('1f773dc8-14d9-fe61-15ec-3a22d36aa8b8',0,'99',1,'系统分组','primary',NULL,'sys_job_group','系统','SYSTEM',0,'2026-08-02 14:51:21.656',NULL,NULL,NULL),  ('be4f0aaa-1454-33ba-b16a-3a22d36aa8b8',0,'100',1,'系统默认是','success',NULL,'sys_yes_no','是','Y',0,'2026-08-02 14:51:21.656',NULL,NULL,NULL),  ('83d948b3-3939-335c-21c2-3a22d36aa8b8',0,'99',1,'系统默认否','danger',NULL,'sys_yes_no','否','N',0,'2026-08-02 14:51:21.656',NULL,NULL,NULL),  ('8d92afdd-0814-22b2-6210-3a22d36aa8b8',0,'100',1,'通知','info',NULL,'sys_notice_type','通知','1',0,'2026-08-02 14:51:21.656',NULL,NULL,NULL),  ('24b07d5c-e887-8919-181c-3a22d36aa8b8',0,'99',1,'公告','primary',NULL,'sys_notice_type','公告','2',0,'2026-08-02 14:51:21.656',NULL,NULL,NULL),  ('d77a5947-0074-823b-b138-3a22d36aa8b8',0,'100',1,'通知','info',NULL,'sys_notice_type_vben5','通知','MerryGoRound',0,'2026-08-02 14:51:21.656',NULL,NULL,NULL),  ('e3a11b72-7631-6c22-9094-3a22d36aa8b8',0,'99',1,'公告','primary',NULL,'sys_notice_type_vben5','公告','Popup',0,'2026-08-02 14:51:21.656',NULL,NULL,NULL),  ('4be37db0-1109-3a7b-494d-3a22d36aa8b8',0,'100',1,'正常状态','success',NULL,'sys_notice_status','正常','0',0,'2026-08-02 14:51:21.656',NULL,NULL,NULL),  ('dd784f4b-7628-429a-543e-3a22d36aa8b8',0,'99',1,'关闭状态','danger',NULL,'sys_notice_status','关闭','1',0,'2026-08-02 14:51:21.656',NULL,NULL,NULL),  ('d499d7ac-4eb4-82da-20b6-3a22d36aa8b8',0,'100',1,'新增操作','success',NULL,'sys_oper_type','新增','Insert',0,'2026-08-02 14:51:21.656',NULL,NULL,NULL),  ('8586a9f0-e1ca-24f5-65ea-3a22d36aa8b8',0,'99',1,'修改操作','warning',NULL,'sys_oper_type','修改','Update',0,'2026-08-02 14:51:21.656',NULL,NULL,NULL),  ('e6572a53-7f7f-6cd1-ce3c-3a22d36aa8b8',0,'98',1,'删除操作','danger',NULL,'sys_oper_type','删除','Delete',0,'2026-08-02 14:51:21.656',NULL,NULL,NULL),  ('e137cc86-9246-74d5-f461-3a22d36aa8b8',0,'97',1,'授权操作','primary',NULL,'sys_oper_type','授权','Auth',0,'2026-08-02 14:51:21.656',NULL,NULL,NULL),  ('eac5b5b3-241e-db9f-7591-3a22d36aa8b8',0,'96',1,'导出操作','info',NULL,'sys_oper_type','导出','Export',0,'2026-08-02 14:51:21.656',NULL,NULL,NULL),  ('b71a0d41-b01f-9d34-5dbf-3a22d36aa8b8',0,'95',1,'导入操作','info',NULL,'sys_oper_type','导入','Import',0,'2026-08-02 14:51:21.656',NULL,NULL,NULL),  ('039e39f0-855c-2e46-458e-3a22d36aa8b8',0,'94',1,'强退操作','warning',NULL,'sys_oper_type','强退','ForcedOut',0,'2026-08-02 14:51:21.656',NULL,NULL,NULL),  ('bf42640b-971e-1db9-a91b-3a22d36aa8b8',0,'93',1,'生成代码操作','primary',NULL,'sys_oper_type','生成代码','GenerateCode',0,'2026-08-02 14:51:21.656',NULL,NULL,NULL),  ('95993303-f626-8671-f24e-3a22d36aa8b8',0,'92',1,'清空数据操作','danger',NULL,'sys_oper_type','清空数据','ClearData',0,'2026-08-02 14:51:21.656',NULL,NULL,NULL),  ('4e41fb79-82f9-89e4-aecb-3a22d36aa8b8',0,'100',1,'正常状态','success',NULL,'sys_common_status','成功','false',0,'2026-08-02 14:51:21.657',NULL,NULL,NULL),  ('f9e6fc85-7253-17f8-3268-3a22d36aa8b9',0,'99',1,'失败状态','danger',NULL,'sys_common_status','失败','true',0,'2026-08-02 14:51:21.657',NULL,NULL,NULL) ;SELECT LAST_INSERT_ROWID();
+
+===============================
+
+2026-08-02 14:51:21.675 +08:00 [DBG] =========Yi-SQL耗时0.2674毫秒=====
+2026-08-02 14:51:21.696 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+SELECT 1 FROM `DictionaryType`   WHERE ( 1 = 1 )   AND NOT ( `IsDeleted`=1 )    LIMIT 0,1
+===============================
+
+2026-08-02 14:51:21.696 +08:00 [DBG] =========Yi-SQL耗时0.1446毫秒=====
+2026-08-02 14:51:21.700 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+INSERT INTO `DictionaryType`  (`Id`,`IsDeleted`,`OrderNum`,`State`,`DictName`,`DictType`,`Remark`,`CreationTime`,`CreatorId`,`LastModifierId`,`LastModificationTime`,`ConcurrencyStamp`) VALUES('707cd5a2-2708-bae1-33e2-3a22d36aa8e2',0,'100',1,'用户性别','sys_user_sex','用户性别列表','2026-08-02 14:51:21.698',NULL,NULL,NULL,'b50bc5315f604b6aa775bae2f1bc50e9'),  ('e3189d28-f4bd-40b0-1c41-3a22d36aa8e3',0,'100',1,'菜单状态','sys_show_hide','菜单状态列表','2026-08-02 14:51:21.699',NULL,NULL,NULL,'d9f7572cad19431f945fc70af96ba1ab'),  ('1871e67d-73ff-5eb7-9d2b-3a22d36aa8e3',0,'100',1,'系统开关','sys_normal_disable','系统开关列表','2026-08-02 14:51:21.700',NULL,NULL,NULL,'1fa34d00489545aebf894791b7bca047'),  ('dd2a8caa-2c95-2838-9ab4-3a22d36aa8e4',0,'100',1,'任务状态','sys_job_status','任务状态列表','2026-08-02 14:51:21.700',NULL,NULL,NULL,'b29697359e9841d890150ed0f5dc815b'),  ('83c84ff7-9022-fd2d-ae6c-3a22d36aa8e4',0,'100',1,'任务分组','sys_job_group','任务分组列表','2026-08-02 14:51:21.700',NULL,NULL,NULL,'c8afa1952f404cd08de0d9f17a780271'),  ('1acb4e7f-1412-8904-6f20-3a22d36aa8e4',0,'100',1,'系统是否','sys_yes_no','系统是否列表','2026-08-02 14:51:21.700',NULL,NULL,NULL,'a5982705937b4399ac690cb54a5a4781'),  ('2d7cfd3a-1679-e5df-bb4e-3a22d36aa8e4',0,'100',1,'通知类型','sys_notice_type','通知类型列表','2026-08-02 14:51:21.700',NULL,NULL,NULL,'9c79e6e3ebf84e2192e4b0bd101ec812'),  ('4236244c-ebb4-68c8-90f4-3a22d36aa8e4',0,'100',1,'通知状态','sys_notice_status','通知状态列表','2026-08-02 14:51:21.700',NULL,NULL,NULL,'8da2f6e45d6e41a7bcddfaa6403cb0a0'),  ('94fb6ad9-b310-ec7d-ba11-3a22d36aa8e4',0,'100',1,'操作类型','sys_oper_type','操作类型列表','2026-08-02 14:51:21.700',NULL,NULL,NULL,'3f3205598f60486d84b03a5282ac208a'),  ('0b1eef0c-391a-ca55-30f3-3a22d36aa8e4',0,'100',1,'系统状态','sys_common_status','登录状态列表','2026-08-02 14:51:21.700',NULL,NULL,NULL,'2bb393f62ab542bb936cdab9cb0c4a9e') ;SELECT LAST_INSERT_ROWID();
+
+===============================
+
+2026-08-02 14:51:21.700 +08:00 [DBG] =========Yi-SQL耗时0.2174毫秒=====
+2026-08-02 14:51:21.725 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+SELECT 1 FROM `Menu`   WHERE (( `MenuName` = N'系统管理' ) AND ( `MenuSource` = 1 ))  AND NOT ( `IsDeleted`=1 )    LIMIT 0,1
+===============================
+
+2026-08-02 14:51:21.725 +08:00 [DBG] =========Yi-SQL耗时0.1706毫秒=====
+2026-08-02 14:51:21.733 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+INSERT INTO `Menu`  (`Id`,`IsDeleted`,`CreationTime`,`CreatorId`,`LastModifierId`,`LastModificationTime`,`OrderNum`,`State`,`MenuName`,`RouterName`,`MenuType`,`PermissionCode`,`ParentId`,`MenuIcon`,`Router`,`IsLink`,`IsCache`,`IsShow`,`Remark`,`Component`,`MenuSource`,`Query`,`ConcurrencyStamp`) VALUES('030e0214-1a46-0e79-31a0-3a22d36aa8ff',0,'2026-08-02 14:51:21.727',NULL,NULL,NULL,'100',1,'系统管理',NULL,'0',NULL,'00000000-0000-0000-0000-000000000000','ri:settings-3-line','/system',0,0,1,NULL,NULL,'1',NULL,'cc40e7d731aa4e6480dd2ad139dd59a7'),  ('45d66ace-d874-3943-b840-3a22d36aa8ff',0,'2026-08-02 14:51:21.727',NULL,NULL,NULL,'99',1,'系统监控',NULL,'0',NULL,'00000000-0000-0000-0000-000000000000','ep:monitor','/monitor',0,0,1,NULL,NULL,'1',NULL,'e978965d555243e78d517c521d1824fb'),  ('a37adc9e-41db-d8ab-0957-3a22d36aa8ff',0,'2026-08-02 14:51:21.727',NULL,NULL,NULL,'100',1,'在线用户','OnlineUser','1','monitor:online:list','45d66ace-d874-3943-b840-3a22d36aa8ff','ri:user-voice-line','/monitor/online-user',0,0,1,NULL,'monitor/online/index','1',NULL,'0bfadea23d804203a8482ba0e05ff131'),  ('da408831-08cb-1a9d-666e-3a22d36aa8ff',0,'2026-08-02 14:51:21.727',NULL,NULL,NULL,'90',1,'Yi框架',NULL,'0',NULL,'00000000-0000-0000-0000-000000000000','ri:at-line','https://ccnetcore.com',1,0,1,NULL,NULL,'1',NULL,'996d83515ce24060be7626f8ada96d52'),  ('3a88099c-61a2-3fa8-7336-3a22d36aa8ff',0,'2026-08-02 14:51:21.727',NULL,NULL,NULL,'100',1,'用户管理','SystemUser','1','system:user:list','030e0214-1a46-0e79-31a0-3a22d36aa8ff','ri:admin-line','/system/user/index',0,0,1,NULL,NULL,'1',NULL,'b09037c61685432085f74534b4627067'),  ('6b3ca131-64d8-e9e1-11f9-3a22d36aa8ff',0,'2026-08-02 14:51:21.727',NULL,NULL,NULL,'100',1,'用户查询',NULL,'2','system:user:query','3a88099c-61a2-3fa8-7336-3a22d36aa8ff',NULL,NULL,0,0,1,NULL,NULL,'1',NULL,'716015f5dd234ec3b0b8551447317813'),  ('b36557a6-9820-dd0a-1ea4-3a22d36aa8ff',0,'2026-08-02 14:51:21.727',NULL,NULL,NULL,'100',1,'用户新增',NULL,'2','system:user:add','3a88099c-61a2-3fa8-7336-3a22d36aa8ff',NULL,NULL,0,0,1,NULL,NULL,'1',NULL,'ae25afe5e0c64797bdb0ce8213dac867'),  ('201d333e-a720-e363-d76a-3a22d36aa8ff',0,'2026-08-02 14:51:21.727',NULL,NULL,NULL,'100',1,'用户修改',NULL,'2','system:user:edit','3a88099c-61a2-3fa8-7336-3a22d36aa8ff',NULL,NULL,0,0,1,NULL,NULL,'1',NULL,'e9fdbb89b7ff42ebb67b711dd8e9df75'),  ('e169fd56-5faa-cbb4-c14b-3a22d36aa8ff',0,'2026-08-02 14:51:21.727',NULL,NULL,NULL,'100',1,'用户删除',NULL,'2','system:user:remove','3a88099c-61a2-3fa8-7336-3a22d36aa8ff',NULL,NULL,0,0,1,NULL,NULL,'1',NULL,'9a1d76a9d08646b6b59dac18325bbce3'),  ('68efeeeb-d0f0-644a-798b-3a22d36aa8ff',0,'2026-08-02 14:51:21.727',NULL,NULL,NULL,'100',1,'重置密码',NULL,'2','system:user:resetPwd','3a88099c-61a2-3fa8-7336-3a22d36aa8ff',NULL,NULL,0,0,1,NULL,NULL,'1',NULL,'da72fd60baef4ddbb3a2cde125603a90'),  ('2bc1f440-28a4-7bc9-9020-3a22d36aa8ff',0,'2026-08-02 14:51:21.727',NULL,NULL,NULL,'99',1,'角色管理','SystemRole','1','system:role:list','030e0214-1a46-0e79-31a0-3a22d36aa8ff','ri:admin-fill','/system/role/index',0,0,1,NULL,NULL,'1',NULL,'29e14f53a07a43e78217275e85358476'),  ('56495473-bd67-f72a-81d2-3a22d36aa8ff',0,'2026-08-02 14:51:21.727',NULL,NULL,NULL,'100',1,'角色查询',NULL,'2','system:role:query','2bc1f440-28a4-7bc9-9020-3a22d36aa8ff',NULL,NULL,0,0,1,NULL,NULL,'1',NULL,'100c90875b3f4dd58f5aa4b471a157d3'),  ('3ff31002-0a23-6104-0864-3a22d36aa8ff',0,'2026-08-02 14:51:21.727',NULL,NULL,NULL,'100',1,'角色新增',NULL,'2','system:role:add','2bc1f440-28a4-7bc9-9020-3a22d36aa8ff',NULL,NULL,0,0,1,NULL,NULL,'1',NULL,'67dadf55f144429f99edde2cfe4cebce'),  ('72ff9611-f665-d26f-7385-3a22d36aa8ff',0,'2026-08-02 14:51:21.727',NULL,NULL,NULL,'100',1,'角色修改',NULL,'2','system:role:edit','2bc1f440-28a4-7bc9-9020-3a22d36aa8ff',NULL,NULL,0,0,1,NULL,NULL,'1',NULL,'aa967c5421e748178e4002699f8ba0e9'),  ('79f8b28e-0ff1-60c4-f351-3a22d36aa8ff',0,'2026-08-02 14:51:21.727',NULL,NULL,NULL,'100',1,'角色删除',NULL,'2','system:role:remove','2bc1f440-28a4-7bc9-9020-3a22d36aa8ff',NULL,NULL,0,0,1,NULL,NULL,'1',NULL,'aea802fff3c24fdb9621c5f9bda44d4c'),  ('8b885d92-9357-516b-1fa5-3a22d36aa8ff',0,'2026-08-02 14:51:21.727',NULL,NULL,NULL,'98',1,'菜单管理','SystemMenu','1','system:menu:list','030e0214-1a46-0e79-31a0-3a22d36aa8ff','ep:menu','/system/menu/index',0,0,1,NULL,NULL,'1',NULL,'a2c3e7c18acb4bc0b442930e2f44192d'),  ('c0af9f6f-8c00-2d83-1371-3a22d36aa8ff',0,'2026-08-02 14:51:21.727',NULL,NULL,NULL,'100',1,'菜单查询',NULL,'2','system:menu:query','8b885d92-9357-516b-1fa5-3a22d36aa8ff',NULL,NULL,0,0,1,NULL,NULL,'1',NULL,'d4d72283814f4da8b516a13b7468b9c0'),  ('2d8aa88c-4df8-e6bb-7e79-3a22d36aa8ff',0,'2026-08-02 14:51:21.727',NULL,NULL,NULL,'100',1,'菜单新增',NULL,'2','system:menu:add','8b885d92-9357-516b-1fa5-3a22d36aa8ff',NULL,NULL,0,0,1,NULL,NULL,'1',NULL,'14b7dce0e05148c6aac08cf8e9a5d63d'),  ('78d5e93e-96cb-398d-e401-3a22d36aa8ff',0,'2026-08-02 14:51:21.727',NULL,NULL,NULL,'100',1,'菜单修改',NULL,'2','system:menu:edit','8b885d92-9357-516b-1fa5-3a22d36aa8ff',NULL,NULL,0,0,1,NULL,NULL,'1',NULL,'5d22e3db5880497ea2e74abfb536eefc'),  ('14424f15-2962-8d93-5bf7-3a22d36aa8ff',0,'2026-08-02 14:51:21.727',NULL,NULL,NULL,'100',1,'菜单删除',NULL,'2','system:menu:remove','8b885d92-9357-516b-1fa5-3a22d36aa8ff',NULL,NULL,0,0,1,NULL,NULL,'1',NULL,'e6c55525f32e4795a528e6eeee82d124'),  ('1804e64c-af06-b10e-1eb5-3a22d36aa8ff',0,'2026-08-02 14:51:21.727',NULL,NULL,NULL,'97',1,'部门管理','SystemDept','1','system:dept:list','030e0214-1a46-0e79-31a0-3a22d36aa8ff','ri:git-branch-line','/system/dept/index',0,0,1,NULL,NULL,'1',NULL,'dbc71826859f4b2bb4d1c39e1399c4f2'),  ('b9135d4f-849c-1c29-b8ea-3a22d36aa8ff',0,'2026-08-02 14:51:21.727',NULL,NULL,NULL,'100',1,'部门查询',NULL,'2','system:dept:query','1804e64c-af06-b10e-1eb5-3a22d36aa8ff',NULL,NULL,0,0,1,NULL,NULL,'1',NULL,'1d4df2bfe9fa4ef3bba3c76b2fa75106'),  ('39ee51b4-8dbb-a154-baf3-3a22d36aa8ff',0,'2026-08-02 14:51:21.727',NULL,NULL,NULL,'100',1,'部门新增',NULL,'2','system:dept:add','1804e64c-af06-b10e-1eb5-3a22d36aa8ff',NULL,NULL,0,0,1,NULL,NULL,'1',NULL,'609c304007a94d36b86973701740ccbc'),  ('7fdbcbca-8126-1f17-fdcf-3a22d36aa8ff',0,'2026-08-02 14:51:21.727',NULL,NULL,NULL,'100',1,'部门修改',NULL,'2','system:dept:edit','1804e64c-af06-b10e-1eb5-3a22d36aa8ff',NULL,NULL,0,0,1,NULL,NULL,'1',NULL,'d296c95d68e8446ab8df9da770dfc3db'),  ('9446400d-49f7-a588-6156-3a22d36aa8ff',0,'2026-08-02 14:51:21.727',NULL,NULL,NULL,'100',1,'部门删除',NULL,'2','system:dept:remove','1804e64c-af06-b10e-1eb5-3a22d36aa8ff',NULL,NULL,0,0,1,NULL,NULL,'1',NULL,'2834f47d6999454c9040a4f43954cdd4'),  ('90563f04-1b9e-af3d-5a33-3a22d36aa8ff',0,'2026-08-02 14:51:21.727',NULL,NULL,NULL,'96',1,'岗位管理','SystemPost','1','system:post:list','030e0214-1a46-0e79-31a0-3a22d36aa8ff','ant-design:deployment-unit-outlined','/system/post/index',0,0,1,NULL,NULL,'1',NULL,'230c6cafc50844e9b155922e915f339e'),  ('48420aaf-64fe-1cd7-e745-3a22d36aa8ff',0,'2026-08-02 14:51:21.727',NULL,NULL,NULL,'100',1,'岗位查询',NULL,'2','system:post:query','90563f04-1b9e-af3d-5a33-3a22d36aa8ff',NULL,NULL,0,0,1,NULL,NULL,'1',NULL,'8728f79ece88482ba161177d89f6f18d'),  ('27efd2af-c6f6-7da5-b9fd-3a22d36aa8ff',0,'2026-08-02 14:51:21.727',NULL,NULL,NULL,'100',1,'岗位新增',NULL,'2','system:post:add','90563f04-1b9e-af3d-5a33-3a22d36aa8ff',NULL,NULL,0,0,1,NULL,NULL,'1',NULL,'03e9286305854420adf5d013f92e4287'),  ('f50a1862-4951-f4d0-fcf1-3a22d36aa8ff',0,'2026-08-02 14:51:21.727',NULL,NULL,NULL,'100',1,'岗位修改',NULL,'2','system:post:edit','90563f04-1b9e-af3d-5a33-3a22d36aa8ff',NULL,NULL,0,0,1,NULL,NULL,'1',NULL,'527f990198f6469daea67a3f051a0b33'),  ('c6de4742-8ede-d14f-6f66-3a22d36aa8ff',0,'2026-08-02 14:51:21.727',NULL,NULL,NULL,'100',1,'岗位删除',NULL,'2','system:post:remove','90563f04-1b9e-af3d-5a33-3a22d36aa8ff',NULL,NULL,0,0,1,NULL,NULL,'1',NULL,'0a7b54e134714be3bd6cac8065af8a27'),  ('fa685b3e-df07-0f70-d60e-3a22d36aa8ff',0,'2026-08-02 14:51:21.727',NULL,NULL,NULL,'100',1,'操作日志','OperationLog','1','monitor:operlog:list','45d66ace-d874-3943-b840-3a22d36aa8ff','ri:history-fill','/monitor/operation-logs',0,0,1,NULL,'monitor/logs/operation/index','1',NULL,'9162031d869047ab964419c046bcb816'),  ('1ece77f8-d5e2-ab26-d283-3a22d36aa8ff',0,'2026-08-02 14:51:21.727',NULL,NULL,NULL,'100',1,'操作查询',NULL,'2','monitor:operlog:query','fa685b3e-df07-0f70-d60e-3a22d36aa8ff',NULL,NULL,0,0,1,NULL,NULL,'1',NULL,'33c0cbfc668d4c92b2e6820dbb7bacf7'),  ('fc2c2d7f-64d6-98ae-7ff1-3a22d36aa8ff',0,'2026-08-02 14:51:21.727',NULL,NULL,NULL,'100',1,'操作删除',NULL,'2','monitor:operlog:remove','fa685b3e-df07-0f70-d60e-3a22d36aa8ff',NULL,NULL,0,0,1,NULL,NULL,'1',NULL,'3e1ac6cf2b31438484eac8d404f5d942'),  ('13919ca2-cbdd-61d8-beda-3a22d36aa8ff',0,'2026-08-02 14:51:21.727',NULL,NULL,NULL,'100',1,'登录日志','LoginLog','1','monitor:logininfor:list','45d66ace-d874-3943-b840-3a22d36aa8ff','ri:window-line','/monitor/login-logs',0,1,1,NULL,'monitor/logs/login/index','1',NULL,'c12b56bab9ae44b78fa68c0a832d0ece'),  ('34e09b88-a689-6c07-bd8d-3a22d36aa8ff',0,'2026-08-02 14:51:21.727',NULL,NULL,NULL,'100',1,'登录查询',NULL,'2','monitor:logininfor:query','13919ca2-cbdd-61d8-beda-3a22d36aa8ff',NULL,NULL,0,0,1,NULL,NULL,'1',NULL,'f26f910ebc314d18927a3f2aed610edc'),  ('09534b42-51bd-d242-86ff-3a22d36aa8ff',0,'2026-08-02 14:51:21.727',NULL,NULL,NULL,'100',1,'登录删除',NULL,'2','monitor:logininfor:remove','13919ca2-cbdd-61d8-beda-3a22d36aa8ff',NULL,NULL,0,0,1,NULL,NULL,'1',NULL,'1c425c8b4df446a39c152e4b5ccc02ed'),  ('6cd5fb96-20d1-468f-81ef-3a22d36aa8ff',0,'2026-08-02 14:51:21.727',NULL,NULL,NULL,'94',1,'参数设置',NULL,'1','system:config:list','030e0214-1a46-0e79-31a0-3a22d36aa8ff','ri:edit-box-line','config',0,1,1,NULL,'/system/config/index','1',NULL,'064967f64a674e319ca1ec5516bee3ba'),  ('afa4109f-9e20-885f-1bdd-3a22d36aa8ff',0,'2026-08-02 14:51:21.727',NULL,NULL,NULL,'100',1,'参数查询',NULL,'2','system:config:query','6cd5fb96-20d1-468f-81ef-3a22d36aa8ff',NULL,NULL,0,0,1,NULL,NULL,'1',NULL,'a9d82b43310d45d2b6e483878f474a29'),  ('26c03cd5-087e-0988-838c-3a22d36aa8ff',0,'2026-08-02 14:51:21.727',NULL,NULL,NULL,'100',1,'参数新增',NULL,'2','system:config:add','6cd5fb96-20d1-468f-81ef-3a22d36aa8ff',NULL,NULL,0,0,1,NULL,NULL,'1',NULL,'d9790903d89246e3b6213ad3ab771e87'),  ('4472a4ca-d44b-ce45-8d19-3a22d36aa8ff',0,'2026-08-02 14:51:21.727',NULL,NULL,NULL,'100',1,'参数修改',NULL,'2','system:config:edit','6cd5fb96-20d1-468f-81ef-3a22d36aa8ff',NULL,NULL,0,0,1,NULL,NULL,'1',NULL,'d8a7d2b2204f4fbdb415056b73398ba7'),  ('b4954f16-743c-732b-179d-3a22d36aa8ff',0,'2026-08-02 14:51:21.727',NULL,NULL,NULL,'100',1,'参数删除',NULL,'2','system:config:remove','6cd5fb96-20d1-468f-81ef-3a22d36aa8ff',NULL,NULL,0,0,1,NULL,NULL,'1',NULL,'5c68975ab5e540f5a0b9208d5ebc7033') ;SELECT LAST_INSERT_ROWID();
+
+===============================
+
+2026-08-02 14:51:21.733 +08:00 [DBG] =========Yi-SQL耗时0.3609毫秒=====
+2026-08-02 14:51:21.736 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+SELECT 1 FROM `Menu`   WHERE (( `MenuName` = N'系统管理' ) AND ( `MenuSource` = 0 ))  AND NOT ( `IsDeleted`=1 )    LIMIT 0,1
+===============================
+
+2026-08-02 14:51:21.736 +08:00 [DBG] =========Yi-SQL耗时0.1207毫秒=====
+2026-08-02 14:51:21.742 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+INSERT INTO `Menu`  (`Id`,`IsDeleted`,`CreationTime`,`CreatorId`,`LastModifierId`,`LastModificationTime`,`OrderNum`,`State`,`MenuName`,`RouterName`,`MenuType`,`PermissionCode`,`ParentId`,`MenuIcon`,`Router`,`IsLink`,`IsCache`,`IsShow`,`Remark`,`Component`,`MenuSource`,`Query`,`ConcurrencyStamp`) VALUES('87c106ee-2ccb-55c1-b452-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'系统管理',NULL,'0',NULL,'00000000-0000-0000-0000-000000000000','system','/system',0,0,1,NULL,NULL,'0',NULL,'43ebbb3c1e8d4a87a5bea795794fce1c'),  ('e5b5c5e2-953b-7fa8-2a57-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'91',1,'代码生成',NULL,'0',NULL,'00000000-0000-0000-0000-000000000000','build','/code',0,0,1,NULL,NULL,'0',NULL,'fed8c3190ba24d8f95f97ad09938c464'),  ('a3c17ca8-eb2c-d22a-374a-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'数据表管理',NULL,'1','code:table:list','e5b5c5e2-953b-7fa8-2a57-3a22d36aa90b','online','table',0,1,1,NULL,'code/table/index','0',NULL,'5e2b8fc934504351a118bf26748516f8'),  ('ed47ee1d-54d9-42f3-5849-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'99',1,'字段管理',NULL,'1','code:field:list','e5b5c5e2-953b-7fa8-2a57-3a22d36aa90b','number','field',0,1,1,NULL,'code/field/index','0',NULL,'9d6ad208482c4ec89ba347d9ecad5463'),  ('d8797070-4557-45a9-d298-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'98',1,'模板管理',NULL,'1','code:template:list','e5b5c5e2-953b-7fa8-2a57-3a22d36aa90b','documentation','template',0,1,1,NULL,'code/template/index','0',NULL,'880620c216644329bbc89a08538407d8'),  ('b01c147b-449c-4901-f80c-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'99',1,'系统监控',NULL,'0',NULL,'00000000-0000-0000-0000-000000000000','monitor','/monitor',0,0,1,NULL,NULL,'0',NULL,'065b573dd222452f8a23c2ef4ead5dd0'),  ('43b0be47-bce3-1a4b-7f64-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'在线用户',NULL,'1','monitor:online:list','b01c147b-449c-4901-f80c-3a22d36aa90b','online','online',0,1,1,NULL,'monitor/online/index','0',NULL,'88c579952de443ab88d87e9ce2134dd3'),  ('3b8ed288-cf00-1f90-8674-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'99',1,'缓存列表',NULL,'1','monitor:cache:list','b01c147b-449c-4901-f80c-3a22d36aa90b','redis-list','cacheList',0,1,1,NULL,'monitor/cache/list','0',NULL,'ea3a27b51218483ebbc6bd5a4f7bc63d'),  ('07e0b49c-2db9-0711-b26d-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'98',1,'服务监控',NULL,'1','monitor:server:list','b01c147b-449c-4901-f80c-3a22d36aa90b','server','server',0,1,1,NULL,'monitor/server/index','0',NULL,'5fb7865a1c1c417ea5f7bcbe7a5b7efa'),  ('967cec58-964b-6f00-4e29-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'97',1,'定时任务',NULL,'1',NULL,'b01c147b-449c-4901-f80c-3a22d36aa90b','job','http://ccnetcore.com:16001/hangfire',1,0,1,NULL,NULL,'0',NULL,'2049566603e647bf8b47401c9f3a81f0'),  ('bab4069c-427c-7b9c-49f0-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'98',1,'系统工具',NULL,'0',NULL,'00000000-0000-0000-0000-000000000000','tool','/tool',0,0,1,NULL,NULL,'0',NULL,'0c62e7c2019f40f8946b2e636c742fc8'),  ('eb01f79d-2043-9f25-de61-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'接口文档',NULL,'1',NULL,'bab4069c-427c-7b9c-49f0-3a22d36aa90b','list','http://ccnetcore.com:16001/swagger',1,0,1,NULL,NULL,'0',NULL,'949e25f3787e4346a1a0187a699ff971'),  ('0327b762-9dd2-9430-95d9-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'101',1,'表单生成器',NULL,'1',NULL,'bab4069c-427c-7b9c-49f0-3a22d36aa90b','form','build',0,1,1,NULL,'tool/build/index','0',NULL,'1ada52bb91a14c068f3638ae29912be5'),  ('10f18d06-1e89-41e5-a420-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'90',1,'Yi框架',NULL,'0',NULL,'00000000-0000-0000-0000-000000000000','guide','https://ccnetcore.com',1,0,1,NULL,NULL,'0',NULL,'36c35e61fd6c4569a9da0a73f28ca6a0'),  ('81fc1209-39fa-2475-0fc2-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'101',1,'租户管理',NULL,'1','system:tenant:list','87c106ee-2ccb-55c1-b452-3a22d36aa90b','list','tenant',0,1,1,NULL,'system/tenant/index','0',NULL,'ff349d6fdc2d4994bc7a9c680d5d43c8'),  ('4fcac9d6-1b7f-4bb3-226b-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'租户查询',NULL,'2','system:tenant:query','81fc1209-39fa-2475-0fc2-3a22d36aa90b',NULL,NULL,0,0,1,NULL,NULL,'0',NULL,'e567592abe4d4d7c9edd91b7567678b7'),  ('022cb766-1e07-0067-2136-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'租户新增',NULL,'2','system:tenant:add','81fc1209-39fa-2475-0fc2-3a22d36aa90b',NULL,NULL,0,0,1,NULL,NULL,'0',NULL,'048eb55ed9dd442e93ab16813278bb89'),  ('6151dfa6-3417-1b92-e028-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'租户修改',NULL,'2','system:tenant:edit','81fc1209-39fa-2475-0fc2-3a22d36aa90b',NULL,NULL,0,0,1,NULL,NULL,'0',NULL,'c3d2cc94130742c395eb74a28afa0ebe'),  ('49863c75-5236-a616-751f-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'租户删除',NULL,'2','system:tenant:remove','81fc1209-39fa-2475-0fc2-3a22d36aa90b',NULL,NULL,0,0,1,NULL,NULL,'0',NULL,'5db9043fc9444a0fa842305508a00bd9'),  ('89ff555d-f765-d007-8c29-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'用户管理',NULL,'1','system:user:list','87c106ee-2ccb-55c1-b452-3a22d36aa90b','user','user',0,1,1,NULL,'system/user/index','0',NULL,'9436069e67f24e6fb9f1d53c7e7d7341'),  ('c260c060-c58c-d172-3ac5-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'用户查询',NULL,'2','system:user:query','89ff555d-f765-d007-8c29-3a22d36aa90b',NULL,NULL,0,0,1,NULL,NULL,'0',NULL,'44ea94367bdf4a698ea91bf36725c370'),  ('298a9e7d-6b0f-73d6-b441-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'用户新增',NULL,'2','system:user:add','89ff555d-f765-d007-8c29-3a22d36aa90b',NULL,NULL,0,0,1,NULL,NULL,'0',NULL,'9ede403dfee143d78e19e4724642f634'),  ('6274cf1f-c3eb-fdcc-42ac-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'用户修改',NULL,'2','system:user:edit','89ff555d-f765-d007-8c29-3a22d36aa90b',NULL,NULL,0,0,1,NULL,NULL,'0',NULL,'8717a49b7ee744458724ea6dcc0736fd'),  ('1c0994f5-25ee-c6a2-a826-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'用户删除',NULL,'2','system:user:remove','89ff555d-f765-d007-8c29-3a22d36aa90b',NULL,NULL,0,0,1,NULL,NULL,'0',NULL,'281cafb31f8f4aae91e0d2f986612ffe'),  ('474d908a-2d08-10f4-1e35-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'重置密码',NULL,'2','system:user:resetPwd','89ff555d-f765-d007-8c29-3a22d36aa90b',NULL,NULL,0,0,1,NULL,NULL,'0',NULL,'9d7148d94b034c4ba582965081dee073'),  ('8b082578-d551-6b9f-18b2-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'99',1,'角色管理',NULL,'1','system:role:list','87c106ee-2ccb-55c1-b452-3a22d36aa90b','peoples','role',0,1,1,NULL,'system/role/index','0',NULL,'baccd1e0b24f4abe83274a3fcff18b05'),  ('5cbc008d-0920-077b-ed93-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'角色查询',NULL,'2','system:role:query','8b082578-d551-6b9f-18b2-3a22d36aa90b',NULL,NULL,0,0,1,NULL,NULL,'0',NULL,'c7649c268f3c45f4a2951bd1dd5c315d'),  ('73bd21e5-bff3-347c-2f84-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'角色新增',NULL,'2','system:role:add','8b082578-d551-6b9f-18b2-3a22d36aa90b',NULL,NULL,0,0,1,NULL,NULL,'0',NULL,'10ea40bcfdfd4aa3876880ed1fe08827'),  ('9158cd0e-5fe4-b6e7-b2eb-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'角色修改',NULL,'2','system:role:edit','8b082578-d551-6b9f-18b2-3a22d36aa90b',NULL,NULL,0,0,1,NULL,NULL,'0',NULL,'ebb2feffcaf0431b874f558423f1b7ff'),  ('3591497a-f241-09fd-4cca-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'角色删除',NULL,'2','system:role:remove','8b082578-d551-6b9f-18b2-3a22d36aa90b',NULL,NULL,0,0,1,NULL,NULL,'0',NULL,'064feb6c835c49d28db591a63ab29f13'),  ('a45d3c89-d432-7565-99fd-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'98',1,'菜单管理',NULL,'1','system:menu:list','87c106ee-2ccb-55c1-b452-3a22d36aa90b','tree-table','menu',0,1,1,NULL,'system/menu/index','0',NULL,'c18709f7147a43c0990b148446e95052'),  ('91d3f9fb-b0c4-f510-605c-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'菜单查询',NULL,'2','system:menu:query','a45d3c89-d432-7565-99fd-3a22d36aa90b',NULL,NULL,0,0,1,NULL,NULL,'0',NULL,'cc7f9f91b49248fda34244d2a70c2f8b'),  ('edc5d35a-17b4-8637-21a0-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'菜单新增',NULL,'2','system:menu:add','a45d3c89-d432-7565-99fd-3a22d36aa90b',NULL,NULL,0,0,1,NULL,NULL,'0',NULL,'4c08699c1eff4dd0ae79b083ce493cfd'),  ('8e069a1f-79c2-b20b-ccf5-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'菜单修改',NULL,'2','system:menu:edit','a45d3c89-d432-7565-99fd-3a22d36aa90b',NULL,NULL,0,0,1,NULL,NULL,'0',NULL,'9d36f9febda549b19b38a35e55acfffb'),  ('5b5b066b-43b7-4495-54ad-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'菜单删除',NULL,'2','system:menu:remove','a45d3c89-d432-7565-99fd-3a22d36aa90b',NULL,NULL,0,0,1,NULL,NULL,'0',NULL,'fcd6f16855654794bcfc67f7835b98ea'),  ('d6eeddaf-09fd-0401-cd7a-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'97',1,'部门管理',NULL,'1','system:dept:list','87c106ee-2ccb-55c1-b452-3a22d36aa90b','tree','dept',0,1,1,NULL,'system/dept/index','0',NULL,'1af653ba9b294a4790cc21f8bbd1223b'),  ('9263e92b-b616-55fc-aa65-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'部门查询',NULL,'2','system:dept:query','d6eeddaf-09fd-0401-cd7a-3a22d36aa90b',NULL,NULL,0,0,1,NULL,NULL,'0',NULL,'0f533ab461ad40369b84e4d1815e4c31'),  ('2e300c0f-4e74-2d0e-dd68-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'部门新增',NULL,'2','system:dept:add','d6eeddaf-09fd-0401-cd7a-3a22d36aa90b',NULL,NULL,0,0,1,NULL,NULL,'0',NULL,'3187d85a138a43f48d1fdde3b388998f'),  ('a61487e6-2f8e-a21e-cbac-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'部门修改',NULL,'2','system:dept:edit','d6eeddaf-09fd-0401-cd7a-3a22d36aa90b',NULL,NULL,0,0,1,NULL,NULL,'0',NULL,'2246e30921694870911c41a6dd7e3c92'),  ('c6ded4f1-26dc-9624-5dfc-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'部门删除',NULL,'2','system:dept:remove','d6eeddaf-09fd-0401-cd7a-3a22d36aa90b',NULL,NULL,0,0,1,NULL,NULL,'0',NULL,'d42fddd1b67f4300a2a7bd1179905401'),  ('fe92d5b0-db1e-8661-5567-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'96',1,'岗位管理',NULL,'1','system:post:list','87c106ee-2ccb-55c1-b452-3a22d36aa90b','post','post',0,1,1,NULL,'system/post/index','0',NULL,'3d271ae0b6584231afdc1bfc3a3c9270'),  ('d705e69d-fbca-4a97-d2e8-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'岗位查询',NULL,'2','system:post:query','fe92d5b0-db1e-8661-5567-3a22d36aa90b',NULL,NULL,0,0,1,NULL,NULL,'0',NULL,'7b45b43ebe1e45dfb87c3cc42237c920'),  ('490f0a50-6340-d6e9-28e1-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'岗位新增',NULL,'2','system:post:add','fe92d5b0-db1e-8661-5567-3a22d36aa90b',NULL,NULL,0,0,1,NULL,NULL,'0',NULL,'55b14b9267d54bb5bcfbc8a4bca51412'),  ('bef78728-63ba-bb97-9169-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'岗位修改',NULL,'2','system:post:edit','fe92d5b0-db1e-8661-5567-3a22d36aa90b',NULL,NULL,0,0,1,NULL,NULL,'0',NULL,'553e50c01099499d979d58634882e38e'),  ('329f95bd-445b-9237-0506-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'岗位删除',NULL,'2','system:post:remove','fe92d5b0-db1e-8661-5567-3a22d36aa90b',NULL,NULL,0,0,1,NULL,NULL,'0',NULL,'07a4a57e847d4dfb9924c017b4e0c430'),  ('9ae1f419-9ab6-f971-a33f-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'95',1,'字典管理',NULL,'1','system:dict:list','87c106ee-2ccb-55c1-b452-3a22d36aa90b','dict','dict',0,1,1,NULL,'system/dict/index','0',NULL,'1506b953720c47b0be0befb86631fe7b'),  ('0b8ef776-ca8e-f3b6-e50a-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'字典查询',NULL,'2','system:dict:query','9ae1f419-9ab6-f971-a33f-3a22d36aa90b',NULL,NULL,0,0,1,NULL,NULL,'0',NULL,'b78bc162585c47d4aac09caab08fb2c0'),  ('ccb164b3-7d73-af81-08ae-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'字典新增',NULL,'2','system:dict:add','9ae1f419-9ab6-f971-a33f-3a22d36aa90b',NULL,NULL,0,0,1,NULL,NULL,'0',NULL,'2110112f63a5406496a2e4a79a7187e3'),  ('08dfcb66-7bd5-6f1d-197d-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'字典修改',NULL,'2','system:dict:edit','9ae1f419-9ab6-f971-a33f-3a22d36aa90b',NULL,NULL,0,0,1,NULL,NULL,'0',NULL,'6c5c48bf331c4d23bce167eec3809749'),  ('82c21c2a-9784-f5ad-d7b0-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'字典删除',NULL,'2','system:dict:remove','9ae1f419-9ab6-f971-a33f-3a22d36aa90b',NULL,NULL,0,0,1,NULL,NULL,'0',NULL,'6d87796e13c54dcf81aac5c8be1b3b04'),  ('c77ecddd-3e68-c55a-8bbb-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'94',1,'参数设置',NULL,'1','system:config:list','87c106ee-2ccb-55c1-b452-3a22d36aa90b','edit','config',0,1,1,NULL,'system/config/index','0',NULL,'95cc4749545445d5812209970b0851b0'),  ('f851f8d8-2164-c191-7c9a-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'参数查询',NULL,'2','system:config:query','c77ecddd-3e68-c55a-8bbb-3a22d36aa90b',NULL,NULL,0,0,1,NULL,NULL,'0',NULL,'3f35a7e626b840a7a9753aeb3a624057'),  ('d4807765-5f42-b595-f8f5-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'参数新增',NULL,'2','system:config:add','c77ecddd-3e68-c55a-8bbb-3a22d36aa90b',NULL,NULL,0,0,1,NULL,NULL,'0',NULL,'34d29de9bccb4d7a9894c37525b8c217'),  ('db448a27-47dd-ee97-5d8e-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'参数修改',NULL,'2','system:config:edit','c77ecddd-3e68-c55a-8bbb-3a22d36aa90b',NULL,NULL,0,0,1,NULL,NULL,'0',NULL,'340b3d77c8d6463390380f9040148ac8'),  ('5ee1b4d6-0177-5b40-7f1b-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'参数删除',NULL,'2','system:config:remove','c77ecddd-3e68-c55a-8bbb-3a22d36aa90b',NULL,NULL,0,0,1,NULL,NULL,'0',NULL,'f1183252083d4ae89f424927c1db3420'),  ('be0ad0bc-b0e6-4dfe-b747-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'93',1,'通知公告',NULL,'1','system:notice:list','87c106ee-2ccb-55c1-b452-3a22d36aa90b','message','notice',0,1,1,NULL,'system/notice/index','0',NULL,'c160de1504694f24bac1b6424308752f'),  ('daea02c3-48f6-8abd-9793-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'通知查询',NULL,'2','system:notice:query','be0ad0bc-b0e6-4dfe-b747-3a22d36aa90b',NULL,NULL,0,0,1,NULL,NULL,'0',NULL,'76ad115e5c88470d92f652131b4ba312'),  ('6fc66735-c068-5d2a-db87-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'通知新增',NULL,'2','system:notice:add','be0ad0bc-b0e6-4dfe-b747-3a22d36aa90b',NULL,NULL,0,0,1,NULL,NULL,'0',NULL,'65db6cbe14f34b4b950b5af8b34b23bd'),  ('f8245697-f737-845c-3fa0-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'通知修改',NULL,'2','system:notice:edit','be0ad0bc-b0e6-4dfe-b747-3a22d36aa90b',NULL,NULL,0,0,1,NULL,NULL,'0',NULL,'bb45e0ef773449b4aae61eb2bdd71744'),  ('fd8326fc-70a9-1653-b4a0-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'通知删除',NULL,'2','system:notice:remove','be0ad0bc-b0e6-4dfe-b747-3a22d36aa90b',NULL,NULL,0,0,1,NULL,NULL,'0',NULL,'a7e0675d1d69407f968c4ec44f8054db'),  ('c76d0173-c7de-c718-0e01-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'92',1,'日志管理',NULL,'0',NULL,'87c106ee-2ccb-55c1-b452-3a22d36aa90b','log','log',0,0,1,NULL,NULL,'0',NULL,'0f28fdb123064bc6be7807ead8863a69'),  ('b8b8dc44-fca4-495e-2b3f-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'操作日志',NULL,'1','monitor:operlog:list','c76d0173-c7de-c718-0e01-3a22d36aa90b','form','operlog',0,1,1,NULL,'monitor/operlog/index','0',NULL,'ec62c03ec21940a9b4dd78b75fd3fd3f'),  ('d7ca0c5b-7df6-bc38-2c20-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'操作查询',NULL,'2','monitor:operlog:query','b8b8dc44-fca4-495e-2b3f-3a22d36aa90b',NULL,NULL,0,0,1,NULL,NULL,'0',NULL,'97f3b55a916e49ec9f433d83e1509704'),  ('8618740e-0376-d1db-1c9f-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'操作删除',NULL,'2','monitor:operlog:remove','b8b8dc44-fca4-495e-2b3f-3a22d36aa90b',NULL,NULL,0,0,1,NULL,NULL,'0',NULL,'8a432608bc1c498b8b0168909c6490b9'),  ('cc1783bf-2172-7e37-72b8-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'登录日志',NULL,'1','monitor:logininfor:list','c76d0173-c7de-c718-0e01-3a22d36aa90b','logininfor','logininfor',0,1,1,NULL,'monitor/logininfor/index','0',NULL,'14c71ff7c55845ebad16c474988af4ff'),  ('8a123025-03b1-1643-6ee1-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'登录查询',NULL,'2','monitor:logininfor:query','cc1783bf-2172-7e37-72b8-3a22d36aa90b',NULL,NULL,0,0,1,NULL,NULL,'0',NULL,'3dc71bda85f9486fb094e1ee6d5942d5'),  ('6c224292-b042-a094-6f41-3a22d36aa90b',0,'2026-08-02 14:51:21.739',NULL,NULL,NULL,'100',1,'登录删除',NULL,'2','monitor:logininfor:remove','cc1783bf-2172-7e37-72b8-3a22d36aa90b',NULL,NULL,0,0,1,NULL,NULL,'0',NULL,'ad264498885747c4ab13877076e92687') ;SELECT LAST_INSERT_ROWID();
+
+===============================
+
+2026-08-02 14:51:21.743 +08:00 [DBG] =========Yi-SQL耗时0.3546毫秒=====
+2026-08-02 14:51:21.745 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+SELECT 1 FROM `Menu`   WHERE (( `MenuName` = N'系统管理' ) AND ( `MenuSource` = 2 ))  AND NOT ( `IsDeleted`=1 )    LIMIT 0,1
+===============================
+
+2026-08-02 14:51:21.745 +08:00 [DBG] =========Yi-SQL耗时0.1172毫秒=====
+2026-08-02 14:51:21.752 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+INSERT INTO `Menu`  (`Id`,`IsDeleted`,`CreationTime`,`CreatorId`,`LastModifierId`,`LastModificationTime`,`OrderNum`,`State`,`MenuName`,`RouterName`,`MenuType`,`PermissionCode`,`ParentId`,`MenuIcon`,`Router`,`IsLink`,`IsCache`,`IsShow`,`Remark`,`Component`,`MenuSource`,`Query`,`ConcurrencyStamp`) VALUES('ec5b7213-94b4-33d9-e05a-3a22d36aa913',0,'2026-08-02 14:51:21.747',NULL,NULL,NULL,'100',1,'系统管理',NULL,'0',NULL,'00000000-0000-0000-0000-000000000000','eos-icons:system-group','/system',0,0,1,NULL,NULL,'2',NULL,'1e2ed37015364d9299b8834bb215d212'),  ('69a29c58-b909-4cc1-695b-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'91',1,'代码生成',NULL,'0',NULL,'00000000-0000-0000-0000-000000000000','tabler:code','/code',0,0,1,NULL,NULL,'2',NULL,'b6174ba67a8c41c490dd65e80dd61282'),  ('65e841fe-0f52-694e-4039-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'数据表管理',NULL,'1','code:table:list','69a29c58-b909-4cc1-695b-3a22d36aa914','tabler:table','table',0,1,1,NULL,'code/table/index','2',NULL,'2796ab45bc5a43ddac2499b654691517'),  ('f47659ea-96ea-7a8a-8c22-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'99',1,'字段管理',NULL,'1','code:field:list','69a29c58-b909-4cc1-695b-3a22d36aa914','tabler:file-code','field',0,1,1,NULL,'code/field/index','2',NULL,'97f9002243234378a8e5d440393b7582'),  ('cf36ced1-00b3-4d6a-2f01-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'98',1,'模板管理',NULL,'1','code:template:list','69a29c58-b909-4cc1-695b-3a22d36aa914','tabler:template','template',0,1,1,NULL,'code/template/index','2',NULL,'231b8e01cd4449be9d8aaf0ee15b7568'),  ('fd555ddf-d6e5-8013-df41-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'99',1,'系统监控',NULL,'0',NULL,'00000000-0000-0000-0000-000000000000','solar:monitor-camera-outline','/monitor',0,0,1,NULL,NULL,'2',NULL,'a2ee5ca146164726beb0d3a5dd2aec21'),  ('2e7b7ecc-6ca2-8244-30ab-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'在线用户',NULL,'1','monitor:online:list','fd555ddf-d6e5-8013-df41-3a22d36aa914','material-symbols:generating-tokens-outline','online',0,1,1,NULL,'monitor/online/index','2',NULL,'0b89dc5377014bbaac38f3857e261d8d'),  ('84dce182-9415-f3dc-1ce3-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'99',1,'缓存列表',NULL,'1','monitor:cache:list','fd555ddf-d6e5-8013-df41-3a22d36aa914','devicon:redis-wordmark','cacheList',0,1,1,NULL,'monitor/cache/list','2',NULL,'0778800d64f74ccaa09b3b12200f2dd7'),  ('a806761d-a489-4e8d-695b-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'98',1,'服务监控',NULL,'1','monitor:server:list','fd555ddf-d6e5-8013-df41-3a22d36aa914','devicon:dotnetcore','server',0,1,1,NULL,'monitor/server/index','2',NULL,'19fb5c0721974629b1bce8dfbfb9c43b'),  ('1bea49e9-2743-9583-f43b-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'97',1,'定时任务',NULL,'1',NULL,'fd555ddf-d6e5-8013-df41-3a22d36aa914','tabler:calendar-clock','http://127.0.0.1:19002/hangfire',1,0,1,NULL,NULL,'2',NULL,'4b6aa494b7f9483e9d353a94038e0fdd'),  ('75da62dd-60bd-e259-1177-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'98',1,'系统工具',NULL,'0',NULL,'00000000-0000-0000-0000-000000000000','ant-design:tool-outlined','/tool',0,0,1,NULL,NULL,'2',NULL,'f03b609b25cf4b9ea5fe3b6ff27361df'),  ('69594dd0-b7c6-95a2-3245-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'接口文档',NULL,'1',NULL,'75da62dd-60bd-e259-1177-3a22d36aa914','devicon:swagger','http://127.0.0.1:19002/swagger',1,0,1,NULL,NULL,'2',NULL,'b6c90c1b1db34dad8a4f8ec36a0632ca'),  ('ab02872c-8a95-4283-7ba9-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'101',1,'表单生成器',NULL,'1',NULL,'75da62dd-60bd-e259-1177-3a22d36aa914','tabler:forms','build',0,1,1,NULL,'tool/build/index','2',NULL,'ab4f5942e1cf453a8fee8c4fd09ed49a'),  ('e1682554-f2f4-3343-fe08-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'101',1,'租户管理',NULL,'1','system:tenant:list','ec5b7213-94b4-33d9-e05a-3a22d36aa913','tabler:users','tenant',0,1,1,NULL,'system/tenant/index','2',NULL,'bd7b10de84034c75bd8334984b42d458'),  ('ca86ea7b-a672-13d4-1a7e-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'租户查询',NULL,'2','system:tenant:query','e1682554-f2f4-3343-fe08-3a22d36aa914',NULL,NULL,0,0,1,NULL,NULL,'2',NULL,'e3c8cd09fcfa46fcbad018812406eaf3'),  ('eb46893e-d187-e462-693e-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'租户新增',NULL,'2','system:tenant:add','e1682554-f2f4-3343-fe08-3a22d36aa914',NULL,NULL,0,0,1,NULL,NULL,'2',NULL,'c8ffebdbb8fc414cacb1f0f81fc1a8cb'),  ('21019203-d2c6-b755-91b8-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'租户修改',NULL,'2','system:tenant:edit','e1682554-f2f4-3343-fe08-3a22d36aa914',NULL,NULL,0,0,1,NULL,NULL,'2',NULL,'9be06e08f0b140999a591ef0a100bc0f'),  ('a2c82b11-d686-cdc3-f21d-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'租户删除',NULL,'2','system:tenant:remove','e1682554-f2f4-3343-fe08-3a22d36aa914',NULL,NULL,0,0,1,NULL,NULL,'2',NULL,'df2de8a9b74c4403a4a4b350fd91e55d'),  ('dd29a1f7-4e89-b7a7-69b8-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'用户管理',NULL,'1','system:user:list','ec5b7213-94b4-33d9-e05a-3a22d36aa913','tabler:user','user',0,1,1,NULL,'system/user/index','2',NULL,'fd7525c7299a4716a31dfb7cc7f07dc2'),  ('fbae3983-9e99-0849-c34d-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'用户查询',NULL,'2','system:user:query','dd29a1f7-4e89-b7a7-69b8-3a22d36aa914',NULL,NULL,0,0,1,NULL,NULL,'2',NULL,'a38246fff48d43abb7db3974cc7f0004'),  ('3dc51388-8166-3ad6-26dd-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'用户新增',NULL,'2','system:user:add','dd29a1f7-4e89-b7a7-69b8-3a22d36aa914',NULL,NULL,0,0,1,NULL,NULL,'2',NULL,'582777755aff46e98b48e420c6c6ef81'),  ('211dd58a-d741-df7b-a9f3-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'用户修改',NULL,'2','system:user:edit','dd29a1f7-4e89-b7a7-69b8-3a22d36aa914',NULL,NULL,0,0,1,NULL,NULL,'2',NULL,'84d64bbae446498f9e3b8bdfa9927bb8'),  ('a2b33b98-8673-1228-1183-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'用户删除',NULL,'2','system:user:remove','dd29a1f7-4e89-b7a7-69b8-3a22d36aa914',NULL,NULL,0,0,1,NULL,NULL,'2',NULL,'6292b7b89f8346ed98691cb31c09eb0b'),  ('5a0e1755-e631-8e90-5c57-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'重置密码',NULL,'2','system:user:resetPwd','dd29a1f7-4e89-b7a7-69b8-3a22d36aa914',NULL,NULL,0,0,1,NULL,NULL,'2',NULL,'4b116f3ca3c145e39d55f194de90f98a'),  ('ec369051-3288-52ba-267f-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'99',1,'角色管理',NULL,'1','system:role:list','ec5b7213-94b4-33d9-e05a-3a22d36aa913','eos-icons:role-binding-outlined','role',0,1,1,NULL,'system/role/index','2',NULL,'ef12f638468d4d999d5f19df167c088d'),  ('50ca2e20-0df6-2b29-082f-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'角色查询',NULL,'2','system:role:query','ec369051-3288-52ba-267f-3a22d36aa914',NULL,NULL,0,0,1,NULL,NULL,'2',NULL,'241c7a84d92b4f67b84635a775f5fa23'),  ('1c81c84f-b9e6-6fec-edfc-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'角色新增',NULL,'2','system:role:add','ec369051-3288-52ba-267f-3a22d36aa914',NULL,NULL,0,0,1,NULL,NULL,'2',NULL,'ebf0a8193d1547b099f4be24f0e87b65'),  ('c6de306e-f8fa-7063-5c3f-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'角色修改',NULL,'2','system:role:edit','ec369051-3288-52ba-267f-3a22d36aa914',NULL,NULL,0,0,1,NULL,NULL,'2',NULL,'b7800dcde3ae4d2d8a6985587e49b398'),  ('6f4704d1-1eef-db1c-3bfc-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'角色删除',NULL,'2','system:role:remove','ec369051-3288-52ba-267f-3a22d36aa914',NULL,NULL,0,0,1,NULL,NULL,'2',NULL,'34b22c50241e4af6ba789bce5d4a9043'),  ('90fc5ec5-8bf3-7883-5fc5-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'15',1,'分配用户',NULL,'1','system:role:edit','ec369051-3288-52ba-267f-3a22d36aa914','tabler:user-shield','role-auth/user/:roleId',0,0,1,NULL,'system/role/authUser','2',NULL,'710aaa53ba4b418aa9e0e8ac682cc5b0'),  ('3d3f364c-de27-65c5-7da7-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'98',1,'菜单管理',NULL,'1','system:menu:list','ec5b7213-94b4-33d9-e05a-3a22d36aa913','ic:sharp-menu','menu',0,1,1,NULL,'system/menu/index','2',NULL,'ae0266d3f16042efad67c1d7f0abc926'),  ('f8bc743b-0a8e-e9d6-6164-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'菜单查询',NULL,'2','system:menu:query','3d3f364c-de27-65c5-7da7-3a22d36aa914',NULL,NULL,0,0,1,NULL,NULL,'2',NULL,'75d2d58c7b6c477dbbfe32ba8c09517e'),  ('29cf9145-e377-9523-db9e-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'菜单新增',NULL,'2','system:menu:add','3d3f364c-de27-65c5-7da7-3a22d36aa914',NULL,NULL,0,0,1,NULL,NULL,'2',NULL,'2fd2b28a9e0c449a98d500e5b389734a'),  ('ab20a830-fc39-b52e-e491-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'菜单修改',NULL,'2','system:menu:edit','3d3f364c-de27-65c5-7da7-3a22d36aa914',NULL,NULL,0,0,1,NULL,NULL,'2',NULL,'8325df44639f4de5a96c4a1f35633230'),  ('bd540c48-2e40-175d-f5d9-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'菜单删除',NULL,'2','system:menu:remove','3d3f364c-de27-65c5-7da7-3a22d36aa914',NULL,NULL,0,0,1,NULL,NULL,'2',NULL,'3a1506bd24d44688824beafaf8184019'),  ('8937e594-c2de-9a3b-e31e-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'97',1,'部门管理',NULL,'1','system:dept:list','ec5b7213-94b4-33d9-e05a-3a22d36aa913','mingcute:department-line','dept',0,1,1,NULL,'system/dept/index','2',NULL,'df5b9badc78a44ca82976ad09fb18e64'),  ('18d58890-5c4a-b7ee-9919-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'部门查询',NULL,'2','system:dept:query','8937e594-c2de-9a3b-e31e-3a22d36aa914',NULL,NULL,0,0,1,NULL,NULL,'2',NULL,'c33a10176d374391892fda93d148f85e'),  ('1f9acf36-8783-04f8-ca8c-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'部门新增',NULL,'2','system:dept:add','8937e594-c2de-9a3b-e31e-3a22d36aa914',NULL,NULL,0,0,1,NULL,NULL,'2',NULL,'8a8348cd45a74f77a36dfa9e4c3d6e3b'),  ('3ea69807-6895-2133-7b9f-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'部门修改',NULL,'2','system:dept:edit','8937e594-c2de-9a3b-e31e-3a22d36aa914',NULL,NULL,0,0,1,NULL,NULL,'2',NULL,'52adcd5791654801bfba52a4d02a9dae'),  ('a39f03ff-21f1-21e7-25e6-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'部门删除',NULL,'2','system:dept:remove','8937e594-c2de-9a3b-e31e-3a22d36aa914',NULL,NULL,0,0,1,NULL,NULL,'2',NULL,'dce54adf1e0e4927a06cbe6391adc3b7'),  ('8385e275-c6c9-97aa-1891-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'96',1,'岗位管理',NULL,'1','system:post:list','ec5b7213-94b4-33d9-e05a-3a22d36aa913','tabler:user-star','post',0,1,1,NULL,'system/post/index','2',NULL,'aaf731f580ba4e47b98f808b8b12abbd'),  ('61e0f500-4524-daeb-3aaa-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'岗位查询',NULL,'2','system:post:query','8385e275-c6c9-97aa-1891-3a22d36aa914',NULL,NULL,0,0,1,NULL,NULL,'2',NULL,'f42645481b3f4a11bb7777ffd1c23627'),  ('71e1781f-0bdc-6f98-1f32-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'岗位新增',NULL,'2','system:post:add','8385e275-c6c9-97aa-1891-3a22d36aa914',NULL,NULL,0,0,1,NULL,NULL,'2',NULL,'403a2bf87e3d4569b3e9574788880a83'),  ('c2b91ccb-4e19-5010-5c90-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'岗位修改',NULL,'2','system:post:edit','8385e275-c6c9-97aa-1891-3a22d36aa914',NULL,NULL,0,0,1,NULL,NULL,'2',NULL,'f26202b77d424e5da94b76a793ce36b9'),  ('3bebbe5b-49ab-d141-5435-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'岗位删除',NULL,'2','system:post:remove','8385e275-c6c9-97aa-1891-3a22d36aa914',NULL,NULL,0,0,1,NULL,NULL,'2',NULL,'0561157ae36b4f4f863034361434fd72'),  ('dc50c94e-2ab0-ea3b-87ea-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'95',1,'字典管理',NULL,'1','system:dict:list','ec5b7213-94b4-33d9-e05a-3a22d36aa913','fluent-mdl2:dictionary','dict',0,1,1,NULL,'system/dict/index','2',NULL,'a66d9c85e03b492886a446e5cb94c265'),  ('21849219-22e4-d1c2-ded1-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'字典查询',NULL,'2','system:dict:query','dc50c94e-2ab0-ea3b-87ea-3a22d36aa914',NULL,NULL,0,0,1,NULL,NULL,'2',NULL,'2cedca41014e4535901a2483bf1a73e8'),  ('68ddb84c-1212-9cdd-a6b6-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'字典新增',NULL,'2','system:dict:add','dc50c94e-2ab0-ea3b-87ea-3a22d36aa914',NULL,NULL,0,0,1,NULL,NULL,'2',NULL,'27122a87db084d84bdd664d62df2c3e9'),  ('874d69ad-6118-dae4-7792-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'字典修改',NULL,'2','system:dict:edit','dc50c94e-2ab0-ea3b-87ea-3a22d36aa914',NULL,NULL,0,0,1,NULL,NULL,'2',NULL,'940667a0080f4561a25c4591fffa382c'),  ('abf2345f-01df-cb09-b104-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'字典删除',NULL,'2','system:dict:remove','dc50c94e-2ab0-ea3b-87ea-3a22d36aa914',NULL,NULL,0,0,1,NULL,NULL,'2',NULL,'283cc72590ed40a8b71b2d08910e22ff'),  ('010d9b93-84b1-d1d0-accf-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'94',1,'参数设置',NULL,'1','system:config:list','ec5b7213-94b4-33d9-e05a-3a22d36aa913','ant-design:setting-outlined','config',0,1,1,NULL,'system/config/index','2',NULL,'0932904b83364a6288f0c677100e39c3'),  ('c12c8a8e-a63b-fadf-f347-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'参数查询',NULL,'2','system:config:query','010d9b93-84b1-d1d0-accf-3a22d36aa914',NULL,NULL,0,0,1,NULL,NULL,'2',NULL,'971be4b6b092450cb36b2ef1cb695822'),  ('846d79c3-7422-75b1-1330-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'参数新增',NULL,'2','system:config:add','010d9b93-84b1-d1d0-accf-3a22d36aa914',NULL,NULL,0,0,1,NULL,NULL,'2',NULL,'adaa6fe9a0e144d0a0c1f2cfe3fc0244'),  ('93d403bd-9cd1-e486-eb27-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'参数修改',NULL,'2','system:config:edit','010d9b93-84b1-d1d0-accf-3a22d36aa914',NULL,NULL,0,0,1,NULL,NULL,'2',NULL,'b514fb35d40d4b56adff2dcc20e6a384'),  ('00e012f4-bd5e-76f7-5211-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'参数删除',NULL,'2','system:config:remove','010d9b93-84b1-d1d0-accf-3a22d36aa914',NULL,NULL,0,0,1,NULL,NULL,'2',NULL,'280e6fb396c7425b8d2ec5b54a4cb865'),  ('ed51a7ad-daf1-295a-b1c2-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'93',1,'通知公告',NULL,'1','system:notice:list','ec5b7213-94b4-33d9-e05a-3a22d36aa913','fe:notice-push','notice',0,1,1,NULL,'system/notice/index','2',NULL,'257c9b61f9884fc4935efbb0605642c9'),  ('6fb4c274-366c-9a3d-52fc-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'通知查询',NULL,'2','system:notice:query','ed51a7ad-daf1-295a-b1c2-3a22d36aa914',NULL,NULL,0,0,1,NULL,NULL,'2',NULL,'38a2df22bce2430b961cb615bafb45b7'),  ('c5fba1b2-66c2-5884-8209-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'通知新增',NULL,'2','system:notice:add','ed51a7ad-daf1-295a-b1c2-3a22d36aa914',NULL,NULL,0,0,1,NULL,NULL,'2',NULL,'f68f302c040441c7a9cb77f5d72127ec'),  ('48999462-b23c-4c85-4a3a-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'通知修改',NULL,'2','system:notice:edit','ed51a7ad-daf1-295a-b1c2-3a22d36aa914',NULL,NULL,0,0,1,NULL,NULL,'2',NULL,'144e84d7a170454ba9d614cb6f82755a'),  ('76ef1c33-4098-63f9-d636-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'通知删除',NULL,'2','system:notice:remove','ed51a7ad-daf1-295a-b1c2-3a22d36aa914',NULL,NULL,0,0,1,NULL,NULL,'2',NULL,'30064452feb048b493cf3d3f23714b71'),  ('534424cb-2389-2934-9dd1-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'92',1,'日志管理',NULL,'0',NULL,'ec5b7213-94b4-33d9-e05a-3a22d36aa913','material-symbols:logo-dev-outline','log',0,0,1,NULL,NULL,'2',NULL,'11f76528e735405b801dbb636e7e6315'),  ('82a2bce8-b0b0-6932-8891-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'操作日志',NULL,'1','monitor:operlog:list','534424cb-2389-2934-9dd1-3a22d36aa914','tabler:align-box-right-middle','operlog',0,1,1,NULL,'monitor/operlog/index','2',NULL,'fc337b788d0f4f009c7ebd1a427b619c'),  ('a753a07e-394b-c897-d763-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'操作查询',NULL,'2','monitor:operlog:query','82a2bce8-b0b0-6932-8891-3a22d36aa914',NULL,NULL,0,0,1,NULL,NULL,'2',NULL,'9f1aba7ed28b47c0bf8c163bfa1aa19e'),  ('eceb75ed-2655-9080-8dba-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'操作删除',NULL,'2','monitor:operlog:remove','82a2bce8-b0b0-6932-8891-3a22d36aa914',NULL,NULL,0,0,1,NULL,NULL,'2',NULL,'626920d4080c4d44805c3380087ba4a9'),  ('57dd7f93-b18f-7893-399c-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'登录日志',NULL,'1','monitor:logininfor:list','534424cb-2389-2934-9dd1-3a22d36aa914','tabler:align-box-right-middle','logininfor',0,1,1,NULL,'monitor/logininfor/index','2',NULL,'82f84077c1f04781a2a5109737f22e5a'),  ('367bf8da-aedb-0f1d-e114-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'登录查询',NULL,'2','monitor:logininfor:query','57dd7f93-b18f-7893-399c-3a22d36aa914',NULL,NULL,0,0,1,NULL,NULL,'2',NULL,'ec841f89f82c4557a33521342995233a'),  ('14a60fb6-9543-6666-b77d-3a22d36aa914',0,'2026-08-02 14:51:21.748',NULL,NULL,NULL,'100',1,'登录删除',NULL,'2','monitor:logininfor:remove','57dd7f93-b18f-7893-399c-3a22d36aa914',NULL,NULL,0,0,1,NULL,NULL,'2',NULL,'4ba829e9e53b43c0bab5934b79180850') ;SELECT LAST_INSERT_ROWID();
+
+===============================
+
+2026-08-02 14:51:21.753 +08:00 [DBG] =========Yi-SQL耗时0.3872毫秒=====
+2026-08-02 14:51:21.781 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+SELECT 1 FROM `Post`   WHERE ( 1 = 1 )   AND NOT ( `IsDeleted`=1 )    LIMIT 0,1
+===============================
+
+2026-08-02 14:51:21.782 +08:00 [DBG] =========Yi-SQL耗时0.148毫秒=====
+2026-08-02 14:51:21.785 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+INSERT INTO `Post`  (`Id`,`IsDeleted`,`CreationTime`,`CreatorId`,`LastModifierId`,`LastModificationTime`,`OrderNum`,`State`,`PostCode`,`PostName`,`Remark`,`ConcurrencyStamp`) VALUES('d24dc9f7-401e-f831-e4be-3a22d36aa937',0,'2026-08-02 14:51:21.782',NULL,NULL,NULL,'100',1,'ceo','董事长',NULL,'d0d448e1ed72448fa7940ae929206d93'),  ('42e5b260-ddde-5aae-1e2d-3a22d36aa938',0,'2026-08-02 14:51:21.782',NULL,NULL,NULL,'100',1,'se','项目经理',NULL,'46041fcbda8a43d68f3d206c76d586a8'),  ('5faf1618-0904-2fbc-0c26-3a22d36aa939',0,'2026-08-02 14:51:21.782',NULL,NULL,NULL,'100',1,'hr','人力资源',NULL,'6478f9e3b3b64fc9a7946e04550bd39f'),  ('40e5895d-0e28-ac42-9230-3a22d36aa939',0,'2026-08-02 14:51:21.782',NULL,NULL,NULL,'100',1,'user','普通员工',NULL,'8094dc737d594e419257dbb1497e9480') ;SELECT LAST_INSERT_ROWID();
+
+===============================
+
+2026-08-02 14:51:21.785 +08:00 [DBG] =========Yi-SQL耗时0.1865毫秒=====
+2026-08-02 14:51:21.815 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+SELECT 1 FROM `Role`   WHERE ( 1 = 1 )   AND NOT ( `IsDeleted`=1 )    LIMIT 0,1
+===============================
+
+2026-08-02 14:51:21.816 +08:00 [DBG] =========Yi-SQL耗时0.1388毫秒=====
+2026-08-02 14:51:21.818 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+INSERT INTO `Role`  (`Id`,`IsDeleted`,`CreationTime`,`CreatorId`,`LastModifierId`,`LastModificationTime`,`OrderNum`,`RoleName`,`RoleCode`,`Remark`,`DataScope`,`State`,`ConcurrencyStamp`) VALUES('cec69f59-7093-abe0-83bb-3a22d36aa959',0,'2026-08-02 14:51:21.816',NULL,NULL,NULL,'999','管理员','admin','管理员','0',1,'5f8c97df60dc49529bbc6d2686173dcb'),  ('adbc71c6-317e-a15c-049e-3a22d36aa95a',0,'2026-08-02 14:51:21.816',NULL,NULL,NULL,'1','测试角色','test','测试用的角色','0',1,'77f99270017e4f78ada1b328bb6f3adb'),  ('a8ea35cc-3c79-5a4d-ddec-3a22d36aa95a',0,'2026-08-02 14:51:21.816',NULL,NULL,NULL,'1','普通角色','common','正常用户','0',1,'0546a5caea1d4717aad68597167214b5'),  ('132b2a76-7bba-841a-d29c-3a22d36aa95a',0,'2026-08-02 14:51:21.816',NULL,NULL,NULL,'1','默认角色','default','可简单浏览','0',1,'525209f0f0a549bc861930b0d1b0ffea') ;SELECT LAST_INSERT_ROWID();
+
+===============================
+
+2026-08-02 14:51:21.818 +08:00 [DBG] =========Yi-SQL耗时0.1516毫秒=====
+2026-08-02 14:51:21.851 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+SELECT 1 FROM `User`   WHERE ( 1 = 1 )   AND NOT ( `IsDeleted`=1 )    LIMIT 0,1
+===============================
+
+2026-08-02 14:51:21.852 +08:00 [DBG] =========Yi-SQL耗时0.1388毫秒=====
+2026-08-02 14:51:21.859 +08:00 [DBG] 
+==========Yi-SQL执行:==========
+INSERT INTO `User`  (`Id`,`IsDeleted`,`Name`,`Age`,`UserName`,`Password`,`Salt`,`Icon`,`Nick`,`Email`,`Ip`,`Address`,`Phone`,`Introduction`,`Remark`,`Sex`,`DeptId`,`CreationTime`,`CreatorId`,`LastModifierId`,`LastModificationTime`,`OrderNum`,`State`,`ConcurrencyStamp`) VALUES('bcdb669c-bb69-0dcd-9c4b-3a22d36aa980',0,'大橙子','20','cc','PIIAcgnBX75ujsF187pTkSMDFRZX6kMPXQXk0c5nZx488Dker2PcRK2_7pQyJjjEBtFZeuwA8mPHXJ5bqyjSkw','bMfXratduCXvsPIcpP91MA==',NULL,'橙子','454313500@qq.com',NULL,'深圳','13800000000','还有谁？','描述是什么呢？','0',NULL,'2026-08-02 14:51:21.852',NULL,NULL,NULL,'999',1,'e9c88aab9d1a4f1195d2a095625fb9be'),  ('989950a6-b2aa-0d0b-bd27-3a22d36aa982',0,'大测试','18','test','TTNRZqU0ZpZOcCvKFB2ahmaKVwu4Qm7b4Y8AgcJXuT985kYD-74JUPJ-_edid9xquk7Y-AqHxXHnQFvxENoThg','iG7M1nmjOofM9L9kjVZnCg==',NULL,'测试','454313500@qq.com',NULL,'深圳','15900000000','还有我！','我没有描述！','1',NULL,'2026-08-02 14:51:21.856',NULL,NULL,NULL,'1',1,'728867350b5e46d3b15393014da36e17'),  ('ebf9507f-e93a-8068-ab6d-3a22d36aa982',0,'游客','18','guest','sJMFyEUVArhunMtSsI1oosYDbrwBrmjpk5LeS6GIj_UVnWV3IML30sGLE6aoRvIl7mjNxexrGo8HlQg5jPTQ5A','ax98taOmG633/6ZJZ1bUDw==',NULL,'测试','454313500@qq.com',NULL,'深圳','15900000000','临时游客','懒得创账号','1',NULL,'2026-08-02 14:51:21.856',NULL,NULL,NULL,'1',1,'fda21aba0ec34946a0a3a48c5366d077') ;SELECT LAST_INSERT_ROWID();
+
+===============================
+
+2026-08-02 14:51:21.859 +08:00 [DBG] =========Yi-SQL耗时0.192毫秒=====
+2026-08-02 14:51:21.890 +08:00 [DBG] 耗时-1534ms,已加载模块-Yi.Framework.SqlSugarCore
+2026-08-02 14:51:22.136 +08:00 [DBG] 耗时-246ms,已加载模块-Volo.Abp.BackgroundWorkers.Hangfire
+2026-08-02 14:51:22.139 +08:00 [DBG] 耗时-2ms,已加载模块-Volo.Abp.BackgroundJobs.HangFire
+2026-08-02 14:51:22.141 +08:00 [DBG] 耗时-2ms,已加载模块-Yi.Framework.BackgroundWorkers.Hangfire
+2026-08-02 14:51:22.144 +08:00 [DBG] 耗时-2ms,已加载模块-Volo.Abp.EventBus
+2026-08-02 14:51:22.171 +08:00 [DBG] 耗时-26ms,已加载模块-Volo.Abp.AspNetCore
+2026-08-02 14:51:22.176 +08:00 [DBG] 耗时-4ms,已加载模块-Volo.Abp.AspNetCore.Mvc
+2026-08-02 14:51:22.217 +08:00 [DBG] 耗时-41ms,已加载模块-Yi.Framework.BackgroundWorkers.Hangfire
+2026-08-02 14:51:22.518 +08:00 [INF] User profile is available. Using 'C:\Users\30359\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-08-02 14:51:22.583 +08:00 [DBG] 耗时-365ms,已加载模块-Yi.Abp.Web
+2026-08-02 14:51:22.584 +08:00 [INF] ==========【436】个模块初始化执行完毕，总耗时【2222ms】==========
+2026-08-02 14:51:22.642 +08:00 [INF] Creating key {70e2bd39-7abb-419e-8a0e-07f5ff8d052d} with creation date 2026-08-02 06:51:22Z, activation date 2026-08-02 06:51:22Z, and expiration date 2026-10-31 06:51:22Z.
+2026-08-02 14:51:22.648 +08:00 [ERR] An error occurred while reading the key ring.
+System.UnauthorizedAccessException: Access to the path 'C:\Users\30359\AppData\Local\ASP.NET\DataProtection-Keys\edf7e4c4-3c4b-4ba7-a0a1-d7d001b90aa4.tmp' is denied.
+   at Microsoft.Win32.SafeHandles.SafeFileHandle.CreateFile(String fullPath, FileMode mode, FileAccess access, FileShare share, FileOptions options)
+   at Microsoft.Win32.SafeHandles.SafeFileHandle.Open(String fullPath, FileMode mode, FileAccess access, FileShare share, FileOptions options, Int64 preallocationSize, Nullable`1 unixCreateMode)
+   at System.IO.Strategies.OSFileStreamStrategy..ctor(String path, FileMode mode, FileAccess access, FileShare share, FileOptions options, Int64 preallocationSize, Nullable`1 unixCreateMode)
+   at System.IO.Strategies.FileStreamHelpers.ChooseStrategyCore(String path, FileMode mode, FileAccess access, FileShare share, FileOptions options, Int64 preallocationSize, Nullable`1 unixCreateMode)
+   at System.IO.File.OpenWrite(String path)
+   at Microsoft.AspNetCore.DataProtection.Repositories.FileSystemXmlRepository.StoreElementCore(XElement element, String filename)
+   at Microsoft.AspNetCore.DataProtection.Repositories.FileSystemXmlRepository.StoreElement(XElement element, String friendlyName)
+   at Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager.Microsoft.AspNetCore.DataProtection.KeyManagement.Internal.IInternalXmlKeyManager.CreateNewKey(Guid keyId, DateTimeOffset creationDate, DateTimeOffset activationDate, DateTimeOffset expirationDate)
+   at Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager.CreateNewKey(DateTimeOffset activationDate, DateTimeOffset expirationDate)
+   at Microsoft.AspNetCore.DataProtection.KeyManagement.KeyRingProvider.CreateCacheableKeyRingCore(DateTimeOffset now, IKey keyJustAdded)
+   at Microsoft.AspNetCore.DataProtection.KeyManagement.KeyRingProvider.<GetCurrentKeyRingCoreNew>b__31_1(Object utcNowState)
+   at System.Threading.Tasks.Task`1.InnerInvoke()
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.DataProtection.KeyManagement.KeyRingProvider.GetKeyRingFromCompletedTaskUnsynchronized(Task`1 task, DateTime utcNow)
+   at Microsoft.AspNetCore.DataProtection.KeyManagement.KeyRingProvider.GetCurrentKeyRingCoreNew(DateTime utcNow, Boolean forceRefresh)
+   at Microsoft.AspNetCore.DataProtection.Internal.DataProtectionHostedService.StartAsync(CancellationToken token)
+2026-08-02 14:51:22.648 +08:00 [INF] Key ring failed to load during application startup.
+System.UnauthorizedAccessException: Access to the path 'C:\Users\30359\AppData\Local\ASP.NET\DataProtection-Keys\edf7e4c4-3c4b-4ba7-a0a1-d7d001b90aa4.tmp' is denied.
+   at Microsoft.Win32.SafeHandles.SafeFileHandle.CreateFile(String fullPath, FileMode mode, FileAccess access, FileShare share, FileOptions options)
+   at Microsoft.Win32.SafeHandles.SafeFileHandle.Open(String fullPath, FileMode mode, FileAccess access, FileShare share, FileOptions options, Int64 preallocationSize, Nullable`1 unixCreateMode)
+   at System.IO.Strategies.OSFileStreamStrategy..ctor(String path, FileMode mode, FileAccess access, FileShare share, FileOptions options, Int64 preallocationSize, Nullable`1 unixCreateMode)
+   at System.IO.Strategies.FileStreamHelpers.ChooseStrategyCore(String path, FileMode mode, FileAccess access, FileShare share, FileOptions options, Int64 preallocationSize, Nullable`1 unixCreateMode)
+   at System.IO.File.OpenWrite(String path)
+   at Microsoft.AspNetCore.DataProtection.Repositories.FileSystemXmlRepository.StoreElementCore(XElement element, String filename)
+   at Microsoft.AspNetCore.DataProtection.Repositories.FileSystemXmlRepository.StoreElement(XElement element, String friendlyName)
+   at Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager.Microsoft.AspNetCore.DataProtection.KeyManagement.Internal.IInternalXmlKeyManager.CreateNewKey(Guid keyId, DateTimeOffset creationDate, DateTimeOffset activationDate, DateTimeOffset expirationDate)
+   at Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager.CreateNewKey(DateTimeOffset activationDate, DateTimeOffset expirationDate)
+   at Microsoft.AspNetCore.DataProtection.KeyManagement.KeyRingProvider.CreateCacheableKeyRingCore(DateTimeOffset now, IKey keyJustAdded)
+   at Microsoft.AspNetCore.DataProtection.KeyManagement.KeyRingProvider.<GetCurrentKeyRingCoreNew>b__31_1(Object utcNowState)
+   at System.Threading.Tasks.Task`1.InnerInvoke()
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.DataProtection.KeyManagement.KeyRingProvider.GetKeyRingFromCompletedTaskUnsynchronized(Task`1 task, DateTime utcNow)
+   at Microsoft.AspNetCore.DataProtection.KeyManagement.KeyRingProvider.GetCurrentKeyRingCoreNew(DateTime utcNow, Boolean forceRefresh)
+   at Microsoft.AspNetCore.DataProtection.Internal.DataProtectionHostedService.StartAsync(CancellationToken token)
+2026-08-02 14:51:22.702 +08:00 [INF] Now listening on: http://[::]:5000
+2026-08-02 14:51:22.702 +08:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-08-02 14:51:22.702 +08:00 [INF] Hosting environment: Development
+2026-08-02 14:51:22.702 +08:00 [INF] Content root path: C:\Users\30359\Desktop\Code_Practice\MAF\Yi.Abp.Admin\Yi.Abp.Net8\src\Yi.Abp.Web
+2026-08-02 14:51:25.209 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:51:25.219 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:51:30.635 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:51:30.637 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:51:35.649 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:51:35.651 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:51:40.663 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:51:40.664 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:51:45.678 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:51:45.679 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:51:50.685 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:51:50.686 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:51:55.705 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:51:55.706 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:52:00.715 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:52:00.716 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:52:05.733 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:52:05.735 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:52:10.751 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:52:10.752 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:52:15.765 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:52:15.766 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:52:20.774 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:52:20.775 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:52:25.782 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:52:25.784 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:52:30.790 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:52:30.791 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:52:35.805 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:52:35.806 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:52:40.811 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:52:40.813 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:52:45.825 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:52:45.827 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:52:50.842 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:52:50.843 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:52:55.851 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:52:55.852 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:53:00.858 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:53:00.859 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:53:05.865 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:53:05.866 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:53:10.889 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:53:10.890 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:53:15.901 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:53:15.904 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:53:20.924 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:53:20.925 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:53:25.931 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:53:25.932 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:53:30.954 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:53:30.955 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:53:35.974 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:53:35.975 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:53:40.995 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:53:40.997 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:53:46.007 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:53:46.008 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:53:51.018 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:53:51.020 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:53:56.034 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:53:56.036 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:54:01.148 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:54:01.149 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:54:06.164 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:54:06.165 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:54:11.178 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:54:11.180 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:54:16.186 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:54:16.188 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:54:21.202 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:54:21.203 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:54:26.213 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:54:26.214 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:54:31.224 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:54:31.225 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:54:36.240 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:54:36.241 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:54:41.255 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:54:41.256 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:54:46.275 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:54:46.276 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:54:51.288 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:54:51.290 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:54:56.309 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:54:56.310 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:55:01.327 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:55:01.328 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:55:06.344 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:55:06.345 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:55:11.357 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:55:11.361 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:55:16.377 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:55:16.378 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:55:21.390 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:55:21.391 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:55:26.399 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:55:26.401 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:55:31.416 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:55:31.417 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:55:36.432 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:55:36.433 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:55:41.444 +08:00 [INF] CORS policy execution successful.
+2026-08-02 14:55:41.446 +08:00 [INF] CORS policy execution successful.

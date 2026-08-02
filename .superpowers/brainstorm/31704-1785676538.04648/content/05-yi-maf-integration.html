@@ -1,0 +1,169 @@
+<h2>🏗️ 基于 Yi.Abp.Net8 + MAF 的合同管理系统架构</h2>
+<p class="subtitle">复用 Yi 框架源码 → 升级 .NET 10 → 新增合同模块 + MAF Agent 插件层</p>
+
+<div class="section">
+<h3 style="color:#1a73e8">📐 Yi.Abp.Net8 原始项目结构（已通过 GitHub API 获取）</h3>
+<div class="mockup" style="background:#1e1e1e;color:#d4d4d4">
+<div class="mockup-header" style="background:#333;color:#fff">Yi.Abp.Net8/  (分支: abp · .NET 8 → 升级 .NET 10)</div>
+<div class="mockup-body" style="padding:16px;font-family:Consolas,monospace;font-size:0.78rem;line-height:1.7">
+<div style="color:#569cd6">Yi.Abp.Net8/</div>
+<div style="padding-left:20px">
+  <div><span style="color:#9cdcfe">├── Yi.Abp.sln</span></div>
+  <div><span style="color:#9cdcfe">├── common.props</span> <span style="color:#6a9955"># TargetFramework=net8.0 → 改为 net10.0</span></div>
+  <div><span style="color:#4ec9b0">├── client/</span> <span style="color:#6a9955"># 宿主入口</span></div>
+  <div style="padding-left:24px">
+    <div><span style="color:#9cdcfe">├── Yi.Abp.Client.WebApi/</span> <span style="color:#dcdcaa">★ Host 宿主 (Program.cs + Module)</span></div>
+    <div><span style="color:#9cdcfe">├── Yi.Abp.Client.Console/</span></div>
+    <div><span style="color:#9cdcfe">└── Yi.Abp.HttpApi.Client/</span></div>
+  </div>
+  <div><span style="color:#4ec9b0">├── framework/</span> <span style="color:#6a9955"># 框架核心 (直接源码引用,非NuGet)</span></div>
+  <div style="padding-left:24px">
+    <div><span style="color:#9cdcfe">├── Yi.Framework.Core/</span> <span style="color:#6a9955"># 基础工具/异常/扩展</span></div>
+    <div><span style="color:#9cdcfe">├── Yi.Framework.Ddd.Application/</span> <span style="color:#6a9955"># DddApplication 基类</span></div>
+    <div><span style="color:#9cdcfe">├── Yi.Framework.Ddd.Application.Contracts/</span></div>
+    <div><span style="color:#9cdcfe">├── Yi.Framework.SqlSugarCore/</span> <span style="color:#dcdcaa">★ SqlSugar ORM 集成</span></div>
+    <div><span style="color:#9cdcfe">├── Yi.Framework.SqlSugarCore.Abstractions/</span></div>
+    <div><span style="color:#9cdcfe">├── Yi.Framework.AspNetCore/</span> <span style="color:#6a9955"># 统一返回/Swagger/路由</span></div>
+    <div><span style="color:#9cdcfe">├── Yi.Framework.Mapster/</span> <span style="color:#6a9955"># 对象映射</span></div>
+    <div><span style="color:#9cdcfe">├── Yi.Framework.Caching.FreeRedis/</span></div>
+    <div><span style="color:#9cdcfe">├── Yi.Framework.BackgroundWorkers.Hangfire/</span></div>
+    <div><span style="color:#9cdcfe">└── Yi.Framework.AspNetCore.Authentication.OAuth/</span></div>
+  </div>
+  <div><span style="color:#4ec9b0">└── module/</span> <span style="color:#6a9955"># 业务模块 (每个模块 DDD 五层)</span></div>
+  <div style="padding-left:24px">
+    <div><span style="color:#9cdcfe">├── audit-logging/</span> <span style="color:#6a9955"># 审计日志 (已有)</span></div>
+    <div style="padding-left:20px">
+      <div><span style="color:#ce9178">├── Yi.Framework.AuditLogging.Domain.Shared/</span></div>
+      <div><span style="color:#ce9178">├── Yi.Framework.AuditLogging.Domain/</span></div>
+      <div><span style="color:#ce9178">└── Yi.Framework.AuditLogging.SqlSugarCore/</span></div>
+    </div>
+    <div><span style="color:#9cdcfe">└── rbac/</span> <span style="color:#6a9955"># RBAC权限管理 (已有,直接复用)</span></div>
+    <div style="padding-left:20px">
+      <div><span style="color:#ce9178">├── Yi.Framework.Rbac.Domain.Shared/</span></div>
+      <div><span style="color:#ce9178">├── Yi.Framework.Rbac.Domain/</span></div>
+      <div><span style="color:#ce9178">├── Yi.Framework.Rbac.SqlSugarCore/</span></div>
+      <div><span style="color:#ce9178">├── Yi.Framework.Rbac.Application.Contracts/</span></div>
+      <div><span style="color:#ce9178">└── Yi.Framework.Rbac.Application/</span></div>
+    </div>
+  </div>
+</div>
+<div style="margin-top:12px;padding:10px;background:#2d2d2d;border-radius:6px;border-left:4px solid #f59e0b">
+  <span style="color:#f59e0b;font-weight:bold">📋 模块 DDD 五层约定：</span>
+  <span style="color:#d4d4d4">Domain.Shared → Domain → SqlSugarCore → Application.Contracts → Application</span>
+</div>
+</div>
+</div>
+</div>
+
+<div class="section">
+<h3 style="color:#ea580c">➕ 新增内容：合同模块 + MAF 插件层（保持 Yi 风格）</h3>
+<div class="mockup" style="background:#fff7ed">
+<div class="mockup-header" style="background:linear-gradient(90deg,#ea580c,#f59e0b);color:#fff">在 Yi.Abp.Net8 基础上新增的目录 (标 ★ 为新增)</div>
+<div class="mockup-body" style="padding:16px;font-family:Consolas,monospace;font-size:0.78rem;line-height:1.7">
+
+<div style="color:#ea580c;font-weight:bold;margin-bottom:8px">module/ 下新增业务模块：</div>
+<div style="padding-left:20px;color:#9a3412">
+  <div><span style="color:#ea580c;font-weight:bold">├── contract/</span> <span style="color:#6a9955">★ 合同管理模块</span></div>
+  <div style="padding-left:20px">
+    <div>├── Yi.Framework.Contract.Domain.Shared/ <span style="color:#6a9955"># 枚举: ContractType/RiskLevel</span></div>
+    <div>├── Yi.Framework.Contract.Domain/ <span style="color:#6a9955"># Contract/Template/Clause 实体</span></div>
+    <div>├── Yi.Framework.Contract.SqlSugarCore/ <span style="color:#6a9955"># 仓储实现 + FTS5配置</span></div>
+    <div>├── Yi.Framework.Contract.Application.Contracts/ <span style="color:#6a9955"># DTO + IContractAppService</span></div>
+    <div>└── Yi.Framework.Contract.Application/ <span style="color:#6a9955"># ContractAppService 实现</span></div>
+  </div>
+  <div><span style="color:#ea580c;font-weight:bold">├── compliance/</span> <span style="color:#6a9955">★ 合规审查模块</span></div>
+  <div style="padding-left:20px">
+    <div>├── Yi.Framework.Compliance.Domain.Shared/</div>
+    <div>├── Yi.Framework.Compliance.Domain/ <span style="color:#6a9955"># ComplianceIssue 实体</span></div>
+    <div>├── Yi.Framework.Compliance.SqlSugarCore/</div>
+    <div>├── Yi.Framework.Compliance.Application.Contracts/</div>
+    <div>└── Yi.Framework.Compliance.Application/</div>
+  </div>
+  <div><span style="color:#ea580c;font-weight:bold">└── agent-orchestration/</span> <span style="color:#6a9955">★ MAF 编排模块 (学习核心)</span></div>
+  <div style="padding-left:20px">
+    <div>├── Yi.Framework.AgentOrchestration.Domain.Shared/</div>
+    <div>├── Yi.Framework.AgentOrchestration.Domain/</div>
+    <div>&nbsp;&nbsp;&nbsp;├── Entities/ <span style="color:#6a9955"># AgentTask/AgentProgressLog/AgentHeartbeat</span></div>
+    <div>&nbsp;&nbsp;&nbsp;├── Workflow/ <span style="color:#6a9955"># IWorkflowEngine/WorkflowDefinition</span></div>
+    <div>&nbsp;&nbsp;&nbsp;├── Scheduler/ <span style="color:#6a9955"># AgentTaskScheduler/ConcurrencyPolicy</span></div>
+    <div>&nbsp;&nbsp;&nbsp;└── Events/ <span style="color:#6a9955"># AgentStarted/Progress/Completed/Failed</span></div>
+    <div>├── Yi.Framework.AgentOrchestration.SqlSugarCore/</div>
+    <div>├── Yi.Framework.AgentOrchestration.Application.Contracts/</div>
+    <div>└── Yi.Framework.AgentOrchestration.Application/</div>
+    <div>&nbsp;&nbsp;&nbsp;├── Maf/ <span style="color:#6a9955"># ★ MafPluginHost/AgentPluginFactory</span></div>
+    <div>&nbsp;&nbsp;&nbsp;├── Hubs/ <span style="color:#6a9955"># AgentProgressHub (SignalR)</span></div>
+    <div>&nbsp;&nbsp;&nbsp;└── Tracking/ <span style="color:#6a9955"># IAgentProgressTracker/SignalRProgressTracker</span></div>
+  </div>
+</div>
+
+<div style="color:#ea580c;font-weight:bold;margin:16px 0 8px">根目录新增 MAF 管道源码：</div>
+<div style="padding-left:20px;color:#9a3412">
+  <div><span style="color:#ea580c;font-weight:bold">maf-pipeline/</span> <span style="color:#6a9955">★ MAF 七层管道 (独立编译,输出到Host)</span></div>
+  <div style="padding-left:20px">
+    <div>├── CI.Maf.Contracts/ <span style="color:#6a9955"># IAgentPluginContract 等</span></div>
+    <div>├── CI.Maf.HostViews/</div>
+    <div>├── CI.Maf.HostSideAdapters/</div>
+    <div>├── CI.Maf.AddInViews/</div>
+    <div>├── CI.Maf.AddInSideAdapters/</div>
+    <div>└── AddIns/ <span style="color:#6a9955"># 4个Agent插件DLL</span></div>
+    <div>&nbsp;&nbsp;&nbsp;├── Agents.Generator/</div>
+    <div>&nbsp;&nbsp;&nbsp;├── Agents.Compliance/</div>
+    <div>&nbsp;&nbsp;&nbsp;├── Agents.Search/</div>
+    <div>&nbsp;&nbsp;&nbsp;└── Agents.WordFill/</div>
+  </div>
+</div>
+
+<div style="color:#ea580c;font-weight:bold;margin:16px 0 8px">Host 宿主改动：</div>
+<div style="padding-left:20px;color:#9a3412">
+  <div>client/Yi.Abp.Client.WebApi/</div>
+  <div style="padding-left:20px">
+    <div>├── Program.cs <span style="color:#6a9955"># 增加: MAF Pipeline 初始化</span></div>
+    <div>├── YiAbpClientWebApiModule.cs <span style="color:#6a9955"># 增加: DependsOn 三个新模块</span></div>
+    <div>├── wwwroot/Pipeline/ <span style="color:#6a9955">★ MAF 运行时目录(编译输出)</span></div>
+    <div>└── appsettings.json <span style="color:#6a9955"># 增加: LLM/Maf/Agent 配置节</span></div>
+  </div>
+</div>
+
+<div style="color:#ea580c;font-weight:bold;margin:16px 0 8px">前端 (独立项目,不复用Yi前端):</div>
+<div style="padding-left:20px;color:#9a3412">
+  <div><span style="color:#ea580c;font-weight:bold">contract-agent-web/</span> <span style="color:#6a9955">★ Vue3 + Element Plus + SignalR</span></div>
+  <div style="padding-left:20px">
+    <div>├── src/views/dashboard/AgentMonitor.vue <span style="color:#6a9955"># ★ Agent看板</span></div>
+    <div>├── src/views/contracts/ <span style="color:#6a9955"># 生成/列表/详情</span></div>
+    <div>├── src/views/compliance/ <span style="color:#6a9955"># 审查中心</span></div>
+    <div>├── src/views/search/ <span style="color:#6a9955"># 全文搜索</span></div>
+    <div>├── src/views/templates/ <span style="color:#6a9955"># 模板&控件映射</span></div>
+    <div>└── src/signalr/agentProgressHub.ts <span style="color:#6a9955"># SignalR客户端</span></div>
+  </div>
+</div>
+
+</div>
+</div>
+</div>
+
+<div class="section">
+<h3 style="color:#1a73e8">🔄 .NET 8 → .NET 10 升级要点</h3>
+<div class="pros-cons">
+  <div class="pros" style="background:#e6f4ea">
+    <h4 style="color:#137333">✅ 升级收益</h4>
+    <ul style="font-size:0.82rem;line-height:1.8">
+      <li><b>common.props</b>: TargetFramework net8.0 → net10.0 (一处改全局)</li>
+      <li><b>ABP vNext</b>: 升级到支持 .NET 10 的版本</li>
+      <li><b>SqlSugarCore</b>: 升级到最新版 (已支持 .NET 10)</li>
+      <li><b>C# 14 新语法</b>: partial 属性/field/extension 更简洁</li>
+      <li><b>MAF</b>: System.AddIn 原生支持 .NET 10</li>
+      <li><b>性能</b>: JIT/AOT 编译器优化</li>
+    </ul>
+  </div>
+  <div class="cons" style="background:#fef3c7">
+    <h4 style="color:#92400e">⚠️ 注意事项</h4>
+    <ul style="font-size:0.82rem;line-height:1.8">
+      <li><b>Autofac</b>: 确认版本兼容 .NET 10</li>
+      <li><b>Mapster</b>: 确认版本兼容</li>
+      <li><b>Hangfire/Quartz</b>: 升级到最新</li>
+      <li><b>FreeRedis</b>: 确认版本兼容</li>
+      <li><b>测试</b>: 升级后全量回归 RBAC 功能</li>
+    </ul>
+  </div>
+</div>
+</div>

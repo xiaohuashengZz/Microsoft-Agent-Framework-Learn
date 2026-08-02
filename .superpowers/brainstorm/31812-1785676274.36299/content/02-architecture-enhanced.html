@@ -1,0 +1,203 @@
+<h2>🧩 增强版：MAF 多 Agent 并发协作架构</h2>
+<p class="subtitle">针对「多 Agent 并发 + 独立进度看板」需求优化的最终方案</p>
+
+<div class="section">
+<h3 style="color:#1a73e8">📐 系统架构总览</h3>
+<div class="mockup" style="background:linear-gradient(135deg,#f8faff 0%,#eef2ff 100%)">
+<div class="mockup-header">Architecture Diagram: Contract Agent System</div>
+<div class="mockup-body" style="padding:20px">
+
+  <!-- Frontend -->
+  <div style="background:#fff;border:2px solid #4285f4;border-radius:12px;padding:16px;margin-bottom:20px">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+      <span style="background:#4285f4;color:#fff;padding:4px 10px;border-radius:6px;font-size:0.8rem;font-weight:600">Frontend</span>
+      <span style="font-weight:700;color:#333">Vue 3 + Vite + Pinia</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
+      <div style="background:#e8f0fe;border-radius:8px;padding:10px;text-align:center">
+        <div style="font-size:1.2rem">📝</div>
+        <div style="font-size:0.8rem;font-weight:600;color:#1a73e8">合同生成工作台</div>
+      </div>
+      <div style="background:#e8f0fe;border-radius:8px;padding:10px;text-align:center">
+        <div style="font-size:1.2rem">🔍</div>
+        <div style="font-size:0.8rem;font-weight:600;color:#1a73e8">合规审查中心</div>
+      </div>
+      <div style="background:#e8f0fe;border-radius:8px;padding:10px;text-align:center">
+        <div style="font-size:1.2rem">📚</div>
+        <div style="font-size:0.8rem;font-weight:600;color:#1a73e8">历史文件搜索</div>
+      </div>
+      <div style="background:#fce8e6;border-radius:8px;padding:10px;text-align:center;border:2px solid #d93025">
+        <div style="font-size:1.2rem">📊</div>
+        <div style="font-size:0.8rem;font-weight:600;color:#d93025">Agent 监控看板 ★</div>
+      </div>
+    </div>
+    <div style="margin-top:10px;font-size:0.75rem;color:#666">WebSocket / SignalR 实时推送 Agent 状态和进度</div>
+  </div>
+
+  <!-- Arrow -->
+  <div style="text-align:center;font-size:1.5rem;color:#666;margin:10px 0">⬇️ ⬆️ &nbsp; REST API + WebSocket</div>
+
+  <!-- Backend Host -->
+  <div style="background:#fff;border:2px solid #34a853;border-radius:12px;padding:16px;margin-bottom:20px">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap">
+      <span style="background:#34a853;color:#fff;padding:4px 10px;border-radius:6px;font-size:0.8rem;font-weight:600">Host</span>
+      <span style="font-weight:700;color:#333">ASP.NET Core Web API</span>
+      <span style="background:#fbbc04;color:#333;padding:2px 8px;border-radius:4px;font-size:0.7rem;font-weight:600">MAF AddInStore</span>
+      <span style="background:#ea4335;color:#fff;padding:2px 8px;border-radius:4px;font-size:0.7rem;font-weight:600">Agent Orchestrator</span>
+      <span style="background:#46bdc6;color:#fff;padding:2px 8px;border-radius:4px;font-size:0.7rem;font-weight:600">SignalR Hub</span>
+      <span style="background:#8e44ad;color:#fff;padding:2px 8px;border-radius:4px;font-size:0.7rem;font-weight:600">Task Scheduler</span>
+    </div>
+
+    <!-- Orchestration + Progress Tracker -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+      <div style="background:#e6f4ea;border-radius:8px;padding:12px;border-left:4px solid #34a853">
+        <div style="font-weight:700;font-size:0.85rem;color:#137333;margin-bottom:8px">🎯 Agent 编排引擎</div>
+        <div style="font-size:0.75rem;color:#333;line-height:1.7">
+          • Workflow DAG 定义<br>
+          • 任务分发与并发控制<br>
+          • Agent 生命周期管理<br>
+          • 取消令牌 (CancellationToken)
+        </div>
+      </div>
+      <div style="background:#fef7e0;border-radius:8px;padding:12px;border-left:4px solid #fbbc04">
+        <div style="font-weight:700;font-size:0.85rem;color:#b06000;margin-bottom:8px">📡 进度追踪服务</div>
+        <div style="font-size:0.75rem;color:#333;line-height:1.7">
+          • IProgress<T> 统一上报接口<br>
+          • Agent 心跳 (Heartbeat) 检测<br>
+          • 进度事件 → SignalR 推送<br>
+          • 运行时状态持久化
+        </div>
+      </div>
+    </div>
+
+    <!-- Message Bus -->
+    <div style="background:#fff3e0;border-radius:8px;padding:10px;border:1px dashed #ff9800;margin-bottom:14px;text-align:center">
+      <span style="font-weight:700;color:#e65100;font-size:0.85rem">📬 MediatR 消息总线 / 事件驱动</span>
+      <span style="font-size:0.75rem;color:#666;margin-left:10px">AgentStarted / AgentProgress / AgentCompleted / AgentFailed</span>
+    </div>
+
+    <!-- MAF Plugin Pipeline -->
+    <div style="background:#f8f9fa;border-radius:8px;padding:12px;border:1px solid #dadce0">
+      <div style="font-weight:700;font-size:0.85rem;color:#333;margin-bottom:10px;text-align:center">🔌 MAF Add-in Pipeline (Contract → View → Adapter)</div>
+
+      <!-- Concurrent Agents -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
+        <!-- Agent 1 -->
+        <div style="background:#fff;border:2px solid #4285f4;border-radius:10px;padding:10px;position:relative">
+          <div style="position:absolute;top:6px;right:8px">
+            <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#34a853;box-shadow:0 0 0 3px rgba(52,168,83,.2)"></span>
+          </div>
+          <div style="font-size:1.3rem;text-align:center;margin:4px 0">🤖</div>
+          <div style="font-weight:700;text-align:center;font-size:0.8rem;color:#1a73e8">GeneratorAgent</div>
+          <div style="font-size:0.7rem;color:#666;text-align:center;margin-top:4px">合同文件生成</div>
+          <div style="margin-top:8px;height:4px;background:#e0e0e0;border-radius:2px;overflow:hidden">
+            <div style="width:65%;height:100%;background:#4285f4;border-radius:2px"></div>
+          </div>
+          <div style="font-size:0.65rem;color:#666;text-align:center;margin-top:3px">65% · 正在渲染模板...</div>
+        </div>
+
+        <!-- Agent 2 -->
+        <div style="background:#fff;border:2px solid #ea4335;border-radius:10px;padding:10px;position:relative">
+          <div style="position:absolute;top:6px;right:8px">
+            <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#34a853;box-shadow:0 0 0 3px rgba(52,168,83,.2)"></span>
+          </div>
+          <div style="font-size:1.3rem;text-align:center;margin:4px 0">🧠</div>
+          <div style="font-weight:700;text-align:center;font-size:0.8rem;color:#d93025">ComplianceAgent</div>
+          <div style="font-size:0.7rem;color:#666;text-align:center;margin-top:4px">AI合规审查</div>
+          <div style="margin-top:8px;height:4px;background:#e0e0e0;border-radius:2px;overflow:hidden">
+            <div style="width:30%;height:100%;background:#ea4335;border-radius:2px"></div>
+          </div>
+          <div style="font-size:0.65rem;color:#666;text-align:center;margin-top:3px">30% · 条款风险检测...</div>
+        </div>
+
+        <!-- Agent 3 -->
+        <div style="background:#fff;border:2px solid #fbbc04;border-radius:10px;padding:10px;position:relative">
+          <div style="position:absolute;top:6px;right:8px">
+            <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#9aa0a6"></span>
+          </div>
+          <div style="font-size:1.3rem;text-align:center;margin:4px 0">🔎</div>
+          <div style="font-weight:700;text-align:center;font-size:0.8rem;color:#b06000">SearchAgent</div>
+          <div style="font-size:0.7rem;color:#666;text-align:center;margin-top:4px">历史文件搜索</div>
+          <div style="margin-top:8px;height:4px;background:#e0e0e0;border-radius:2px;overflow:hidden">
+            <div style="width:0%;height:100%;background:#fbbc04;border-radius:2px"></div>
+          </div>
+          <div style="font-size:0.65rem;color:#666;text-align:center;margin-top:3px">等待中 · Queued</div>
+        </div>
+
+        <!-- Agent 4 -->
+        <div style="background:#fff;border:2px solid #46bdc6;border-radius:10px;padding:10px;position:relative">
+          <div style="position:absolute;top:6px;right:8px">
+            <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#34a853;box-shadow:0 0 0 3px rgba(52,168,83,.2)"></span>
+          </div>
+          <div style="font-size:1.3rem;text-align:center;margin:4px 0">📄</div>
+          <div style="font-weight:700;text-align:center;font-size:0.8rem;color:#007b83">WordFillAgent</div>
+          <div style="font-size:0.7rem;color:#666;text-align:center;margin-top:4px">内容控件填充</div>
+          <div style="margin-top:8px;height:4px;background:#e0e0e0;border-radius:2px;overflow:hidden">
+            <div style="width:90%;height:100%;background:#46bdc6;border-radius:2px"></div>
+          </div>
+          <div style="font-size:0.65rem;color:#666;text-align:center;margin-top:3px">90% · 写入控件值...</div>
+        </div>
+      </div>
+
+      <!-- Concurrency Note -->
+      <div style="margin-top:12px;padding:8px;background:#e8f0fe;border-radius:6px;font-size:0.75rem;color:#1a73e8;text-align:center">
+        ⚡ 并发策略：GeneratorAgent 与 ComplianceAgent 可并行执行（生成后即触发审查）；SearchAgent 独立运行；WordFillAgent 等待前序完成
+      </div>
+    </div>
+  </div>
+
+  <!-- Infrastructure -->
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+    <div style="background:#fff;border:1px solid #dadce0;border-radius:10px;padding:12px">
+      <div style="font-size:1rem;font-weight:700;color:#333;margin-bottom:8px">💾 数据存储层</div>
+      <div style="font-size:0.75rem;color:#666;line-height:1.8">
+        • SQL Server / PostgreSQL<br>
+        • EF Core 8<br>
+        • 合同表 / Agent任务表 / 进度日志表
+      </div>
+    </div>
+    <div style="background:#fff;border:1px solid #dadce0;border-radius:10px;padding:12px">
+      <div style="font-size:1rem;font-weight:700;color:#333;margin-bottom:8px">🤖 AI 服务集成</div>
+      <div style="font-size:0.75rem;color:#666;line-height:1.8">
+        • Azure OpenAI / 本地 LLM<br>
+        • Semantic Kernel<br>
+        • 合规规则向量库 (Qdrant)
+      </div>
+    </div>
+    <div style="background:#fff;border:1px solid #dadce0;border-radius:10px;padding:12px">
+      <div style="font-size:1rem;font-weight:700;color:#333;margin-bottom:8px">📁 文件处理</div>
+      <div style="font-size:0.75rem;color:#666;line-height:1.8">
+        • OpenXML SDK (Word)<br>
+        • Minio / 文件存储<br>
+        • 版本管理与差异对比
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+</div>
+
+<div class="section">
+<h3 style="color:#1a73e8">⚡ 并发与协作模式示例</h3>
+<div class="pros-cons">
+  <div class="pros" style="background:#e6f4ea">
+    <h4 style="color:#137333">✅ 模式一：Pipeline 流水线并发</h4>
+    <ul style="font-size:0.85rem;line-height:1.8">
+      <li><b>Step1</b>: GeneratorAgent → 生成初稿 (独立任务)</li>
+      <li><b>Step2</b>: ComplianceAgent ↔ ReviewAgent (并行审查，双校验)</li>
+      <li><b>Step3</b>: WordFillAgent → 等待全部审查通过后执行填充</li>
+      <li>适用场景：标准合同审批流</li>
+    </ul>
+  </div>
+  <div class="cons" style="background:#e8f0fe">
+    <h4 style="color:#1a73e8">✅ 模式二：全独立并行</h4>
+    <ul style="font-size:0.85rem;line-height:1.8">
+      <li><b>GeneratorAgent</b>: 批量生成 N 份合同 (Task.WhenAll)</li>
+      <li><b>SearchAgent</b>: 用户搜索完全独立，不受影响</li>
+      <li><b>ComplianceAgent</b>: 历史合同批量审查</li>
+      <li>适用场景：批量任务处理 + 用户交互</li>
+    </ul>
+  </div>
+</div>
+</div>

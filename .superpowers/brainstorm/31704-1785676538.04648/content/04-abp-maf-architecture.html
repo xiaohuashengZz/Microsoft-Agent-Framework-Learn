@@ -1,0 +1,291 @@
+<h2>🏗️ ABP Framework + MAF 集成架构（最终版）</h2>
+<p class="subtitle">ABP 管宿主框架 / 模块化 / 权限审计，MAF 管 Agent 插件隔离 / 热插拔，双剑合璧</p>
+
+<div class="section">
+<h3 style="color:#1a73e8">📐 系统分层架构（ABP DDD + MAF 插件容器）</h3>
+<div class="mockup" style="background:linear-gradient(135deg,#fdf8ff,#f3e8ff)">
+<div class="mockup-header" style="background:linear-gradient(90deg,#7e22ce,#4f46e5);color:#fff">
+  🎯 Contract Intelligence Platform · ABP + MAF 双框架架构
+</div>
+<div class="mockup-body" style="padding:20px">
+
+  <!-- Layer 0: Frontend -->
+  <div style="background:#fff;border:2px solid #4285f4;border-radius:12px;padding:14px;margin-bottom:16px">
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+      <span style="background:#4285f4;color:#fff;padding:4px 12px;border-radius:6px;font-size:0.8rem;font-weight:700">Layer 0 · Presentation</span>
+      <span style="font-weight:700">Vue 3 + Vite + Element Plus + Pinia + SignalR</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:10px">
+      <div style="background:#e8f0fe;border-radius:6px;padding:8px;text-align:center;font-size:0.75rem;font-weight:600;color:#1a73e8">🤖 Agent 监控看板</div>
+      <div style="background:#e8f0fe;border-radius:6px;padding:8px;text-align:center;font-size:0.75rem;font-weight:600;color:#1a73e8">📝 合同生成工作台</div>
+      <div style="background:#e8f0fe;border-radius:6px;padding:8px;text-align:center;font-size:0.75rem;font-weight:600;color:#1a73e8">✅ AI 合规审查中心</div>
+      <div style="background:#e8f0fe;border-radius:6px;padding:8px;text-align:center;font-size:0.75rem;font-weight:600;color:#1a73e8">🔍 历史合同搜索</div>
+      <div style="background:#e8f0fe;border-radius:6px;padding:8px;text-align:center;font-size:0.75rem;font-weight:600;color:#1a73e8">📄 模板&控件配置</div>
+    </div>
+  </div>
+
+  <div style="text-align:center;font-size:1.2rem;color:#666;margin:4px 0">⬇️ ⬆️ &nbsp; REST API / SignalR / OAUTH2 (OpenIddict)</div>
+
+  <!-- Layer 1: ABP Host + Modules -->
+  <div style="background:#fff;border:2px solid #7e22ce;border-radius:12px;padding:14px;margin-bottom:16px">
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px">
+      <span style="background:#7e22ce;color:#fff;padding:4px 12px;border-radius:6px;font-size:0.8rem;font-weight:700">Layer 1 · ABP 宿主层 (HttpApi.Host)</span>
+      <span style="font-weight:700">ASP.NET Core Web API + ABP Framework 8.x</span>
+    </div>
+
+    <!-- ABP Built-in Modules -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px">
+      <div style="background:#faf5ff;border-radius:6px;padding:8px;border-left:3px solid #a855f7">
+        <div style="font-weight:700;font-size:0.75rem;color:#7e22ce">🔐 用户/权限</div>
+        <div style="font-size:0.65rem;color:#666;margin-top:3px">Identity Module · 角色/菜单/权限</div>
+      </div>
+      <div style="background:#faf5ff;border-radius:6px;padding:8px;border-left:3px solid #a855f7">
+        <div style="font-weight:700;font-size:0.75rem;color:#7e22ce">🏢 多租户</div>
+        <div style="font-size:0.65rem;color:#666;margin-top:3px">Tenant Management · SaaS</div>
+      </div>
+      <div style="background:#faf5ff;border-radius:6px;padding:8px;border-left:3px solid #a855f7">
+        <div style="font-weight:700;font-size:0.75rem;color:#7e22ce">📋 审计日志</div>
+        <div style="font-size:0.65rem;color:#666;margin-top:3px">Audit Logging · 操作留痕</div>
+      </div>
+      <div style="background:#faf5ff;border-radius:6px;padding:8px;border-left:3px solid #a855f7">
+        <div style="font-weight:700;font-size:0.75rem;color:#7e22ce">🧩 模块化</div>
+        <div style="font-size:0.65rem;color:#666;margin-top:3px">ABP Module 依赖注入</div>
+      </div>
+    </div>
+
+    <!-- Custom ABP Application Modules -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
+      <div style="background:#ede9fe;border-radius:6px;padding:10px;border:1px solid #c4b5fd">
+        <div style="font-weight:700;font-size:0.8rem;color:#5b21b6;text-align:center">📦 ContractManagementModule</div>
+        <div style="font-size:0.7rem;color:#666;text-align:center;margin-top:4px">合同管理 / 模板 / 归档</div>
+      </div>
+      <div style="background:#ede9fe;border-radius:6px;padding:10px;border:1px solid #c4b5fd">
+        <div style="font-weight:700;font-size:0.8rem;color:#5b21b6;text-align:center">📦 ComplianceModule</div>
+        <div style="font-size:0.7rem;color:#666;text-align:center;margin-top:4px">合规审查 / 问题追踪 / 规则库</div>
+      </div>
+      <div style="background:#fef3c7;border-radius:6px;padding:10px;border:2px solid #f59e0b">
+        <div style="font-weight:700;font-size:0.8rem;color:#b45309;text-align:center">📦★ AgentOrchestrationModule</div>
+        <div style="font-size:0.7rem;color:#666;text-align:center;margin-top:4px">MAF 宿主 / Agent编排 / 进度追踪 / SignalR Hub</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center;font-size:1.2rem;color:#666;margin:4px 0">⬇️ &nbsp; ABP 应用服务层 (Application Layer · DTO / AppService)</div>
+
+  <!-- Layer 2: Application + Domain + Infrastructure (ABP DDD) -->
+  <div style="background:#fff;border:2px solid #059669;border-radius:12px;padding:14px;margin-bottom:16px">
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px">
+      <span style="background:#059669;color:#fff;padding:4px 12px;border-radius:6px;font-size:0.8rem;font-weight:700">Layer 2 · ABP DDD 经典分层</span>
+      <span style="font-weight:700">Domain / Application / EntityFrameworkCore</span>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+      <!-- Domain Layer -->
+      <div style="background:#ecfdf5;border-radius:8px;padding:10px;border-left:4px solid #10b981">
+        <div style="font-weight:700;font-size:0.8rem;color:#065f46;margin-bottom:8px">🔷 Domain (领域层)</div>
+        <div style="font-size:0.7rem;color:#333;line-height:1.9">
+          • Entities: Contract / Template / AgentTask / ComplianceIssue / ProgressLog<br>
+          • Managers: ContractManager / ComplianceManager<br>
+          • ValueObjects: Money / ContractPeriod / RiskScore<br>
+          • DomainServices: ContractNumberGenerator<br>
+          • Enums: AgentStatus / ContractType / RiskLevel
+        </div>
+      </div>
+      <!-- Application Layer -->
+      <div style="background:#ecfdf5;border-radius:8px;padding:10px;border-left:4px solid #10b981">
+        <div style="font-weight:700;font-size:0.8rem;color:#065f46;margin-bottom:8px">🔷 Application (应用层)</div>
+        <div style="font-size:0.7rem;color:#333;line-height:1.9">
+          • ContractAppService (CRUD / 生成触发)<br>
+          • ComplianceAppService (发起审查 / 查看报告)<br>
+          • SearchAppService (全文搜索 / 相似度)<br>
+          • TemplateAppService (Word模板 / 控件映射配置)<br>
+          • DTOs / Profiles (AutoMapper)
+        </div>
+      </div>
+      <!-- Infrastructure -->
+      <div style="background:#ecfdf5;border-radius:8px;padding:10px;border-left:4px solid #10b981">
+        <div style="font-weight:700;font-size:0.8rem;color:#065f46;margin-bottom:8px">🔷 Infrastructure (基础设施)</div>
+        <div style="font-size:0.7rem;color:#333;line-height:1.9">
+          • <b>SqlSugar Module</b> (替换EF Core or 并存)<br>
+          • &nbsp;&nbsp;→ SQLite CodeFirst / 迁移 / 仓储<br>
+          • LlmClientService (Azure OpenAI / 通义千问)<br>
+          • WordDocumentService (OpenXML SDK)<br>
+          • FileStorageService (MinIO / 本地)<br>
+          • FullTextSearchService (FTS5 / 分词)
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center;font-size:1rem;color:#a855f7;margin:6px 0;font-weight:700">
+    ════════════════ ★ MAF 隔离边界 ★ ════════════════
+  </div>
+
+  <!-- Layer 3: MAF Plugin Container (Core Feature) -->
+  <div style="background:linear-gradient(135deg,#fff7ed,#ffedd5);border:2px solid #ea580c;border-radius:12px;padding:16px;margin-bottom:16px">
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px">
+      <span style="background:#ea580c;color:#fff;padding:4px 14px;border-radius:6px;font-size:0.85rem;font-weight:700">Layer 3 · MAF 插件容器 (Managed Add-in Framework)</span>
+      <span style="font-weight:700;color:#9a3412">★ 核心学习目标：Agent 插件化、隔离、热插拔、并发</span>
+    </div>
+
+    <!-- MAF Pipeline Structure -->
+    <div style="background:#fff;border-radius:10px;padding:12px;border:1px solid #fed7aa;margin-bottom:14px">
+      <div style="text-align:center;font-weight:700;color:#9a3412;margin-bottom:10px">🔌 MAF Pipeline 七层结构（每一层独立 DLL）</div>
+      <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;font-size:0.65rem">
+        <div style="background:#dbeafe;padding:6px 4px;border-radius:4px;text-align:center;border-top:3px solid #3b82f6">
+          <div style="font-weight:700;color:#1e40af">Host</div>
+          <div style="color:#666;margin-top:2px">ABP Host<br>调用端</div>
+        </div>
+        <div style="text-align:center;display:flex;align-items:center;justify-content:center;color:#9ca3af">→</div>
+        <div style="background:#dbeafe;padding:6px 4px;border-radius:4px;text-align:center;border-top:3px solid #3b82f6">
+          <div style="font-weight:700;color:#1e40af">HostView</div>
+          <div style="color:#666;margin-top:2px">宿主视图<br>Host 所见</div>
+        </div>
+        <div style="text-align:center;display:flex;align-items:center;justify-content:center;color:#9ca3af">→</div>
+        <div style="background:#dbeafe;padding:6px 4px;border-radius:4px;text-align:center;border-top:3px solid #3b82f6">
+          <div style="font-weight:700;color:#1e40af">HostAdapter</div>
+          <div style="color:#666;margin-top:2px">宿主适配器<br>Contract→View</div>
+        </div>
+        <div style="text-align:center;display:flex;align-items:center;justify-content:center;color:#9ca3af">→</div>
+        <div style="background:#fef3c7;padding:6px 4px;border-radius:4px;text-align:center;border-top:3px solid #f59e0b;grid-column:span 1">
+          <div style="font-weight:700;color:#92400e">Contract DLL</div>
+          <div style="color:#666;margin-top:2px">IContract<br>接口契约</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;font-size:0.65rem;margin-top:4px">
+        <div style="background:#dcfce7;padding:6px 4px;border-radius:4px;text-align:center;border-bottom:3px solid #16a34a">
+          <div style="font-weight:700;color:#166534">Add-in</div>
+          <div style="color:#666;margin-top:2px">Agent插件<br>实际实现</div>
+        </div>
+        <div style="text-align:center;display:flex;align-items:center;justify-content:center;color:#9ca3af">←</div>
+        <div style="background:#dcfce7;padding:6px 4px;border-radius:4px;text-align:center;border-bottom:3px solid #16a34a">
+          <div style="font-weight:700;color:#166534">AddInView</div>
+          <div style="color:#666;margin-top:2px">插件视图<br>插件所见</div>
+        </div>
+        <div style="text-align:center;display:flex;align-items:center;justify-content:center;color:#9ca3af">←</div>
+        <div style="background:#dcfce7;padding:6px 4px;border-radius:4px;text-align:center;border-bottom:3px solid #16a34a">
+          <div style="font-weight:700;color:#166534">AddInAdapter</div>
+          <div style="color:#666;margin-top:2px">插件适配器<br>View→Contract</div>
+        </div>
+        <div style="text-align:center;display:flex;align-items:center;justify-content:center;color:#9ca3af">←</div>
+        <div style="background:#fef3c7;padding:6px 4px;border-radius:4px;text-align:center;border-bottom:3px solid #f59e0b">
+          <div style="font-weight:700;color:#92400e">Contract DLL</div>
+          <div style="color:#666;margin-top:2px">（同上共享）</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 Concurrent Agent Plugins -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
+      <div style="background:#fff;border-radius:10px;padding:12px;border:2px solid #3b82f6;box-shadow:0 2px 8px rgba(59,130,246,.15)">
+        <div style="text-align:center;font-size:1.5rem;margin-bottom:4px">🤖</div>
+        <div style="text-align:center;font-weight:700;font-size:0.85rem;color:#1e40af">GeneratorAgent</div>
+        <div style="text-align:center;font-size:0.7rem;color:#666;margin-top:2px">MAF Add-in DLL</div>
+        <div style="height:5px;background:#e5e7eb;border-radius:3px;margin-top:8px;overflow:hidden">
+          <div style="width:65%;height:100%;background:#3b82f6;animation:progress 2s ease-in-out infinite"></div>
+        </div>
+        <div style="text-align:center;font-size:0.65rem;color:#3b82f6;margin-top:4px">运行中 65%</div>
+        <div style="margin-top:8px;font-size:0.65rem;color:#666;line-height:1.6;background:#f8fafc;padding:6px;border-radius:4px">
+          <b>职责：</b><br>
+          - 选择并加载模板<br>
+          - 变量/条款渲染<br>
+          - 生成初稿 docx
+        </div>
+      </div>
+
+      <div style="background:#fff;border-radius:10px;padding:12px;border:2px solid #ef4444;box-shadow:0 2px 8px rgba(239,68,68,.15)">
+        <div style="text-align:center;font-size:1.5rem;margin-bottom:4px">🧠</div>
+        <div style="text-align:center;font-weight:700;font-size:0.85rem;color:#b91c1c">ComplianceAgent</div>
+        <div style="text-align:center;font-size:0.7rem;color:#666;margin-top:2px">MAF Add-in DLL</div>
+        <div style="height:5px;background:#e5e7eb;border-radius:3px;margin-top:8px;overflow:hidden">
+          <div style="width:30%;height:100%;background:#ef4444;animation:progress 2.5s ease-in-out infinite"></div>
+        </div>
+        <div style="text-align:center;font-size:0.65rem;color:#ef4444;margin-top:4px">运行中 30%</div>
+        <div style="margin-top:8px;font-size:0.65rem;color:#666;line-height:1.6;background:#f8fafc;padding:6px;border-radius:4px">
+          <b>职责：</b><br>
+          - 条款结构解析<br>
+          - 调用云端 LLM API<br>
+          - 输出风险分级报告
+        </div>
+      </div>
+
+      <div style="background:#fff;border-radius:10px;padding:12px;border:2px solid #f59e0b;box-shadow:0 2px 8px rgba(245,158,11,.15);opacity:0.85">
+        <div style="text-align:center;font-size:1.5rem;margin-bottom:4px">🔎</div>
+        <div style="text-align:center;font-weight:700;font-size:0.85rem;color:#92400e">SearchAgent</div>
+        <div style="text-align:center;font-size:0.7rem;color:#666;margin-top:2px">MAF Add-in DLL</div>
+        <div style="height:5px;background:#e5e7eb;border-radius:3px;margin-top:8px">
+          <div style="width:0%;height:100%;background:#f59e0b"></div>
+        </div>
+        <div style="text-align:center;font-size:0.65rem;color:#f59e0b;margin-top:4px">队列中 Queued</div>
+        <div style="margin-top:8px;font-size:0.65rem;color:#666;line-height:1.6;background:#f8fafc;padding:6px;border-radius:4px">
+          <b>职责：</b><br>
+          - SQLite FTS5 全文检索<br>
+          - 关键词/语义相似度<br>
+          - 高亮匹配结果导出
+        </div>
+      </div>
+
+      <div style="background:#fff;border-radius:10px;padding:12px;border:2px solid #10b981;box-shadow:0 2px 8px rgba(16,185,129,.15)">
+        <div style="text-align:center;font-size:1.5rem;margin-bottom:4px">📄</div>
+        <div style="text-align:center;font-weight:700;font-size:0.85rem;color:#047857">WordFillAgent</div>
+        <div style="text-align:center;font-size:0.7rem;color:#666;margin-top:2px">MAF Add-in DLL</div>
+        <div style="height:5px;background:#e5e7eb;border-radius:3px;margin-top:8px;overflow:hidden">
+          <div style="width:90%;height:100%;background:#10b981;animation:progress 3s ease-in-out infinite"></div>
+        </div>
+        <div style="text-align:center;font-size:0.65rem;color:#10b981;margin-top:4px">收尾 90%</div>
+        <div style="margin-top:8px;font-size:0.65rem;color:#666;line-height:1.6;background:#f8fafc;padding:6px;border-radius:4px">
+          <b>职责：</b><br>
+          - OpenXML 读取内容控件<br>
+          - 按映射表自动填充值<br>
+          - 保存/转PDF/上传归档
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Layer 4: Storage -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
+    <div style="background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:12px">
+      <div style="font-weight:700;font-size:0.85rem;color:#333">💾 数据库</div>
+      <div style="font-size:0.75rem;color:#666;margin-top:6px;line-height:1.7">
+        SQLite 3<br>
+        SqlSugar ORM<br>
+        FTS5 全文索引<br>
+        CodeFirst 迁移
+      </div>
+    </div>
+    <div style="background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:12px">
+      <div style="font-weight:700;font-size:0.85rem;color:#333">🤖 AI 服务</div>
+      <div style="font-size:0.75rem;color:#666;margin-top:6px;line-height:1.7">
+        Azure OpenAI / 通义<br>
+        千问 / 智谱 / DeepSeek<br>
+        HTTP 客户端封装<br>
+        Prompt 管理
+      </div>
+    </div>
+    <div style="background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:12px">
+      <div style="font-weight:700;font-size:0.85rem;color:#333">📁 文件存储</div>
+      <div style="font-size:0.75rem;color:#666;margin-top:6px;line-height:1.7">
+        本地 / MinIO OSS<br>
+        .docx 模板 + 生成件<br>
+        版本号管理<br>
+        PDF 自动转换
+      </div>
+    </div>
+    <div style="background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:12px">
+      <div style="font-weight:700;font-size:0.85rem;color:#333">📊 可观测性</div>
+      <div style="font-size:0.75rem;color:#666;margin-top:6px;line-height:1.7">
+        Serilog 结构化日志<br>
+        Agent 进度事件<br>
+        SignalR 实时推送<br>
+        心跳检测 + 超时熔断
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+</div>
+
+<style>@keyframes progress{0%{filter:brightness(1)}50%{filter:brightness(1.3)}100%{filter:brightness(1)}}</style>

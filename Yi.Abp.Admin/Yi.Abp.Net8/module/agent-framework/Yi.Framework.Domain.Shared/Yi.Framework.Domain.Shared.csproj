@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\..\..\common.props" />
+
+	<ItemGroup>
+		<PackageReference Include="Volo.Abp.Ddd.Domain.Shared" Version="$(AbpVersion)" />
+	</ItemGroup>
+
+</Project>

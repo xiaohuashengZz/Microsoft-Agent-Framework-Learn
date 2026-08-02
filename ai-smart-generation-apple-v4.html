@@ -1,0 +1,3300 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI 智能生成 · v4</title>
+  <style>
+    /* ============================================================
+       v4 变更概要
+       ① 四步流程：项目信息 → 范本推荐 → 生成文件 → 详细编辑
+       ② 范本推荐仅负责主文档范本，资格条件/评审办法放入编辑期 AI 助手
+       ③ 详细编辑复刻 DocumentEditor.vue：系统顶栏 + 模块栏 + 章节树 + 编辑区
+       ④ 编辑器「模板」模块提供平台范本、AI 智能生成、我的文件入口
+       ⑤ 文件标准格式生成与合规校验作为编辑器工具浮窗，不占独立步骤
+       ⑥ 选中文档内容可调用 AI 润色、格式标准化、插入变量和复制
+       设计语言：Apple 极简 + 中煤主色 #0084fc；编辑器内 AI 强调色紫蓝渐变
+       ============================================================ */
+    :root {
+      --brand: #0084fc;
+      --brand-press: #0069c9;
+      --brand-soft: #e8f3ff;
+      --brand-line: #cfe7ff;
+
+      /* AI 专属色（编辑器内的智能体相关元素）*/
+      --ai-grad: linear-gradient(135deg, #c62cff, #4a63ff);
+      --ai-grad-soft: linear-gradient(135deg, rgba(198,44,255,0.1), rgba(74,99,255,0.1));
+      --ai-violet: #6366f1;
+      --ai-violet-soft: #eef0fe;
+
+      --ink: #1d1d1f;
+      --ink-2: #6e6e73;
+      --ink-3: #86868b;
+      --line: #d2d2d7;
+      --line-soft: #e8e8ed;
+      --bg: #ffffff;
+      --bg-2: #f5f5f7;
+      --bg-3: #f2f3f5;
+
+      --ok: #34c759;
+      --warn: #ff9500;
+      --err: #ff3b30;
+
+      --radius: 14px;
+      --radius-sm: 10px;
+      --shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.06);
+      --shadow-lg: 0 8px 40px rgba(0,0,0,0.18);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      display: flex;
+      flex-direction: column;
+    }
+    button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; font-size: inherit; }
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.25); }
+
+    /* ============================================================
+       顶部：门户导航栏（v3 沿用）
+       ============================================================ */
+    .portal-header {
+      flex-shrink: 0;
+      background: linear-gradient(135deg, #e6f0ff 0%, #f3f6fb 100%);
+      border-bottom: 1px solid #d6e4ff;
+      box-shadow: 0 2px 8px rgba(0, 132, 252, 0.08);
+    }
+    .portal-bar {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 14px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .portal-brand { display: flex; align-items: center; gap: 10px; }
+    .portal-logo {
+      width: 30px; height: 30px;
+      border-radius: 8px;
+      background: var(--brand);
+      color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; font-weight: 700;
+    }
+    .portal-title { font-size: 16px; font-weight: 700; color: #1f2937; letter-spacing: 0.02em; }
+    .portal-meta { display: flex; align-items: center; gap: 14px; font-size: 13px; color: #4b5563; }
+    .portal-user {
+      display: flex; align-items: center; gap: 8px;
+      padding: 4px 12px;
+      background: rgba(0, 132, 252, 0.1);
+      border-radius: 999px;
+      color: #0069c9;
+      font-weight: 500;
+    }
+    .portal-user .ava {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: var(--brand);
+      color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px;
+    }
+    /* 右侧内容区顶部：portal-tabs 子界面（与 stepper 同行） */
+    .portal-tabs {
+      padding: 0;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      border-bottom: 1px solid var(--line-soft);
+      background: rgba(255,255,255,0.5);
+      flex-shrink: 0;
+      height: 44px;
+    }
+    /* step4 进入详细编辑时，隐藏 portal-tabs 子界面 */
+    body.step-editor .portal-tabs { display: none; }
+    .portal-tab {
+      padding: 12px 22px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #6b7280;
+      cursor: pointer;
+      position: relative;
+      transition: color 0.2s;
+      border: none;
+      background: none;
+    }
+    .portal-tab:hover { color: var(--brand); }
+    .portal-tab.active { color: var(--brand); font-weight: 600; }
+    .portal-tab.active::after {
+      content: '';
+      position: absolute;
+      left: 22px; right: 22px; bottom: -1px;
+      height: 2.5px;
+      background: var(--brand);
+      border-radius: 2px;
+    }
+    .portal-tab-spacer { flex: 1; }
+    .portal-tab-action { font-size: 13px; color: #9ca3af; padding: 6px 10px; }
+
+    /* ============================================================
+       步骤导航
+       ============================================================ */
+    .stepper {
+      padding: 14px 0 10px;
+      display: flex;
+      align-items: center;
+      gap: 0;
+      background: var(--bg);
+      border-bottom: 1px solid var(--line-soft);
+      flex-shrink: 0;
+    }
+    /* 详细编辑步隐藏 stepper，腾出空间给编辑器；保留系统顶栏 */
+    body.step-editor .stepper { display: none; }
+    body.step-editor .content { padding: 0; }
+    body.step-editor main > .content-inner { max-width: none; padding: 0; height: 100%; }
+    /* 详细编辑时让编辑器根自适应剩余高度 */
+    body.step-editor main.content { overflow: hidden; }
+    /* 第 4 步隐藏顶部 portal-tabs（顶部那行隐藏，编辑模块内不再重复）— 规则见上 */
+    .step { display: flex; align-items: center; gap: 10px; cursor: pointer; flex: 0 0 auto; }
+    .step-dot {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--bg-2);
+      color: var(--ink-3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 600;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 2px solid transparent;
+    }
+    .step.active .step-dot { background: var(--brand); color: #fff; transform: scale(1.05); }
+    .step.done .step-dot { background: var(--brand); color: #fff; }
+    .step.done .step-dot::after { content: '✓'; }
+    .step.done .step-dot-num { display: none; }
+    .step-label {
+      font-size: 14px;
+      color: var(--ink-3);
+      font-weight: 500;
+      transition: color 0.25s;
+      white-space: nowrap;
+    }
+    .step.active .step-label { color: var(--ink); font-weight: 600; }
+    .step.done .step-label { color: var(--ink-2); }
+    .step-line {
+      flex: 1;
+      height: 2px;
+      background: var(--line-soft);
+      margin: 0 14px;
+      border-radius: 1px;
+      transition: background 0.3s;
+      min-width: 20px;
+    }
+    .step-line.done { background: var(--brand); }
+
+    /* ============================================================
+       中间：内容区
+       ============================================================ */
+    .content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0 40px 32px;
+      min-height: 0;
+    }
+    .content-inner {
+      max-width: 980px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      gap: 0;
+    }
+    .content-inner.wide { max-width: 1240px; }
+    .content-main {
+      flex: 1;
+      min-width: 0;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .ch-hint {
+      font-size: 13px;
+      color: var(--ink-3);
+      line-height: 1.5;
+      margin: 0 0 18px;
+    }
+    .ch-hint b { color: var(--ink-2); font-weight: 600; }
+
+    .chapter { display: none; animation: fadeIn 0.35s ease; padding-top: 20px; }
+    .chapter.show { display: block; }
+    /* step-editor 时 chapter 作为 flex 子项填满 content-main */
+    body.step-editor .chapter.show { display: flex; flex-direction: column; flex: 1; min-height: 0; overflow: hidden; padding-top: 0; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ============================================================
+       Step 1: 项目信息确认（v3 + 上传入口）
+       ============================================================ */
+    .entry-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+    .entry-card {
+      padding: 18px 20px;
+      background: var(--bg);
+      border: 2px solid var(--line-soft);
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .entry-card:hover { border-color: var(--brand-line); }
+    .entry-card.selected { border-color: var(--brand); background: var(--brand-soft); }
+    .entry-card-radio {
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      border: 2px solid var(--line);
+      flex-shrink: 0;
+      margin-top: 2px;
+      position: relative;
+      transition: all 0.2s;
+    }
+    .entry-card.selected .entry-card-radio { border-color: var(--brand); }
+    .entry-card.selected .entry-card-radio::after {
+      content: '';
+      position: absolute;
+      inset: 3px;
+      background: var(--brand);
+      border-radius: 50%;
+    }
+    .entry-card-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+    .entry-card-desc { font-size: 12px; color: var(--ink-3); line-height: 1.5; }
+
+    /* 上传区（点选「上传采购方案」时显示）*/
+    .upload-zone {
+      display: none;
+      margin-bottom: 18px;
+      padding: 24px;
+      background: var(--bg);
+      border: 2px dashed var(--line);
+      border-radius: var(--radius);
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .upload-zone:hover { border-color: var(--brand); background: #fafbfc; }
+    .upload-zone.show { display: block; }
+    .upload-zone.has-file { border-style: solid; border-color: var(--ok); background: #f5fcf6; cursor: default; }
+    .upload-zone .ico {
+      width: 40px; height: 40px;
+      margin: 0 auto 10px;
+      border-radius: 50%;
+      background: var(--brand-soft);
+      color: var(--brand);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+    }
+    .upload-zone .ttl { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+    .upload-zone .sub { font-size: 12px; color: var(--ink-3); }
+
+    /* AI 解析进度（小卡片）*/
+    .parse-progress {
+      display: none;
+      margin-bottom: 18px;
+      padding: 14px 18px;
+      background: var(--brand-soft);
+      border-radius: var(--radius);
+    }
+    .parse-progress.show { display: block; }
+    .parse-progress-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--ink-2);
+    }
+    .parse-spin {
+      width: 16px; height: 16px;
+      border: 2px solid var(--brand-line);
+      border-top-color: var(--brand);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    .parse-progress.done .parse-spin {
+      border-color: #b8efc4;
+      border-top-color: var(--ok);
+      animation: none;
+      position: relative;
+    }
+    .parse-progress.done .parse-spin::after {
+      content: '✓'; position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--ok); font-size: 11px; font-weight: 700;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .info-list {
+      background: var(--bg);
+      border: 1px solid var(--line-soft);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .info-row {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 24px;
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--line-soft);
+      align-items: baseline;
+    }
+    .info-row:last-child { border-bottom: 0; }
+    .info-row.highlight { background: var(--brand-soft); }
+    .info-row.highlight .info-k,
+    .info-row.highlight .info-v { color: var(--ink); }
+    .info-k { font-size: 13px; color: var(--ink-3); font-weight: 500; }
+    .info-v { font-size: 15px; color: var(--ink); font-weight: 500; }
+    .info-row.highlight .info-v { font-size: 17px; font-weight: 600; }
+
+    /* ============================================================
+       Step 2: 范本推荐（沿用 v3 卡片语言，仅推荐范本）
+       ============================================================ */
+    .rec-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .rec-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--ink-3);
+    }
+    .rec-status .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ink-3); }
+    .rec-status.running .dot { background: var(--brand); animation: pulse 1s ease-in-out infinite; }
+    .rec-status.done .dot { background: var(--ok); }
+    @keyframes pulse { 50% { opacity: 0.4; } }
+    .rec-count { font-size: 13px; color: var(--ink-3); }
+    .cand-list { display: flex; flex-direction: column; gap: 12px; }
+    .cand {
+      background: var(--bg);
+      border: 2px solid var(--line-soft);
+      border-radius: var(--radius);
+      padding: 20px 22px;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+    .cand:hover { border-color: var(--brand-line); background: #fafbfc; }
+    .cand.selected { border-color: var(--brand); background: var(--brand-soft); }
+    .cand-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 8px; }
+    .cand-name { font-size: 16px; font-weight: 600; color: var(--ink); line-height: 1.4; flex: 1; padding-right: 30px; }
+    .cand-score { font-size: 13px; color: var(--ink-3); font-weight: 500; flex-shrink: 0; }
+    .cand.selected .cand-score { color: var(--brand); font-weight: 600; }
+    .cand-reason { font-size: 14px; color: var(--ink-2); line-height: 1.6; margin: 0; }
+    .cand-check {
+      position: absolute; top: 20px; right: 22px;
+      width: 22px; height: 22px; border-radius: 50%;
+      border: 2px solid var(--line);
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .cand.selected .cand-check { background: var(--brand); border-color: var(--brand); }
+    .cand.selected .cand-check::after { content: '✓'; color: #fff; font-size: 13px; }
+    .cand-rec {
+      display: inline-block; font-size: 11px; font-weight: 600;
+      padding: 2px 8px; background: var(--brand); color: #fff;
+      border-radius: 4px; margin-left: 8px; vertical-align: middle;
+    }
+    .rec-summary {
+      margin-top: 20px;
+      padding: 14px 18px;
+      background: var(--bg-2);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--ink-2);
+    }
+    .rec-summary .dot-ok { width: 8px; height: 8px; border-radius: 50%; background: var(--ink-3); }
+    .rec-summary .dot-ok.done { background: var(--ok); }
+
+    /* ============================================================
+       Step 3: 生成文件
+       ============================================================ */
+    .gen-panel { background: var(--bg); border: 1px solid var(--line-soft); border-radius: var(--radius); padding: 24px 26px; }
+    .gen-panel-head { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+    .gen-panel-label { font-size: 16px; font-weight: 600; color: var(--ink); }
+    .gen-panel-text { font-size: 13px; color: var(--ink-2); flex: 1; min-width: 0; }
+    .gen-panel-badge { padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: 600; background: var(--bg-2); color: var(--ink-3); }
+    .gen-panel-badge.running { background: var(--brand-soft); color: var(--brand-press); }
+    .gen-panel-badge.success { background: #e8f9ec; color: #1a8a3a; }
+    .gen-bar { width: 100%; height: 12px; background: var(--bg-2); border-radius: 999px; overflow: hidden; position: relative; }
+    .gen-bar-fill { height: 100%; width: 0; background: linear-gradient(90deg, var(--brand), #4aa3ff); border-radius: 999px; transition: width .45s cubic-bezier(.4,0,.2,1); }
+    .gen-bar-fill.success { background: var(--ok); }
+    .gen-bar-pct { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 11px; color: var(--ink-3); font-weight: 600; }
+
+    .gen-steps { margin: 18px 0 0; padding: 0; list-style: none; }
+    .gen-step { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; font-size: 14px; line-height: 22px; border-top: 1px dashed var(--line-soft); }
+    .gen-step:first-child { border-top: 0; }
+    .gen-step-icon {
+      width: 24px; height: 24px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      background: var(--bg-2);
+      color: var(--ink-3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700;
+      margin-top: -1px;
+    }
+    .gen-step.done .gen-step-icon { background: #e8f9ec; color: var(--ok); }
+    .gen-step.active .gen-step-icon { background: var(--brand-soft); color: var(--brand); position: relative; }
+    .gen-step.active .gen-step-icon::after {
+      content: ''; position: absolute;
+      width: 12px; height: 12px;
+      border: 2px solid var(--brand); border-top-color: transparent;
+      border-radius: 50%; animation: spin 0.7s linear infinite;
+    }
+    .gen-step-body { flex: 1; min-width: 0; }
+    .gen-step-label { font-weight: 500; color: var(--ink); }
+    .gen-step-meta { color: var(--ink-3); font-size: 12px; margin-top: 3px; }
+    .gen-step.active .gen-step-meta { color: var(--brand); }
+    .gen-step.done .gen-step-meta { color: var(--ok); }
+
+    /* 生成结果摘要 */
+    .gen-summary {
+      display: none;
+      margin-top: 22px;
+      padding: 20px 22px;
+      background: linear-gradient(135deg, #e8f9ec, #f3f6fb);
+      border-radius: var(--radius);
+    }
+    .gen-summary.show { display: block; }
+    .gen-summary-title { font-size: 16px; font-weight: 600; color: var(--ink); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+    .gen-summary-title .ok { color: var(--ok); font-size: 20px; }
+    .gen-summary-stats { display: flex; gap: 24px; flex-wrap: wrap; }
+    .gen-stat-item { display: flex; flex-direction: column; gap: 2px; }
+    .gen-stat-num { font-size: 22px; font-weight: 700; color: var(--brand); font-variant-numeric: tabular-nums; }
+    .gen-stat-lbl { font-size: 12px; color: var(--ink-3); }
+
+    /* ============================================================
+       Step 4: 详细编辑器（核心 — 复刻 DocumentEditor.vue）
+       ============================================================ */
+    .editor-root {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-height: 0;
+      background: var(--bg-3);
+    }
+    .editor-topline {
+      flex-shrink: 0;
+      height: 48px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--line-soft);
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      gap: 8px;
+    }
+    .editor-tl-back {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      color: var(--ink-2);
+      cursor: pointer;
+    }
+    .editor-tl-back:hover { background: var(--bg-2); color: var(--brand); }
+    .editor-tl-title { font-size: 14px; font-weight: 600; color: var(--ink); margin-right: auto; padding-left: 8px; }
+    .editor-tl-btn {
+      height: 32px;
+      padding: 0 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      color: var(--ink-2);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .editor-tl-btn:hover { background: var(--bg-2); color: var(--ink); }
+    .editor-tl-btn.primary { background: var(--brand); color: #fff; }
+    .editor-tl-btn.primary:hover { background: var(--brand-press); color: #fff; }
+    .editor-tl-btn.ai-btn {
+      background: var(--ai-grad);
+      color: #fff;
+      font-weight: 500;
+    }
+    .editor-tl-btn.ai-btn:hover { opacity: 0.92; color: #fff; }
+    .editor-tl-btn.has-badge { position: relative; }
+    .editor-tl-btn .tl-badge {
+      position: absolute;
+      top: -4px; right: -4px;
+      min-width: 16px; height: 16px;
+      padding: 0 4px;
+      border-radius: 999px;
+      background: var(--err);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .editor-tl-divider {
+      width: 1px;
+      height: 18px;
+      background: var(--line-soft);
+      margin: 0 2px;
+    }
+
+    .editor-workspace {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+      min-height: 0;
+    }
+    /* 左侧章节树 */
+    .editor-nav {
+      width: 280px;
+      flex-shrink: 0;
+      background: var(--bg);
+      border-right: 1px solid var(--line-soft);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    /* 最左侧一级模块栏：44px 窄竖条 */
+    .module-rail {
+      width: 44px;
+      flex-shrink: 0;
+      background: #edf1f6;
+      border-right: 1px solid #dfe5ee;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .module-rail-item {
+      width: 44px;
+      flex: 1;
+      padding: 10px 8px;
+      border-left: 2px solid transparent;
+      color: #5d6775;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 5px;
+      font-size: 12px;
+      cursor: pointer;
+      background: transparent;
+      transition: all 0.15s;
+    }
+    .module-rail-item:hover { color: var(--brand); background: #e5edf8; }
+    .module-rail-item.active {
+      color: var(--brand);
+      background: #dcecff;
+      border-left-color: var(--brand);
+      font-weight: 600;
+    }
+    .module-rail-icon { font-size: 20px; line-height: 1; }
+    .module-stage {
+      flex: 1;
+      min-width: 0;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .module-pane { display: none; flex: 1; min-height: 0; overflow: hidden; }
+    .module-pane.show { display: flex; }
+    .module-pane-template { flex-direction: row; }
+    .module-pane-edit { flex-direction: column; }
+
+    /* 「模板」模块：左侧文件来源 + 右侧详情 */
+    .template-source-layout {
+      display: flex;
+      flex: 1;
+      min-height: 0;
+      background: var(--bg-3);
+    }
+    .template-source-nav {
+      width: 220px;
+      flex-shrink: 0;
+      background: var(--bg);
+      border-right: 1px solid var(--line-soft);
+      padding: 16px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .template-source-nav-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink-3);
+      letter-spacing: 0.04em;
+      padding: 4px 10px 8px;
+    }
+    .template-source-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      background: transparent;
+      border: none;
+      text-align: left;
+      width: 100%;
+      color: var(--ink-2);
+      font-size: 14px;
+    }
+    .template-source-item:hover { background: var(--bg-2); color: var(--ink); }
+    .template-source-item.active {
+      background: var(--brand-soft);
+      color: var(--brand);
+      font-weight: 600;
+    }
+    .template-source-item .ico { width: 18px; text-align: center; }
+    .template-source-item .lbl { flex: 1; }
+    .template-source-item .badge {
+      font-size: 11px;
+      background: var(--brand);
+      color: #fff;
+      padding: 1px 8px;
+      border-radius: 999px;
+    }
+    .template-source-item:not(.active) .badge { display: none; }
+    .template-source-main {
+      flex: 1;
+      min-width: 0;
+      padding: 24px 32px;
+      overflow-y: auto;
+    }
+    .template-source-header { margin-bottom: 18px; }
+    .template-source-pane { display: none; }
+    .template-source-pane.show { display: block; }
+    /* AI 智能生成：左范本 + 右概览 */
+    .template-source-split {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 360px;
+      gap: 28px;
+      align-items: start;
+    }
+    .tpl-split-left { min-width: 0; }
+    .tpl-split-right {
+      background: var(--bg);
+      border: 1px solid var(--line-soft);
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      position: sticky;
+      top: 0;
+    }
+    .tpl-summary-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+    .tpl-summary-sub {
+      font-size: 13px;
+      color: var(--ink-3);
+      margin-bottom: 18px;
+    }
+    .tpl-summary-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .tpl-summary-list li {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      font-size: 14px;
+      color: var(--ink-2);
+    }
+    .tpl-summary-list .lbl { color: var(--ink-3); flex-shrink: 0; }
+    .tpl-summary-list b { color: var(--ink); font-weight: 600; text-align: right; }
+    .tpl-meta-foot {
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .template-source-empty {
+      background: var(--bg);
+      border: 1px dashed var(--line-soft);
+      border-radius: var(--radius);
+      padding: 24px;
+      color: var(--ink-3);
+      font-size: 14px;
+      text-align: center;
+    }
+    @media (max-width: 1100px){
+      .template-source-split { grid-template-columns: 1fr; }
+      .tpl-split-right { position: static; }
+    }
+
+    /* 模板模块顶部栏 */
+    .template-topline {
+      flex-shrink: 0;
+      height: 48px;
+      padding: 0 16px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--line-soft);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .template-topline-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink);
+      flex: 1;
+    }
+    .template-topline-search {
+      width: 220px;
+      height: 30px;
+      border: 1px solid var(--line-soft);
+      border-radius: 6px;
+      color: var(--ink-3);
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      background: #fafbfc;
+    }
+
+    /* 「模板」模块：范本选择主界面 */
+    .tpl-view {
+      flex: 1;
+      overflow-y: auto;
+      padding: 32px 40px;
+      background: var(--bg-3);
+    }
+    .tpl-view-inner { max-width: 880px; margin: 0 auto; }
+    .tpl-view-hint { margin-bottom: 20px; }
+    .tpl-view-hint h3 { font-size: 20px; font-weight: 700; color: var(--ink); margin: 0 0 6px; }
+    .tpl-view-hint p { font-size: 13px; color: var(--ink-3); margin: 0; }
+    .tpl-view-status {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .tpl-view-count { font-size: 13px; color: var(--ink-3); }
+    .tpl-view-list { display: flex; flex-direction: column; gap: 12px; }
+    .tpl-card {
+      background: var(--bg);
+      border: 2px solid var(--line-soft);
+      border-radius: var(--radius);
+      padding: 18px 22px;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+    .tpl-card:hover { border-color: var(--brand-line); background: #fafbfc; }
+    .tpl-card.selected { border-color: var(--brand); background: var(--brand-soft); }
+    .tpl-card-head {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      gap: 16px; margin-bottom: 8px;
+    }
+    .tpl-card-name { font-size: 16px; font-weight: 600; color: var(--ink); line-height: 1.4; flex: 1; }
+    .tpl-card-score { font-size: 13px; color: var(--ink-3); font-weight: 500; flex-shrink: 0; }
+    .tpl-card.selected .tpl-card-score { color: var(--brand); font-weight: 600; }
+    .tpl-card-reason { font-size: 14px; color: var(--ink-2); line-height: 1.6; margin: 0; }
+    .tpl-card-check {
+      position: absolute; top: 18px; right: 22px;
+      width: 22px; height: 22px; border-radius: 50%;
+      border: 2px solid var(--line);
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .tpl-card.selected .tpl-card-check { background: var(--brand); border-color: var(--brand); }
+    .tpl-card.selected .tpl-card-check::after { content: '✓'; color: #fff; font-size: 13px; }
+    .tpl-card-rec {
+      display: inline-block; font-size: 11px; font-weight: 600;
+      padding: 2px 8px; background: var(--brand); color: #fff;
+      border-radius: 4px; margin-left: 8px; vertical-align: middle;
+    }
+    .tpl-view-foot {
+      position: sticky;
+      bottom: 0;
+      margin-top: 24px;
+      padding: 16px 0;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: linear-gradient(180deg, transparent, var(--bg-3) 30%);
+    }
+    .tpl-view-pick-info { font-size: 13px; color: var(--ink-3); }
+    .nav-header {
+      padding: 14px 16px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line-soft);
+      flex-shrink: 0;
+    }
+    .nav-title { font-size: 13px; font-weight: 600; color: var(--ink); }
+    .nav-search { padding: 10px 12px; border-bottom: 1px solid var(--line-soft); flex-shrink: 0; }
+    .nav-search input {
+      width: 100%;
+      height: 30px;
+      padding: 0 10px;
+      border: 1px solid var(--line-soft);
+      border-radius: 6px;
+      font-size: 12px;
+      background: var(--bg-2);
+      color: var(--ink);
+      outline: none;
+    }
+    .nav-search input:focus { border-color: var(--brand-line); background: var(--bg); }
+    .catalog-header {
+      padding: 10px 16px 6px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--ink-3);
+      flex-shrink: 0;
+    }
+    .catalog-batch-edit { color: var(--brand); font-size: 12px; cursor: pointer; }
+    .catalog-batch-edit:hover { text-decoration: underline; }
+    .nav-tree { flex: 1; overflow-y: auto; padding: 4px 8px 16px; }
+    .nav-node { padding: 6px 8px; cursor: pointer; border-radius: 6px; transition: background 0.15s; }
+    .nav-node:hover { background: var(--bg-2); }
+    .nav-node.active { background: var(--brand-soft); }
+    .nav-node-chapter { display: flex; align-items: center; gap: 6px; }
+    .nav-node-chapter .ico { color: var(--ink-3); font-size: 14px; }
+    .nav-node-chapter .name { font-size: 13px; font-weight: 500; color: var(--ink); flex: 1; }
+    .nav-node-chapter .var-count {
+      font-size: 11px;
+      color: var(--ink-3);
+      background: var(--bg-2);
+      padding: 1px 6px;
+      border-radius: 999px;
+    }
+    .nav-node-var {
+      padding-left: 28px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--ink-2);
+      line-height: 22px;
+    }
+    .nav-node-var .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--brand);
+      flex-shrink: 0;
+    }
+    .nav-node-var .dot.unfilled { background: var(--warn); }
+
+    /* 中间编辑区（OnlyOffice 风格占位）*/
+    .editor-view {
+      flex: 1;
+      background: var(--bg-3);
+      overflow-y: auto;
+      padding: 24px;
+    }
+    .canvas-container {
+      background: var(--bg);
+      max-width: 820px;
+      margin: 0 auto;
+      box-shadow: 0 1px 8px rgba(0,0,0,0.08);
+      border-radius: 2px;
+      min-height: calc(100vh - 96px);
+    }
+    .doc-canvas {
+      padding: 56px 64px 80px;
+      font-family: "PingFang SC", "Microsoft YaHei", "SimSun", serif;
+      color: #2a2a2a;
+      font-size: 14px;
+      line-height: 1.9;
+    }
+    .doc-canvas h3.doc-title {
+      font-size: 22px;
+      font-weight: 700;
+      text-align: center;
+      margin: 0 0 24px;
+      letter-spacing: 2px;
+      color: #1a1a1a;
+    }
+    .doc-canvas h4.doc-h {
+      font-size: 15px;
+      font-weight: 700;
+      margin: 22px 0 10px;
+      color: #333;
+    }
+    .doc-canvas p { margin: 6px 0; text-indent: 2em; }
+    .doc-canvas p.no-indent { text-indent: 0; }
+    .doc-canvas .doc-field {
+      background: #fff3cd;
+      padding: 1px 4px;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .doc-canvas .doc-field:hover { background: #ffe69c; }
+    .doc-canvas .doc-field.active {
+      background: var(--brand);
+      color: #fff;
+      box-shadow: 0 0 0 2px rgba(0,132,252,0.3);
+    }
+    .doc-canvas .doc-field.unfilled { background: #fff0e6; border-bottom: 1px dashed var(--warn); }
+
+    /* 选中内容浮动工具条（对标主流编辑器 selection toolbar）*/
+    .selection-toolbar {
+      position: absolute;
+      display: none;
+      background: var(--ink);
+      color: #fff;
+      border-radius: 10px;
+      padding: 4px;
+      box-shadow: 0 6px 24px rgba(0,0,0,0.22);
+      z-index: 60;
+      gap: 2px;
+      align-items: center;
+      transform: translateX(-50%);
+    }
+    .selection-toolbar.show { display: flex; }
+    .selection-toolbar::after {
+      content: '';
+      position: absolute;
+      bottom: -6px; left: 50%;
+      transform: translateX(-50%);
+      width: 0; height: 0;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-top: 6px solid var(--ink);
+    }
+    .st-btn {
+      padding: 7px 11px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.85);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 500;
+    }
+    .st-btn:hover { background: rgba(255,255,255,0.14); color: #fff; }
+    .st-btn.ai { background: var(--ai-grad); color: #fff; }
+    .st-btn.ai:hover { opacity: 0.92; }
+    .st-divider { width: 1px; height: 16px; background: rgba(255,255,255,0.2); margin: 0 3px; }
+
+    /* 选中工具条触发的迷你动作面板 */
+    .st-action-panel {
+      position: absolute;
+      display: none;
+      background: var(--bg);
+      color: var(--ink);
+      border-radius: var(--radius-sm);
+      box-shadow: var(--shadow-lg);
+      padding: 14px;
+      z-index: 70;
+      min-width: 280px;
+      transform: translateX(-50%);
+    }
+    .st-action-panel.show { display: block; }
+    .st-action-panel-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .st-action-list { display: flex; flex-direction: column; gap: 6px; }
+    .st-action-item {
+      padding: 9px 11px;
+      border-radius: 7px;
+      cursor: pointer;
+      transition: background 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 13px;
+      color: var(--ink-2);
+    }
+    .st-action-item:hover { background: var(--bg-2); color: var(--ink); }
+    .st-action-item.selected { background: var(--brand-soft); color: var(--brand-press); }
+    .st-action-item.selected .ico { background: var(--brand); color: #fff; }
+    .st-action-item .ico {
+      width: 22px; height: 22px;
+      border-radius: 6px;
+      background: var(--ai-grad-soft);
+      color: var(--ai-violet);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; flex-shrink: 0;
+    }
+    .st-action-item .sub { font-size: 11px; color: var(--ink-3); margin-left: auto; }
+    .st-action-foot {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--line-soft);
+      font-size: 11px;
+      color: var(--ink-3);
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+    .st-action-foot button {
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .st-action-foot .cancel { color: var(--ink-2); }
+    .st-action-foot .cancel:hover { background: var(--bg-2); }
+    .st-action-foot .confirm { background: var(--brand); color: #fff; }
+    .st-action-foot .confirm:hover { background: var(--brand-press); }
+
+    /* 保存遮罩（对标 DocumentEditor.vue 的 .save-overlay）*/
+    .save-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 80;
+      animation: fadeIn 0.2s ease;
+    }
+    .save-overlay.show { display: flex; }
+    .save-overlay-card {
+      background: var(--bg);
+      padding: 28px 40px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      min-width: 240px;
+    }
+    .save-spin {
+      width: 36px; height: 36px;
+      border: 3px solid var(--brand-line);
+      border-top-color: var(--brand);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    .save-overlay.done .save-spin {
+      border-color: #b8efc4;
+      border-top-color: var(--ok);
+      animation: none;
+      position: relative;
+    }
+    .save-overlay.done .save-spin::after {
+      content: '✓'; position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--ok); font-size: 20px; font-weight: 700;
+    }
+    .save-text { font-size: 14px; color: var(--ink-2); font-weight: 500; }
+    .save-overlay.done .save-text { color: var(--ok); font-weight: 600; }
+
+    /* ============================================================
+       AI 抽屉（右侧 900px）
+       ============================================================ */
+    /* ai-pane：嵌入编辑器右侧的 AI 助手栏（对话式） */
+    .ai-pane {
+      width: 380px;
+      flex-shrink: 0;
+      background: var(--bg);
+      border-left: 1px solid var(--line-soft);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      min-height: 0;
+    }
+    /* 点 ✕ 收起后隐藏 */
+    .ai-pane.hidden { display: none; }
+    /* 顶栏 */
+    .ai-pane-header {
+      flex-shrink: 0;
+      height: 44px;
+      padding: 0 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .ai-pane-brand { font-size: 14px; font-weight: 600; color: var(--ink); }
+    .ai-pane-actions { display: flex; align-items: center; gap: 4px; }
+    .ai-pane-icon {
+      border: none;
+      background: transparent;
+      border-radius: 6px;
+      font-size: 12px;
+      color: var(--ink-2);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 28px;
+      padding: 0 8px;
+      gap: 4px;
+    }
+    .ai-pane-icon:hover { background: var(--bg-2); color: var(--ink); }
+
+    /* 消息列表：占满剩余高度、可滚动 */
+    .ai-chat-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 0;
+    }
+    .ai-chat-empty {
+      margin: auto;
+      text-align: center;
+      color: var(--ink-3);
+      padding: 20px 0;
+    }
+    .ai-chat-empty-ico { font-size: 36px; margin-bottom: 10px; }
+    .ai-chat-empty-ttl { font-size: 15px; font-weight: 600; color: var(--ink-2); margin-bottom: 4px; }
+    .ai-chat-empty-sub { font-size: 12px; line-height: 1.5; }
+    /* 单条消息气泡 */
+    .ai-msg { display: flex; flex-direction: column; max-width: 92%; }
+    .ai-msg.user { align-self: flex-end; align-items: flex-end; }
+    .ai-msg.bot  { align-self: flex-start; align-items: flex-start; }
+    .ai-msg-bubble {
+      padding: 9px 12px;
+      border-radius: 12px;
+      font-size: 13px;
+      line-height: 1.55;
+      word-break: break-word;
+      white-space: pre-wrap;
+    }
+    .ai-msg.user .ai-msg-bubble { background: var(--brand); color: #fff; border-bottom-right-radius: 4px; }
+    .ai-msg.bot  .ai-msg-bubble { background: var(--bg-2); color: var(--ink); border-bottom-left-radius: 4px; }
+    .ai-msg-meta { font-size: 10px; color: var(--ink-3); margin-top: 4px; padding: 0 4px; }
+
+    /* 智能体快捷区：醒目位置（顶栏下方），网格布局填满区域 */
+    .ai-agents-strip {
+      flex-shrink: 0;
+      padding: 12px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      border-bottom: 1px solid var(--line-soft);
+      background: var(--bg-2);
+    }
+    .ai-agents-strip .agent-grid {
+      display: contents;
+    }
+    .ai-agents-strip .agent-card {
+      padding: 10px 12px;
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
+      background: var(--bg);
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+    }
+    .ai-agents-strip .agent-card:hover { border-color: var(--brand); background: #f0f6ff; transform: translateY(-1px); box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .ai-agents-strip .agent-card.done { border-color: var(--brand); background: rgba(0,132,252,0.06); }
+    .ai-agents-strip .agent-card-head { display: flex; align-items: center; gap: 8px; width: 100%; }
+    .ai-agents-strip .agent-card-ico { font-size: 18px; line-height: 1; flex-shrink: 0; }
+    .ai-agents-strip .agent-card-name { font-size: 12px; font-weight: 500; color: var(--ink); line-height: 1.3; }
+    .agent-done-mark { color: var(--brand); font-weight: 700; }
+
+    /* 智能体运行进度与结果（嵌在消息流之外、输入区之上） */
+    .agent-mini-progress { flex-shrink: 0; }
+    .agent-result { flex-shrink: 0; }
+
+    /* 底部输入区 */
+    .ai-pane-input {
+      flex-shrink: 0;
+      padding: 10px 14px 12px;
+      border-top: 1px solid var(--line-soft);
+      background: var(--bg);
+    }
+    /* 输入框容器：带边框，让对话框更醒目 */
+    .ai-input-box {
+      border: 1px solid var(--line-soft);
+      border-radius: 10px;
+      padding: 8px 10px 6px;
+      background: var(--bg);
+      transition: border-color 0.15s;
+    }
+    .ai-input-box:focus-within { border-color: var(--brand); box-shadow: 0 0 0 3px rgba(0,132,252,0.08); }
+    .ai-input-box .ai-input-area { border: none; padding: 4px 6px; }
+    .ai-input-box .ai-input-area:focus { outline: none; }
+    .ai-input-tag {
+      display: inline-block;
+      font-size: 12px;
+      color: var(--brand);
+      background: rgba(0,132,252,0.08);
+      padding: 3px 10px;
+      border-radius: 6px;
+      margin-bottom: 8px;
+    }
+    .ai-input-area {
+      width: 100%;
+      min-height: 60px;
+      max-height: 140px;
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 13px;
+      color: var(--ink);
+      resize: none;
+      font-family: inherit;
+      box-sizing: border-box;
+    }
+    .ai-input-area:focus { outline: none; border-color: var(--brand); }
+    .ai-input-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 8px;
+    }
+    .ai-input-tools { display: flex; gap: 4px; }
+    .ai-input-tool {
+      width: 26px; height: 26px;
+      border: none;
+      background: transparent;
+      border-radius: 6px;
+      font-size: 13px;
+      color: var(--ink-2);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .ai-input-tool:hover { background: var(--bg-2); color: var(--ink); }
+    .ai-input-right { display: flex; align-items: center; gap: 6px; }
+    .ai-model-select {
+      height: 24px;
+      border: none;
+      background: transparent;
+      font-size: 12px;
+      color: var(--ink-2);
+      cursor: pointer;
+    }
+    .ai-send-btn {
+      width: 28px;
+      height: 28px;
+      border: none;
+      border-radius: 7px;
+      background: var(--brand);
+      color: #fff;
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .ai-send-btn:hover { background: var(--brand-press); }
+    /* 智能体卡片通用样式（在 .ai-agents-strip 内被覆盖为紧凑胶囊样式） */
+    .agent-card { cursor: pointer; transition: all 0.2s; }
+    .agent-card-head { display: flex; align-items: center; gap: 10px; }
+    .agent-card-ico {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      background: var(--ai-grad-soft);
+      color: var(--ai-violet);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+    }
+    .agent-card-name { font-size: 14px; font-weight: 600; color: var(--ink); }
+
+    /* 智能体运行结果区（嵌入对话流之外）*/
+    .agent-result {
+      display: none;
+      margin: 0 14px 12px;
+      padding: 14px;
+      background: var(--bg-2);
+      border-radius: var(--radius);
+    }
+    .agent-result.show { display: block; }
+    .agent-result-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 12px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .agent-result-list { display: flex; flex-direction: column; gap: 8px; }
+    .agent-cand {
+      padding: 12px 14px;
+      background: var(--bg);
+      border: 1px solid var(--line-soft);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .agent-cand:hover { border-color: var(--brand-line); }
+    .agent-cand.selected { border-color: var(--brand); background: var(--brand-soft); }
+    .agent-cand-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 4px; }
+    .agent-cand-name { font-size: 13px; font-weight: 600; color: var(--ink); flex: 1; line-height: 1.4; }
+    .agent-cand-score { font-size: 12px; color: var(--ink-3); font-weight: 500; flex-shrink: 0; }
+    .agent-cand.selected .agent-cand-score { color: var(--brand); font-weight: 600; }
+    .agent-cand-reason { font-size: 12px; color: var(--ink-2); margin: 0; line-height: 1.5; }
+    .agent-cand-rec {
+      font-size: 10px; font-weight: 600;
+      padding: 1px 6px; background: var(--brand); color: #fff;
+      border-radius: 3px; margin-left: 6px; vertical-align: middle;
+    }
+    /* 迷你 AI 进度条（在抽屉里跑智能体）*/
+    .agent-mini-progress {
+      display: none;
+      margin: 0 40px 16px;
+      padding: 14px 16px;
+      background: var(--brand-soft);
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      color: var(--brand-press);
+      display: none;
+      align-items: center;
+      gap: 10px;
+    }
+    .agent-mini-progress.show { display: flex; }
+    .agent-mini-progress .spin {
+      width: 14px; height: 14px;
+      border: 2px solid var(--brand-line);
+      border-top-color: var(--brand);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+
+    /* AI 抽屉底部输入区 */
+    .ai-input-section {
+      flex-shrink: 0;
+      padding: 16px 40px 20px;
+      border-top: 1px solid var(--line-soft);
+      background: var(--bg);
+    }
+    .ai-input-box {
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+    }
+    .ai-input-tag {
+      font-size: 11px;
+      color: var(--ai-violet);
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .ai-input-box textarea {
+      width: 100%;
+      border: none;
+      outline: none;
+      resize: none;
+      font-size: 13px;
+      font-family: inherit;
+      color: var(--ink);
+      background: transparent;
+      min-height: 44px;
+      line-height: 1.5;
+    }
+    .ai-input-row { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
+    .ai-input-tools { display: flex; gap: 4px; }
+    .ai-input-tool {
+      width: 28px; height: 28px;
+      border-radius: 6px;
+      color: var(--ink-3);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .ai-input-tool:hover { background: var(--bg-2); color: var(--ink); }
+    .ai-send-btn {
+      padding: 6px 16px;
+      border-radius: 8px;
+      background: var(--ai-grad);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 500;
+    }
+    .ai-disclaimer {
+      font-size: 11px;
+      color: var(--ink-3);
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    /* ============================================================
+       浮窗（文件标准格式生成 / 合规校验）
+       ============================================================ */
+    .modal-mask {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.35);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s;
+      z-index: 110;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+    }
+    .modal-mask.show { opacity: 1; pointer-events: auto; }
+    .modal {
+      width: 720px;
+      max-width: 100%;
+      max-height: 86vh;
+      background: var(--bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      transform: scale(0.96);
+      transition: transform 0.25s;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .modal-mask.show .modal { transform: scale(1); }
+    .modal-head {
+      flex-shrink: 0;
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--line-soft);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .modal-title { font-size: 16px; font-weight: 600; color: var(--ink); }
+    .modal-close {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      color: var(--ink-3);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .modal-close:hover { background: var(--bg-2); color: var(--ink); }
+    .modal-body { flex: 1; overflow-y: auto; padding: 20px 24px; }
+    .modal-foot {
+      flex-shrink: 0;
+      padding: 14px 24px;
+      border-top: 1px solid var(--line-soft);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      background: var(--bg-2);
+    }
+
+    /* AI 进度面板（与 v3 Step3/4 一致，复用样式）*/
+    .ai-panel { background: var(--bg); border: 1px solid var(--line-soft); border-radius: var(--radius); padding: 18px 20px; }
+    .ai-panel__head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+    .ai-panel__label { font-size: 14px; font-weight: 600; color: var(--ink); }
+    .ai-panel__text { font-size: 13px; color: var(--ink-2); flex: 1; min-width: 0; }
+    .ai-panel__badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; background: var(--brand-soft); color: var(--brand-press); }
+    .ai-panel__badge.running { background: var(--brand-soft); color: var(--brand-press); }
+    .ai-panel__badge.success { background: #e8f9ec; color: #1a8a3a; }
+    .ai-panel__badge.idle { background: var(--bg-2); color: var(--ink-3); }
+    .ai-bar { width: 100%; height: 10px; background: var(--bg-2); border-radius: 999px; overflow: hidden; position: relative; }
+    .ai-bar__fill { height: 100%; width: 0; background: linear-gradient(90deg, var(--brand), #4aa3ff); border-radius: 999px; transition: width .45s cubic-bezier(.4,0,.2,1); }
+    .ai-bar__fill.success { background: var(--ok); }
+    .ai-bar__pct { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); font-size: 10px; color: var(--ink-3); font-weight: 600; }
+    .ai-steps { margin: 14px 0 0; padding: 0; list-style: none; }
+    .ai-step { display: flex; align-items: center; gap: 10px; padding: 7px 0; font-size: 13px; line-height: 20px; border-top: 1px dashed var(--line-soft); }
+    .ai-step:first-child { border-top: 0; }
+    .ai-step__icon { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; flex-shrink: 0; font-size: 12px; font-weight: 700; border-radius: 50%; background: var(--bg-2); color: var(--ink-3); }
+    .ai-step__icon.is-success { background: #e8f9ec; color: var(--ok); }
+    .ai-step__icon.is-running { background: var(--brand-soft); color: var(--brand); position: relative; }
+    .ai-step__icon.is-running::after { content: ''; position: absolute; width: 10px; height: 10px; border: 2px solid var(--brand); border-top-color: transparent; border-radius: 50%; animation: spin .7s linear infinite; }
+    .ai-step__label { font-weight: 500; color: var(--ink); flex: 1; min-width: 0; }
+    .ai-step__meta { color: var(--ink-3); font-size: 12px; text-align: right; max-width: 50%; }
+    .ai-step.is-running .ai-step__meta { color: var(--brand); }
+    .ai-step.is-success .ai-step__meta { color: var(--ok); }
+    .ai-done { display: none; align-items: center; gap: 8px; margin-top: 14px; font-size: 14px; }
+    .ai-done.show { display: flex; }
+    .ai-done__icon { font-size: 18px; width: 22px; text-align: center; color: var(--ok); }
+    .ai-done__icon.is-err { color: var(--err); }
+    .ai-done__icon.is-warn { color: var(--warn); }
+    .ai-done__text { color: var(--ink); }
+    .ai-done__text .num { color: var(--brand); font-weight: 700; }
+
+    /* 格式化结果（v3 沿用）*/
+    .result-section { margin-top: 18px; }
+    .result-block { background: var(--bg); border: 1px solid var(--line-soft); border-radius: var(--radius); overflow: hidden; }
+    .result-head { display: flex; align-items: center; gap: 8px; padding: 12px 18px; background: var(--bg-2); font-size: 13px; font-weight: 600; color: var(--ink); border-bottom: 1px solid var(--line-soft); }
+    .rh-count { margin-left: auto; font-size: 12px; color: var(--ink-3); font-weight: 500; }
+    .fmt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 16px 18px; }
+    .fmt-cell { background: var(--bg); border: 1px solid var(--line-soft); border-radius: 8px; padding: 14px 16px; }
+    .fmt-cell__head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 10px; }
+    .fmt-cell__head .ico { width: 22px; height: 22px; border-radius: 6px; background: var(--brand-soft); color: var(--brand-press); display: flex; align-items: center; justify-content: center; font-size: 13px; }
+    .fmt-rule { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 6px 0; font-size: 12px; border-top: 1px dashed var(--line-soft); }
+    .fmt-rule:first-of-type { border-top: 0; }
+    .fmt-rule .k { color: var(--ink-2); }
+    .fmt-rule .v { color: var(--ink); font-weight: 600; }
+    .fmt-rule .ok { color: var(--ok); }
+    .header-footer { margin: 0 18px 16px; padding: 14px 16px; background: var(--bg-2); border-radius: 8px; font-size: 12px; color: var(--ink-2); }
+    .hf-row { display: flex; justify-content: space-between; gap: 12px; padding: 4px 0; border-bottom: 1px dashed var(--line-soft); }
+    .hf-row:last-child { border-bottom: 0; }
+    .hf-row .left, .hf-row .right { font-family: 'SF Mono', SFMono-Regular, Consolas, monospace; color: var(--ink); }
+
+    /* 合规结果（v3 沿用）*/
+    .cmp-check-head {
+      display: grid; grid-template-columns: 28px 150px minmax(180px, 1fr) minmax(140px, .72fr) auto;
+      gap: 12px; align-items: center;
+      padding: 10px 18px;
+      border-bottom: 1px solid var(--line);
+      background: var(--bg-2); color: var(--ink-2);
+      font-size: 12px; font-weight: 600;
+    }
+    .cmp-row {
+      display: grid; grid-template-columns: 28px 150px minmax(180px, 1fr) minmax(140px, .72fr) auto;
+      gap: 12px; align-items: flex-start;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .cmp-row:last-child { border-bottom: 0; }
+    .cmp-row__icon { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; margin-top: 1px; flex-shrink: 0; }
+    .cmp-row.pass .cmp-row__icon { background: #e8f9ec; color: var(--ok); }
+    .cmp-row.warn .cmp-row__icon { background: #fff5e6; color: var(--warn); }
+    .cmp-row.fail .cmp-row__icon { background: #ffeceb; color: var(--err); }
+    .cmp-row__body { min-width: 0; }
+    .cmp-row__title { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+    .cmp-row__desc { font-size: 12px; color: var(--ink-2); line-height: 1.5; }
+    .cmp-row__method { font-size: 12px; color: var(--ink-2); line-height: 1.5; }
+    .cmp-row__method b { color: var(--ink); font-weight: 600; }
+    @media (max-width: 760px) {
+      .cmp-check-head { display: none; }
+      .cmp-row { grid-template-columns: 28px 1fr auto; }
+      .cmp-row__method { grid-column: 2; }
+      .cmp-row__method::before { content: '技术手段：'; color: var(--ink-3); }
+    }
+    .cmp-status { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 999px; white-space: nowrap; }
+    .cmp-status.pass { background: #e8f9ec; color: #1a8a3a; }
+    .cmp-status.warn { background: #fff5e6; color: #b76b00; }
+    .cmp-status.fail { background: #ffeceb; color: #c0392b; }
+    .cmp-summary { display: flex; align-items: center; gap: 16px; padding: 14px 18px; background: linear-gradient(135deg, #e8f9ec, #f3f6fb); border-bottom: 1px solid var(--line-soft); flex-wrap: wrap; }
+    .cmp-summary.is-warn { background: linear-gradient(135deg, #fff5e6, #f3f6fb); }
+    .cmp-summary.is-fail { background: linear-gradient(135deg, #ffeceb, #f3f6fb); }
+    .cmp-summary__big { font-size: 26px; font-weight: 800; color: var(--ok); font-variant-numeric: tabular-nums; line-height: 1; }
+    .cmp-summary.is-warn .cmp-summary__big { color: var(--warn); }
+    .cmp-summary.is-fail .cmp-summary__big { color: var(--err); }
+    .cmp-summary__label { font-size: 12px; color: var(--ink-2); }
+    .cmp-summary__items { display: flex; gap: 10px; margin-left: auto; flex-wrap: wrap; }
+    .cmp-pill { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; background: rgba(255,255,255,0.7); }
+    .cmp-pill .n { font-variant-numeric: tabular-nums; }
+    .cmp-pill.pass { color: #1a8a3a; }
+    .cmp-pill.warn { color: #b76b00; }
+    .cmp-pill.fail { color: #c0392b; }
+
+    /* ============================================================
+       底部：按钮栏
+       ============================================================ */
+    .actionbar {
+      flex-shrink: 0;
+      background: var(--bg);
+      border-top: 1px solid var(--line-soft);
+      padding: 16px 40px;
+    }
+    body.step-editor .actionbar { display: none; }
+    .actionbar-inner {
+      max-width: 980px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    body.step4 .actionbar-inner { max-width: 1240px; }
+    .ab-status { font-size: 14px; color: var(--ink-2); flex: 1; min-width: 0; }
+    .ab-status .key { color: var(--ink); font-weight: 600; }
+    .ab-btns { display: flex; gap: 10px; flex-shrink: 0; align-items: center; }
+
+    .btn {
+      padding: 11px 24px;
+      border-radius: 980px;
+      font-size: 15px;
+      font-weight: 500;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      white-space: nowrap;
+      letter-spacing: -0.01em;
+    }
+    .btn-primary { background: var(--brand); color: #fff; }
+    .btn-primary:hover { background: var(--brand-press); }
+    .btn-primary:active { transform: scale(0.97); }
+    .btn-primary:disabled { background: var(--bg-2); color: var(--ink-3); cursor: not-allowed; }
+    .btn-secondary { background: var(--bg); color: var(--brand); border: 1px solid var(--line); }
+    .btn-secondary:hover { background: var(--bg-2); }
+    .btn-ghost { color: var(--ink-2); padding: 11px 16px; }
+    .btn-ghost:hover { color: var(--brand); }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 96px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: rgba(29, 29, 31, 0.92);
+      color: #fff;
+      padding: 12px 22px;
+      border-radius: 12px;
+      font-size: 14px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      z-index: 200;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* 响应式 */
+    @media (max-width: 768px) {
+      .stepper { padding-left: 20px; padding-right: 20px; }
+      .content { padding: 24px 20px 24px; }
+      .actionbar { padding: 14px 20px; }
+      .step-label { display: none; }
+      .step { gap: 0; }
+      .info-row { grid-template-columns: 1fr; gap: 4px; }
+      .entry-cards { grid-template-columns: 1fr; }
+      .fmt-grid { grid-template-columns: 1fr; }
+      .editor-nav { width: 200px; }
+      .ai-drawer { width: 100vw; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ========== 门户顶部栏 ========== -->
+<header class="portal-header">
+  <div class="portal-bar">
+    <div class="portal-brand">
+      <div class="portal-logo">标</div>
+      <div class="portal-title">标书制作系统</div>
+    </div>
+    <div class="portal-meta">
+      <span>武汉市轨道交通12号线工程</span>
+      <span class="portal-user"><span class="ava">张</span>张工</span>
+    </div>
+  </div>
+</header>
+
+<!-- ========== 中间：内容区 ========== -->
+<main class="content">
+  <div class="content-inner">
+
+    <!-- 左侧常驻一级模块轨道：44px 竖条 -->
+    <aside class="module-rail" id="global-module-rail">
+      <button class="module-rail-item active" data-module="template" onclick="goto(1)" title="模板">
+        <span class="module-rail-icon">▤</span>
+        <span>模板</span>
+      </button>
+      <button class="module-rail-item" data-module="edit" onclick="switchEditorModule('edit')" title="编辑">
+        <span class="module-rail-icon">▣</span>
+        <span>编辑</span>
+      </button>
+    </aside>
+
+    <div class="content-main">
+
+    <!-- ===== 右侧内容区顶部：portal-tabs 子界面 ===== -->
+    <div class="portal-tabs">
+      <button class="portal-tab" data-portal-tab="platform" onclick="switchPortalTab(this)">平台范本</button>
+      <button class="portal-tab active" data-portal-tab="ai" onclick="switchPortalTab(this)">AI 智能生成</button>
+      <button class="portal-tab" data-portal-tab="mine" onclick="switchPortalTab(this)">我的文件</button>
+      <span class="portal-tab-spacer"></span>
+      <span class="portal-tab-action">从历史文件进入</span>
+    </div>
+
+    <!-- ===== 步骤导航 ===== -->
+    <nav class="stepper" id="stepper"></nav>
+
+    <!-- ===== Step 1: 项目信息确认 ===== -->
+    <section class="chapter" id="ch-1">
+      <p class="ch-hint">请<b>确认项目信息来源</b>，核对无误后继续。</p>
+
+      <!-- 入口卡片：使用已立案信息 / 上传采购方案 -->
+      <div class="entry-cards">
+        <div class="entry-card selected" id="entry-preset" onclick="selectEntry('preset')">
+          <div class="entry-card-radio"></div>
+          <div>
+            <div class="entry-card-title">✓ 使用已立案项目信息</div>
+            <div class="entry-card-desc">AI 已带入项目立案信息，可直接核对使用。</div>
+          </div>
+        </div>
+        <div class="entry-card" id="entry-upload" onclick="selectEntry('upload')">
+          <div class="entry-card-radio"></div>
+          <div>
+            <div class="entry-card-title">📎 上传采购方案，AI 解析</div>
+            <div class="entry-card-desc">上传 Word/PDF 采购方案，AI 自动提取项目信息。</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 上传区（选「上传采购方案」时显示）-->
+      <div class="upload-zone" id="upload-zone" onclick="triggerUpload()">
+        <div class="ico">📎</div>
+        <div class="ttl" id="upload-ttl">点击上传采购方案</div>
+        <div class="sub" id="upload-sub">支持 .docx / .pdf，单文件 ≤ 20MB</div>
+        <input type="file" id="upload-input" style="display:none" accept=".docx,.pdf" onchange="onFileChosen(event)" />
+      </div>
+
+      <!-- AI 解析进度（上传后显示）-->
+      <div class="parse-progress" id="parse-progress">
+        <div class="parse-progress-row">
+          <div class="parse-spin"></div>
+          <span id="parse-text">AI 正在解析采购方案…</span>
+        </div>
+      </div>
+
+      <!-- 项目信息定义列表 -->
+      <div class="info-list" id="info-list">
+        <div class="info-row highlight">
+          <div class="info-k">项目名称</div>
+          <div class="info-v">武汉市轨道交通12号线工程土建施工总承包项目</div>
+        </div>
+        <div class="info-row"><div class="info-k">项目编号</div><div class="info-v">WH-Rail-12-2026-001</div></div>
+        <div class="info-row"><div class="info-k">招标方式</div><div class="info-v">公开招标</div></div>
+        <div class="info-row"><div class="info-k">项目类型</div><div class="info-v">工程类 · 施工总承包 · 施工阶段</div></div>
+        <div class="info-row"><div class="info-k">招标人</div><div class="info-v">武汉地铁集团有限公司</div></div>
+        <div class="info-row"><div class="info-k">招标代理机构</div><div class="info-v">中铁第四勘察设计院集团有限公司</div></div>
+        <div class="info-row"><div class="info-k">工程地点</div><div class="info-v">湖北省武汉市</div></div>
+        <div class="info-row"><div class="info-k">资金来源</div><div class="info-v">财政资金 + 银行贷款</div></div>
+        <div class="info-row"><div class="info-k">招标控制价</div><div class="info-v">128,500.00 万元</div></div>
+        <div class="info-row"><div class="info-k">投标保证金</div><div class="info-v">80.00 万元</div></div>
+      </div>
+    </section>
+
+    <!-- ===== Step 2: 范本推荐 ===== -->
+    <section class="chapter" id="ch-2">
+      <p class="ch-hint">AI 已根据项目信息检索匹配范本，<b>首项为推荐项</b>，请选择用于生成文件的范本。</p>
+      <div class="rec-meta">
+        <span class="rec-status" id="template-rec-status"><span class="dot"></span><span class="txt">待启动</span></span>
+        <span class="rec-count" id="template-rec-count">— 项</span>
+      </div>
+      <div class="cand-list" id="template-rec-list"></div>
+      <div class="rec-summary template-rec-summary" id="template-rec-summary">
+        <span class="dot-ok" id="template-rec-dot"></span>
+        <span>范本：<span id="template-rec-text">待检索</span></span>
+      </div>
+    </section>
+
+    <!-- ===== Step 3: 生成文件 ===== -->
+    <section class="chapter" id="ch-3">
+      <p class="ch-hint">AI 将基于项目信息和已选范本<b>生成招标文件初稿</b>，生成后进入详细编辑。</p>
+      <div class="gen-panel">
+        <div class="gen-panel-head">
+          <span class="gen-panel-label">文件生成</span>
+          <span class="gen-panel-text" id="gen-text">等待启动</span>
+          <span class="gen-panel-badge" id="gen-badge">待启动</span>
+        </div>
+        <div class="gen-bar"><div class="gen-bar-fill" id="gen-bar-fill"></div><span class="gen-bar-pct" id="gen-pct">0%</span></div>
+        <ul class="gen-steps" id="gen-steps"></ul>
+      </div>
+      <div class="gen-summary" id="gen-summary">
+        <div class="gen-summary-title"><span class="ok">✓</span>初稿已生成</div>
+        <div class="gen-summary-stats">
+          <div class="gen-stat-item"><span class="gen-stat-num" id="stat-chapters">8</span><span class="gen-stat-lbl">章节数</span></div>
+          <div class="gen-stat-item"><span class="gen-stat-num" id="stat-fields">16</span><span class="gen-stat-lbl">填充字段</span></div>
+          <div class="gen-stat-item"><span class="gen-stat-num" id="stat-words">约 8,200</span><span class="gen-stat-lbl">字数</span></div>
+          <div class="gen-stat-item"><span class="gen-stat-num" id="stat-conf">94%</span><span class="gen-stat-lbl">平均置信度</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Step 4: 详细编辑（核心）===== -->
+    <section class="chapter" id="ch-4">
+      <div class="editor-root" id="editor-root">
+        <!-- 最左侧一级模块栏已外提到 .content-inner 顶部常驻 -->
+
+        <div class="module-stage">
+          <!-- 「模板」模块：左侧文件来源 + 右侧复用范本推荐界面 -->
+          <div class="module-pane module-pane-template" id="pane-template">
+            <div class="template-source-layout">
+              <aside class="template-source-nav" id="template-source-nav">
+                <div class="template-source-nav-title">文件来源</div>
+                <button class="template-source-item active" data-source="ai" onclick="switchTemplateSource('ai')">
+                  <span class="ico">✨</span>
+                  <span class="lbl">AI 智能生成</span>
+                  <span class="badge" id="template-source-ai-badge">当前</span>
+                </button>
+                <button class="template-source-item" data-source="platform" onclick="switchTemplateSource('platform')">
+                  <span class="ico">📚</span>
+                  <span class="lbl">平台范本</span>
+                </button>
+                <button class="template-source-item" data-source="mine" onclick="switchTemplateSource('mine')">
+                  <span class="ico">📁</span>
+                  <span class="lbl">我的文件</span>
+                </button>
+              </aside>
+
+              <div class="template-source-main">
+                <!-- AI 智能生成：左侧范本推荐 + 右侧当前文件概览 -->
+                <div class="template-source-pane show template-source-split" data-pane="ai" id="tpl-pane-ai">
+                  <div class="tpl-split-left">
+                    <p class="ch-hint" style="margin-top:0">AI 已根据项目信息检索匹配范本，<b>首项为推荐项</b>，可在第 2 步或此处重新选择。</p>
+                    <div class="rec-meta">
+                      <span class="rec-status" id="template-rec-status"><span class="dot"></span><span class="txt">待启动</span></span>
+                      <span class="rec-count" id="template-rec-count">— 项</span>
+                    </div>
+                    <div class="cand-list" id="template-rec-list"></div>
+                    <div class="rec-summary" id="template-rec-summary">
+                      <span class="dot-ok" id="template-rec-dot"></span>
+                      <span>范本：<span id="template-rec-text">待检索</span></span>
+                    </div>
+                  </div>
+                  <aside class="tpl-split-right">
+                    <div class="tpl-summary-title">AI 智能生成</div>
+                    <div class="tpl-summary-sub">基于第 2 步推荐范本自动创建的当前招标文件</div>
+                    <ul class="tpl-summary-list">
+                      <li><span class="lbl">生成方式</span><b>AI 智能生成</b></li>
+                      <li><span class="lbl">应用范本</span><b id="editor-template-source">已基于推荐范本生成当前招标文件。</b></li>
+                      <li><span class="lbl">生成时间</span><b>刚刚</b></li>
+                      <li><span class="lbl">章节 / 字段</span><b>8 章节 · 16 字段</b></li>
+                    </ul>
+                    <div class="tpl-meta-foot">
+                      <button class="btn btn-primary" onclick="switchEditorModule('edit')">进入详细编辑</button>
+                      <span class="tpl-view-pick-info">当前文件由 AI 智能生成</span>
+                    </div>
+                  </aside>
+                </div>
+
+                <div class="template-source-pane" data-pane="platform" id="tpl-pane-platform">
+                  <p class="template-source-empty">平台范本库仅作占位演示，请通过「AI 智能生成」在第 2 步「范本推荐」中选择主文档范本。</p>
+                </div>
+
+                <div class="template-source-pane" data-pane="mine" id="tpl-pane-mine">
+                  <p class="template-source-empty">我的文件仅作占位演示，历史文件入口位于顶部右上角。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 「编辑」模块：工具栏 + 左侧章节导航 + 文档编辑器 -->
+          <div class="module-pane module-pane-edit" id="pane-edit">
+            <div class="editor-topline">
+              <div class="editor-tl-title" id="editor-title">武汉市轨道交通12号线工程 · 招标文件.docx</div>
+              <button class="editor-tl-btn ai-btn" onclick="openAIDrawer()">✨ AI助手</button>
+              <div class="editor-tl-divider"></div>
+              <button class="editor-tl-btn" onclick="toast('修订记录 · 演示占位')">修订记录</button>
+              <button class="editor-tl-btn" onclick="toast('已保存（演示）')">保存</button>
+              <button class="editor-tl-btn primary" id="btn-submit" onclick="submitDocument()">完成编辑</button>
+            </div>
+
+            <div class="editor-workspace">
+              <div class="editor-nav">
+                <div class="nav-header">
+                  <span class="nav-title">导航</span>
+                  <button class="editor-tl-btn" style="height:24px;padding:0 8px;font-size:12px" onclick="toast('已刷新')">刷新</button>
+                </div>
+                <div class="nav-search"><input type="text" placeholder="搜索章节或变量…" /></div>
+                <div class="catalog-header">
+                  <span>标书目录（<span id="catalog-count">8</span>）</span>
+                  <span class="catalog-batch-edit" onclick="toast('批量编辑 · 演示占位')">批量编辑</span>
+                </div>
+                <div class="nav-tree" id="nav-tree"></div>
+              </div>
+
+              <div class="editor-view">
+                <div class="canvas-container">
+                  <div class="doc-canvas" id="doc-canvas"></div>
+                </div>
+              </div>
+
+              <!-- AI 助手：嵌入编辑器右侧栏（对话式） -->
+              <aside class="ai-pane" id="ai-drawer">
+                <header class="ai-pane-header">
+                  <div class="ai-pane-brand">标书 AI 助手</div>
+                  <div class="ai-pane-actions">
+                    <button class="ai-pane-icon" title="新建会话" onclick="newChat()">✦ 新建会话</button>
+                    <button class="ai-pane-icon" title="收起" onclick="closeAIDrawer()">✕</button>
+                  </div>
+                </header>
+
+                <!-- 智能体快捷区（醒目位置，紧凑横排，可滚动） -->
+                <div class="ai-agents-strip">
+                  <div class="agent-grid" id="agent-grid"></div>
+                  <div class="agent-grid agent-grid-tools">
+                    <div class="agent-card" onclick="openFormatModal()" title="按范本规范统一标题层级、段落样式、编号与页眉页脚。">
+                      <div class="agent-card-head">
+                        <div class="agent-card-ico">📐</div>
+                        <div class="agent-card-name">文件格式标准化</div>
+                      </div>
+                    </div>
+                    <div class="agent-card" onclick="openComplianceModal()" title="依据招标文件编制规范逐项校验合规性，标注问题与建议。">
+                      <div class="agent-card-head">
+                        <div class="agent-card-ico">🛡️</div>
+                        <div class="agent-card-name">合规校验<span class="tl-badge" id="compliance-badge" style="display:none">1</span></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 消息列表（可滚动） -->
+                <div class="ai-chat-list" id="ai-chat-list"></div>
+
+                <!-- 智能体运行进度与结果 -->
+                <div class="agent-mini-progress" id="agent-progress">
+                  <div class="spin"></div><span id="agent-progress-text">智能体检索中…</span>
+                </div>
+                <div class="agent-result" id="agent-result">
+                  <div class="agent-result-title">
+                    <span id="agent-result-name">—</span>
+                    <span style="margin-left:auto;font-size:12px;color:var(--ink-3);font-weight:500" id="agent-result-count"></span>
+                  </div>
+                  <div class="agent-result-list" id="agent-result-list"></div>
+                </div>
+
+                <!-- 底部输入区 -->
+                <footer class="ai-pane-input">
+                  <div class="ai-input-box">
+                    <textarea class="ai-input-area" id="ai-chat-input" placeholder="输入你的问题，回车发送；Shift+回车换行"></textarea>
+                    <div class="ai-input-row">
+                      <div class="ai-input-tools">
+                        <button class="ai-input-tool" title="@">@</button>
+                        <button class="ai-input-tool" title="#">#</button>
+                      </div>
+                      <div class="ai-input-right">
+                        <select class="ai-model-select">
+                          <option>GLM-5.1</option>
+                          <option>GPT-4</option>
+                          <option>Claude</option>
+                        </select>
+                        <button class="ai-input-tool" title="语音">🎤</button>
+                        <button class="ai-send-btn" id="ai-send-btn" onclick="sendChat()" title="发送">↑</button>
+                      </div>
+                    </div>
+                  </div>
+                </footer>
+              </aside>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 选中内容浮动工具条 -->
+      <div class="selection-toolbar" id="selection-toolbar">
+        <button class="st-btn ai" onclick="showActionPanel('polish')">✨ AI 润色</button>
+        <button class="st-btn" onclick="showActionPanel('format')">📐 格式标准化</button>
+        <button class="st-btn" onclick="showActionPanel('insert')">＋ 插入变量</button>
+        <span class="st-divider"></span>
+        <button class="st-btn" onclick="toast('已复制（演示）')">复制</button>
+      </div>
+
+      <!-- 工具条触发的动作面板 -->
+      <div class="st-action-panel" id="st-action-panel">
+        <div class="st-action-panel-title" id="st-panel-title"></div>
+        <div class="st-action-list" id="st-action-list"></div>
+        <div class="st-action-foot">
+          <button class="cancel" onclick="hideActionPanel()">取消</button>
+          <button class="confirm" id="st-confirm" onclick="applyStAction()">应用</button>
+        </div>
+      </div>
+
+      <!-- 保存遮罩（对标 DocumentEditor.vue 的 .save-overlay）-->
+      <div class="save-overlay" id="save-overlay">
+        <div class="save-overlay-card">
+          <div class="save-spin"></div>
+          <div class="save-text" id="save-text">正在保存文档…</div>
+        </div>
+      </div>
+    </section>
+
+    </div><!-- /.content-main -->
+  </div>
+</main>
+
+<!-- ========== 底部：按钮栏 ========== -->
+<footer class="actionbar">
+  <div class="actionbar-inner">
+    <div class="ab-status" id="ab-status">核对项目信息后继续</div>
+    <div class="ab-btns">
+      <button class="btn btn-ghost" id="btn-prev" onclick="prev()" style="display:none">← 上一步</button>
+      <button class="btn btn-secondary" id="btn-retry" onclick="retryStep()" style="display:none">重新执行</button>
+      <button class="btn btn-primary" id="btn-next" onclick="next()">继续</button>
+    </div>
+  </div>
+</footer>
+
+<!-- ========== 浮窗：文件标准格式生成 ========== -->
+<div class="modal-mask" id="format-modal-mask" onclick="if(event.target===this)closeFormatModal()">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title">文件格式标准化</div>
+      <div class="modal-close" onclick="closeFormatModal()">✕</div>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:13px;color:var(--ink-3);margin:0 0 14px">按范本规范<b style="color:var(--ink-2)">统一标题层级、段落样式、编号与页眉页脚</b>。</p>
+      <div class="ai-panel">
+        <div class="ai-panel__head">
+          <span class="ai-panel__label">格式生成</span>
+          <span class="ai-panel__text" id="fmt-text">等待启动</span>
+          <span class="ai-panel__badge idle" id="fmt-badge">待启动</span>
+        </div>
+        <div class="ai-bar"><div class="ai-bar__fill" id="fmt-bar"></div><span class="ai-bar__pct" id="fmt-pct">0%</span></div>
+        <ul class="ai-steps" id="fmt-steps"></ul>
+        <div class="ai-done" id="fmt-done"></div>
+      </div>
+      <div class="result-section" id="fmt-result" style="display:none"></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeFormatModal()">关闭</button>
+      <button class="btn btn-secondary" id="fmt-retry" onclick="retryFormat()" style="display:none">重新生成</button>
+      <button class="btn btn-primary" id="fmt-run" onclick="runFormat()">开始生成</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 浮窗：合规校验 ========== -->
+<div class="modal-mask" id="compliance-modal-mask" onclick="if(event.target===this)closeComplianceModal()">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title">合规校验</div>
+      <div class="modal-close" onclick="closeComplianceModal()">✕</div>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:13px;color:var(--ink-3);margin:0 0 14px">依据招标文件编制规范<b style="color:var(--ink-2)">逐项校验合规性</b>，标注问题与建议。</p>
+      <div class="ai-panel">
+        <div class="ai-panel__head">
+          <span class="ai-panel__label">合规校验</span>
+          <span class="ai-panel__text" id="comp-text">等待启动</span>
+          <span class="ai-panel__badge idle" id="comp-badge">待启动</span>
+        </div>
+        <div class="ai-bar"><div class="ai-bar__fill" id="comp-bar"></div><span class="ai-bar__pct" id="comp-pct">0%</span></div>
+        <ul class="ai-steps" id="comp-steps"></ul>
+        <div class="ai-done" id="comp-done"></div>
+      </div>
+      <div class="result-section" id="comp-result" style="display:none"></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeComplianceModal()">关闭</button>
+      <button class="btn btn-secondary" id="comp-retry" onclick="retryCompliance()" style="display:none">重新校验</button>
+      <button class="btn btn-primary" id="comp-run" onclick="runCompliance()">开始校验</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  /* ============================================================
+     数据
+     ============================================================ */
+  const STEPS = [
+    { no:1, label:'项目信息', optional:false },
+    { no:2, label:'范本推荐', optional:false },
+    { no:3, label:'生成文件', optional:false },
+    { no:4, label:'详细编辑', optional:false },
+  ];
+
+  // 项目信息（步1）
+  const PROJECT_INFO = {
+    projectName: '武汉市轨道交通12号线工程土建施工总承包项目',
+    projectCode: 'WH-Rail-12-2026-001',
+    tenderer: '武汉地铁集团有限公司',
+    agency: '中铁第四勘察设计院集团有限公司',
+    location: '湖北省武汉市',
+    fundSource: '财政资金 + 银行贷款',
+    controlPrice: '128,500.00 万元',
+    deposit: '80.00 万元',
+  };
+
+  // 步3：文件生成子步骤
+  const GEN_SUB_STEPS = [
+    { key:'parse', txt:'解析项目立案信息', meta:'读取 10 项关键信息' },
+    { key:'match', txt:'应用所选范本框架', meta:'使用范本：轨道交通工程土建施工总承包范本（2025版）' },
+    { key:'fill',  txt:'填充字段内容', meta:'从招标方案/历史文件回填 16 项字段' },
+    { key:'build', txt:'生成文档结构', meta:'8 章节 · 约 8,200 字' },
+  ];
+
+  // 步4：章节树（对标 DocumentEditor.vue 的 VariableNavigation）
+  const CHAPTER_TREE = [
+    { id:'ch1', name:'第一章 投标须知', vars:[
+      { name:'项目名称', filled:true }, { name:'项目编号', filled:true }, { name:'招标方式', filled:true },
+    ]},
+    { id:'ch2', name:'第二章 项目概况与招标范围', vars:[
+      { name:'建设地点', filled:true }, { name:'资金来源', filled:true }, { name:'项目概况', filled:true },
+    ]},
+    { id:'ch3', name:'第三章 投标资格要求', vars:[
+      { name:'资质要求', filled:true }, { name:'业绩要求', filled:true }, { name:'项目经理要求', filled:true },
+    ]},
+    { id:'ch4', name:'第四章 评标办法', vars:[
+      { name:'评审办法', filled:true }, { name:'商务分权重', filled:true }, { name:'价格分权重', filled:false },
+    ]},
+    { id:'ch5', name:'第五章 合同条款', vars:[
+      { name:'合同估算价', filled:true }, { name:'投标保证金', filled:true }, { name:'履约期限', filled:false },
+    ]},
+    { id:'ch6', name:'第六章 技术要求', vars:[] },
+    { id:'ch7', name:'第七章 投标文件格式', vars:[] },
+    { id:'ch8', name:'第八章 附件', vars:[] },
+  ];
+
+  // AI 抽屉里的智能体（范本推荐在步2完成，这里保留编辑期智能体）
+  const AGENTS = [
+    { key:'qual',     name:'资格条件推荐', ico:'🧾', desc:'检索轨道交通专业资格条件素材' },
+    { key:'eval',     name:'评审办法推荐', ico:'⚖️', desc:'检索适配的评标办法模型' },
+  ];
+  const AGENT_CANDIDATES = {
+    template: [
+      { id:'tpl-1', name:'轨道交通工程土建施工总承包范本（2025版）', score:96, rec:true, reason:'与本项目专业类型、阶段完全匹配，最新版，覆盖完整 18 章节。' },
+      { id:'tpl-2', name:'市政公用工程施工总承包范本（2024版）', score:78, reason:'通用施工总承包范本，专业覆盖度一般。' },
+      { id:'tpl-3', name:'通用工程总承包范本（2024版）', score:72, reason:'通用兜底范本，缺少轨道交通专业章节。' },
+    ],
+    qual: [
+      { id:'qual-1', name:'轨道交通工程资格条件素材包 v3.2', score:95, rec:true, reason:'含轨道交通完整资格条件（资质+业绩+项目经理）。' },
+      { id:'qual-2', name:'施工总承包通用资格条件素材包 v2.5', score:82, reason:'通用素材，缺少轨道交通专业细节。' },
+      { id:'qual-3', name:'市政工程资格条件素材包 v1.8', score:74, reason:'市政口径，需二次修改。' },
+    ],
+    eval: [
+      { id:'eval-1', name:'综合评估法（轨道交通专业）v2.1', score:94, rec:true, reason:'4 维度 + 12 子项，完全适配本项目。' },
+      { id:'eval-2', name:'综合评估法（通用）v3.0', score:80, reason:'通用版，需补充专业子项。' },
+      { id:'eval-3', name:'最低评标价法（通用）v1.5', score:68, reason:'不适用于复杂工程施工。' },
+    ],
+    polish: [
+      { id:'pl-1', name:'商务化润色（推荐）', score:95, rec:true, reason:'增强正式度、统一术语、规范句式。' },
+      { id:'pl-2', name:'简洁化润色', score:88, reason:'压缩冗余，提升可读性。' },
+      { id:'pl-3', name:'法务合规化润色', score:82, reason:'强化条款严谨性，降低歧义风险。' },
+    ],
+  };
+
+  // 文件标准格式生成（沿用 v3 Step3 数据）
+  const FORMAT_SUB_STEPS = [
+    { key:'heading', txt:'统一标题层级（H1–H4）' },
+    { key:'number', txt:'应用章节自动编号' },
+    { key:'para', txt:'规范段落缩进与行距' },
+    { key:'hf', txt:'生成页眉页脚模板' },
+  ];
+  const FMT_CELLS = [
+    { title:'标题层级', ico:'H', rules:[
+      { k:'一级标题（章）', v:'H1 · 黑体 18pt · 居中' }, { k:'二级标题（节）', v:'H2 · 黑体 15pt · 左对齐' },
+      { k:'三级标题（条）', v:'H3 · 宋体 13pt 加粗' }, { k:'四级标题（款）', v:'H4 · 宋体 12pt 加粗' },
+    ]},
+    { title:'编号体系', ico:'№', rules:[
+      { k:'章节编号', v:'第一章 / 1.1 / 1.1.1' }, { k:'图表编号', v:'图3-1 / 表5-2' },
+      { k:'公式编号', v:'(3-1) 右对齐' }, { k:'附件编号', v:'附件1 / 附表8-1' },
+    ]},
+    { title:'段落样式', ico:'¶', rules:[
+      { k:'正文字体', v:'宋体 · 12pt' }, { k:'行距', v:'1.5 倍' },
+      { k:'首行缩进', v:'2 字符' }, { k:'段落间距', v:'段前 0 / 段后 6pt' },
+    ]},
+    { title:'页面设置', ico:'▦', rules:[
+      { k:'纸张', v:'A4（210 × 297 mm）' }, { k:'页边距', v:'上 25 / 下 22 / 左 28 / 右 22 mm' },
+      { k:'页码', v:'底部居中 · 阿拉伯数字' }, { k:'总页数', v:'{{总页数}} 自动统计' },
+    ]},
+  ];
+
+  // 合规校验（沿用 v3 Step4 数据）
+  const COMPLIANCE_SUB_STEPS = [
+    { key:'compliance',    txt:'开展法规合规性审查' },
+    { key:'discrimination',txt:'识别歧视性与排他性条款' },
+    { key:'logic',         txt:'分析条款逻辑性与前后一致性' },
+    { key:'risk',          txt:'检测完整性与潜在风险' },
+  ];
+  const COMPLIANCE_CHECKS = [
+    { status:'pass', title:'合规性', desc:'是否符合招标投标相关法律法规、行业规范及范本编制要求。', method:'法规知识图谱匹配', loc:'全文' },
+    { status:'warn', title:'歧视性', desc:'是否存在排他性、指向性或不合理限制潜在投标人的条款。', method:'规则引擎 + 案例比对', loc:'资格条件 / 评标办法' },
+    { status:'pass', title:'逻辑性', desc:'条款之间是否存在矛盾、冲突或前后条件不一致。', method:'语义分析 + 逻辑推理', loc:'投标人须知 / 合同条款' },
+    { status:'pass', title:'一致性', desc:'同一事项在不同章节中的名称、时间、金额和表述是否统一。', method:'文本比对算法', loc:'全文' },
+    { status:'warn', title:'完整性', desc:'强制性条款、关键章节和必填信息是否完整。', method:'结构化检测模块', loc:'章节结构 / 变量清单' },
+    { status:'fail', title:'风险性', desc:'是否存在潜在废标风险、履约风险或争议风险。', method:'风险规则库', loc:'资格条件 / 合同条款' },
+  ];
+
+  /* ============================================================
+     状态
+     ============================================================ */
+  const state = {
+    current: 1,
+    // 步1
+    entryMode: 'preset',          // preset | upload
+    uploadFile: null,
+    parsing: false,
+    infoDone: false,
+    // 步2：范本推荐
+    templateRan: false,
+    templateDone: false,
+    templatePick: null,
+    // 步3：生成文件
+    genStatus: 'idle',            // idle | running | done
+    genSubsDone: 0,
+    // 步4：详细编辑
+    activeChapter: 'ch1',
+    activeField: null,
+    editorModule: 'edit',          // template | edit（左侧一级模块）
+    templateSource: 'ai',           // ai | platform | mine（模板模块内的文件来源）
+    lastSelection: null,            // 选中工具条：记录当前选区
+    submitting: false,
+    // 独立智能体（在 AI 抽屉里）
+    agentRunning: null,
+    agentPicks: { qual:null, eval:null, polish:null },
+    // AI 对话消息列表
+    chat: [],
+    // 浮窗：文件标准格式生成
+    fmtStatus: 'idle',
+    fmtSubsDone: 0,
+    // 浮窗：合规校验
+    compStatus: 'idle',
+    compSubsDone: 0,
+    compHasIssue: false,
+  };
+
+  const $  = id => document.getElementById(id);
+  const $$ = sel => document.querySelectorAll(sel);
+  function toast(msg, ms=2000){
+    const t=$('toast'); t.textContent=msg; t.classList.add('show');
+    clearTimeout(t._tm); t._tm=setTimeout(()=>t.classList.remove('show'), ms);
+  }
+
+  /* ============================================================
+     步骤导航
+     ============================================================ */
+  function isStepDone(no){
+    if(no===1) return state.infoDone;
+    if(no===2) return state.templateDone && !!state.templatePick;
+    if(no===3) return state.genStatus==='done';
+    return false;
+  }
+  function renderStepper(){
+    const wrap=$('stepper');
+    wrap.innerHTML = STEPS.map((s,i)=>{
+      const cls = s.no===state.current ? 'active' : (isStepDone(s.no) ? 'done' : '');
+      const dotInner = cls==='done' ? '' : `<span class="step-dot-num">${s.no}</span>`;
+      const line = i<STEPS.length-1
+        ? `<div class="step-line ${isStepDone(s.no)?'done':''}"></div>`
+        : '';
+      return `
+        <div class="step ${cls}" onclick="goto(${s.no})">
+          <div class="step-dot">${dotInner}</div>
+          <span class="step-label">${s.label}</span>
+        </div>
+        ${line}
+      `;
+    }).join('');
+  }
+
+  /* ============================================================
+     章节切换
+     ============================================================ */
+  function goto(no){
+    if(no<1||no>4) return;
+    if(no>1 && !state.infoDone){ toast('请先确认项目信息'); return; }
+    if(no>2 && !isStepDone(2)){ toast('请先选择推荐范本'); return; }
+    if(no>3 && !isStepDone(3)){ toast('请先生成文件初稿'); return; }
+
+    state.current=no;
+    document.body.className='';
+    document.body.classList.add('step'+no);
+    if(no===4) document.body.classList.add('step-editor');
+    $$('.chapter').forEach(c=>c.classList.remove('show'));
+    $(`ch-${no}`).classList.add('show');
+    document.querySelector('main > .content-inner').classList.toggle('wide', no===4);
+    renderStepper();
+    updateActions();
+    if(no!==4){ const c=document.querySelector('.content'); if(c) c.scrollTop=0; }
+
+    if(no===2) onEnterTemplateRecommendation();
+    if(no===3 && state.genStatus==='idle') startGen();
+    if(no===4) onEnterEditor();
+  }
+
+  function updateActions(){
+    const no = state.current;
+    const prev=$('btn-prev'), next=$('btn-next'), retry=$('btn-retry'), status=$('ab-status');
+    prev.style.display = no===2 || no===3 ? '' : 'none';
+
+    let label='继续', disabled=false, hint='';
+
+    if(no===1){
+      label = '确认项目信息';
+      hint  = '核对项目信息后获取推荐范本';
+      if(state.entryMode==='upload' && !state.uploadFile){ disabled=true; hint='请先上传采购方案'; }
+      if(state.parsing){ disabled=true; label='解析中…'; hint='AI 正在解析采购方案…'; }
+    }
+    else if(no===2){
+      label = '使用所选范本';
+      disabled = !state.templateDone || !state.templatePick;
+      hint = state.templateDone
+        ? (state.templatePick ? '已选择范本，可生成文件' : '请选择一个范本')
+        : 'AI 正在检索匹配范本…';
+    }
+    else if(no===3){
+      if(state.genStatus==='running'){ label='生成中…'; disabled=true; hint='AI 正在生成文件初稿…'; }
+      else if(state.genStatus==='done'){ label='进入详细编辑'; hint='初稿已生成，可进入详细编辑'; }
+      else { label='开始生成'; hint='基于已选范本生成招标文件初稿'; }
+    }
+
+    next.textContent = label;
+    next.disabled = disabled;
+    status.textContent = hint;
+    retry.style.display = 'none';
+  }
+
+  function next(){
+    const no = state.current;
+    if(no===1){
+      if(state.entryMode==='upload' && !state.uploadFile){ toast('请先上传采购方案'); return; }
+      state.infoDone=true;
+      toast('已确认项目信息');
+      goto(2);
+      return;
+    }
+    if(no===2){
+      if(!state.templateDone || !state.templatePick){ toast('请先选择推荐范本'); return; }
+      goto(3);
+      return;
+    }
+    if(no===3){
+      if(state.genStatus==='idle'){ startGen(); return; }
+      if(state.genStatus==='done'){ goto(4); }
+    }
+  }
+  function prev(){
+    if(state.current===2) return goto(1);
+    if(state.current===3) return goto(2);
+  }
+  function retryStep(){
+    // v4 底部栏不再有 retry，但保留兼容
+  }
+
+  /* ============================================================
+     完成编辑（保存后留在编辑界面）
+     ============================================================ */
+  function submitDocument(){
+    if(state.submitting) return;
+    state.submitting = true;
+    const btn = $('btn-submit');
+    const overlay = $('save-overlay');
+    const saveText = $('save-text');
+    btn.disabled = true;
+    btn.textContent = '保存中…';
+    btn.style.opacity = '0.7';
+    overlay.classList.remove('done');
+    saveText.textContent = '正在保存文档…';
+    overlay.classList.add('show');
+
+    setTimeout(()=>{
+      overlay.classList.add('done');
+      saveText.textContent = '文档已保存';
+      toast('编辑已完成，文档保存成功', 1800);
+    }, 900);
+
+    setTimeout(()=>{
+      overlay.classList.remove('show','done');
+      btn.disabled = false;
+      btn.textContent = '已完成';
+      btn.style.opacity = '';
+      state.submitting = false;
+    }, 1500);
+  }
+
+  /* ============================================================
+     Step 1: 项目信息
+     ============================================================ */
+  function selectEntry(mode){
+    state.entryMode = mode;
+    $('entry-preset').classList.toggle('selected', mode==='preset');
+    $('entry-upload').classList.toggle('selected', mode==='upload');
+    $('upload-zone').classList.toggle('show', mode==='upload');
+    if(mode==='preset'){
+      $('upload-zone').classList.remove('has-file');
+      $('parse-progress').classList.remove('show');
+      state.uploadFile=null;
+    }
+    updateActions();
+  }
+  function triggerUpload(){
+    if($('upload-zone').classList.contains('has-file')) return;
+    $('upload-input').click();
+  }
+  function onFileChosen(e){
+    const f = e.target.files[0];
+    if(!f) return;
+    state.uploadFile = f;
+    $('upload-zone').classList.add('has-file');
+    $('upload-ttl').textContent = f.name;
+    $('upload-sub').textContent = (f.size/1024/1024).toFixed(2)+' MB · 点击重新选择';
+    // 模拟 AI 解析
+    state.parsing=true;
+    const pp=$('parse-progress');
+    pp.classList.add('show');
+    pp.classList.remove('done');
+    $('parse-text').textContent='AI 正在解析采购方案…';
+    updateActions();
+    setTimeout(()=>{
+      state.parsing=false;
+      pp.classList.add('done');
+      $('parse-text').textContent='解析完成，已回填 10 项项目信息';
+      toast('采购方案解析完成');
+      updateActions();
+    }, 1800);
+  }
+
+  /* ============================================================
+     Step 2: 范本推荐
+     ============================================================ */
+  function setTemplateRecStatus(status){
+    const el=$('template-rec-status');
+    el.className='rec-status '+status;
+    el.querySelector('.txt').textContent=status==='running' ? 'AI 正在检索匹配范本…' : (status==='done' ? '检索完成' : '待启动');
+  }
+  function onEnterTemplateRecommendation(){
+    if(state.templateRan){
+      renderTemplateCandidates();
+      return;
+    }
+    state.templateRan=true;
+    setTemplateRecStatus('running');
+    updateActions();
+    setTimeout(()=>{
+      state.templateDone=true;
+      setTemplateRecStatus('done');
+      const recommended=AGENT_CANDIDATES.template.find(item=>item.rec) || AGENT_CANDIDATES.template[0];
+      if(recommended) state.templatePick=recommended.id;
+      renderTemplateCandidates();
+      renderStepper();
+      updateActions();
+      toast('已完成范本推荐');
+    }, 1200);
+  }
+  function renderTemplateCandidates(){
+    const candidates=AGENT_CANDIDATES.template;
+    $('template-rec-count').textContent=state.templateDone ? candidates.length+' 项' : '— 项';
+    $('template-rec-list').innerHTML=state.templateDone ? candidates.map(item=>`
+      <div class="cand ${state.templatePick===item.id?'selected':''}" data-id="${item.id}" onclick="pickTemplate('${item.id}')">
+        <div class="cand-head">
+          <div class="cand-name">${item.name}${item.rec?'<span class="cand-rec">推荐</span>':''}</div>
+          <div class="cand-score">匹配度 ${item.score}%</div>
+        </div>
+        <p class="cand-reason">${item.reason}</p>
+        <span class="cand-check"></span>
+      </div>
+    `).join('') : '';
+    const picked=candidates.find(item=>item.id===state.templatePick);
+    $('template-rec-dot').classList.toggle('done', !!picked);
+    $('template-rec-text').textContent=picked ? picked.name : (state.templateDone ? '请选择' : '待检索');
+  }
+  function pickTemplate(id){
+    if(!state.templateDone) return;
+    state.templatePick=id;
+    renderTemplateCandidates();
+    const picked=AGENT_CANDIDATES.template.find(item=>item.id===id);
+    const summary=$('editor-template-source');
+    if(summary) summary.textContent = picked
+      ? '已基于「'+picked.name+'」生成当前招标文件。'
+      : '已基于推荐范本生成当前招标文件。';
+    renderStepper();
+    updateActions();
+    toast('已选择范本');
+  }
+
+  /* ============================================================
+     Step 3: 生成文件
+     ============================================================ */
+  function renderGenPanel(){
+    const status=state.genStatus;
+    const subs=GEN_SUB_STEPS;
+    const activeIdx=status==='running' ? state.genSubsDone : -1;
+    const badge=$('gen-badge');
+    badge.className='gen-panel-badge '+(status==='running'?'running':status==='done'?'success':'');
+    badge.textContent=status==='running'?'生成中':status==='done'?'已完成':'待启动';
+    $('gen-text').textContent=status==='running'
+      ? (subs[activeIdx] ? subs[activeIdx].txt+'…' : '生成中…')
+      : (status==='done' ? '初稿已生成' : '等待启动');
+    const percent=status==='done'?100:(status==='running'?Math.round(activeIdx/subs.length*100):0);
+    $('gen-bar-fill').classList.toggle('success',status==='done');
+    $('gen-bar-fill').style.width=percent+'%';
+    $('gen-pct').textContent=percent+'%';
+    $('gen-steps').innerHTML=subs.map((s,i)=>{
+      let sst='pending';
+      if(status==='running'){ if(i<activeIdx) sst='done'; else if(i===activeIdx) sst='active'; }
+      else if(status==='done') sst='done';
+      const label=sst==='done'?'已完成':sst==='active'?'进行中':'等待中';
+      return `<li class="gen-step ${sst}">
+        <span class="gen-step-icon">${sst==='done'?'✓':''}</span>
+        <div class="gen-step-body">
+          <div class="gen-step-label">${s.txt}</div>
+          <div class="gen-step-meta">${sst==='done'||sst==='active' ? s.meta : label}</div>
+        </div>
+      </li>`;
+    }).join('');
+    $('gen-summary').classList.toggle('show', status==='done');
+  }
+  function startGen(){
+    if(state.genStatus==='running' || state.genStatus==='done') return;
+    if(!state.templatePick){ toast('请先选择范本'); return; }
+    const picked=AGENT_CANDIDATES.template.find(item=>item.id===state.templatePick);
+    if(picked) GEN_SUB_STEPS[1].meta='使用范本：'+picked.name;
+    state.genStatus='running';
+    state.genSubsDone=0;
+    renderGenPanel();
+    updateActions();
+    let i=0;
+    const timer=setInterval(()=>{
+      if(i>=GEN_SUB_STEPS.length){
+        clearInterval(timer);
+        state.genStatus='done';
+        state.genSubsDone=GEN_SUB_STEPS.length;
+        renderGenPanel();
+        toast('文件初稿生成完成');
+        updateActions();
+        return;
+      }
+      state.genSubsDone=i+1;
+      renderGenPanel();
+      i++;
+    }, 1000);
+  }
+
+  /* ============================================================
+     Step 4: 详细编辑（核心）
+     ============================================================ */
+  function onEnterEditor(){
+    // 默认直接进入「编辑」模块（真实编辑界面），并确保文件来源默认 AI 智能生成
+    state.templateSource = 'ai';
+    switchTemplateSource('ai');
+    switchEditorModule('edit');
+    renderAgentGrid();
+    renderNavTree();
+    renderDocCanvas();
+    renderChat();   // 初始化 AI 对话区（空状态）
+  }
+
+  /* 左侧一级模块切换：模板 / 编辑 */
+  function switchEditorModule(module){
+    state.editorModule = module;
+    $$('.module-rail-item').forEach(item => item.classList.toggle('active', item.dataset.module===module));
+    $$('.module-pane').forEach(pane => pane.classList.remove('show'));
+    $(module==='template' ? 'pane-template' : 'pane-edit').classList.add('show');
+    if(state.current===4){
+      document.body.classList.toggle('editor-module-edit', module==='edit');
+    } else {
+      document.body.classList.remove('editor-module-edit');
+    }
+    if(module==='template' && !state._suppressSourceSync){
+      switchTemplateSource(state.templateSource || 'ai');
+    }
+  }
+
+  /* portal-tabs 同步联动到模板模块左侧文件来源 */
+  function switchPortalTab(btn){
+    if(!btn) return;
+    const target = btn.dataset.portalTab;
+    if(!target) return;
+    $$('.portal-tab').forEach(t=>t.classList.toggle('active', t===btn));
+    const inEditor = document.body.classList.contains('step4') || document.body.classList.contains('step-editor');
+    if(inEditor){
+      // 直接更新左侧文件来源，并保证进入模板模块
+      switchTemplateSource(target);
+      if(state.editorModule!=='template') switchEditorModule('template');
+      toast(target==='ai' ? 'AI 智能生成（当前）' : target==='platform' ? '平台范本（演示）' : '我的文件（演示）');
+    } else if(target!=='ai'){
+      $$('.portal-tab').forEach(t=>t.classList.toggle('active', t.dataset.portalTab==='ai'));
+      toast('该标签仅为演示占位，当前位于「AI 智能生成」');
+    }
+  }
+
+  /* 模板模块内：文件来源切换。AI 智能生成复用第 2 步范本推荐界面。 */
+  function switchTemplateSource(source){
+    state.templateSource = source;
+    $$('.template-source-item').forEach(item => item.classList.toggle('active', item.dataset.source===source));
+    $$('.template-source-pane').forEach(pane => pane.classList.toggle('show', pane.dataset.pane===source));
+    const aiBadge = $('template-source-ai-badge');
+    if(aiBadge) aiBadge.style.display = (source==='ai') ? '' : 'none';
+    if(source==='ai'){
+      // 确保模板模块里的范本推荐 UI 与第 2 步同步（同一组 ID）
+      renderTemplateCandidates();
+      // 同步右侧概览卡的“应用范本”文案
+      const picked=AGENT_CANDIDATES.template.find(item=>item.id===state.templatePick);
+      const summary=$('editor-template-source');
+      if(summary){
+        summary.textContent = picked
+          ? '已基于「'+picked.name+'」生成当前招标文件。'
+          : '已基于推荐范本生成当前招标文件。';
+      }
+      // 进入模板模块时，若第 2 步从未执行检索，则自动启动一次
+      if(!state.templateRan) onEnterTemplateRecommendation();
+    }
+    // 同步 portal-tab 高亮
+    $$('.portal-tab').forEach(t=>t.classList.toggle('active', t.dataset.portalTab===source));
+  }
+
+  // 章节树
+  function renderNavTree(){
+    const tree=$('nav-tree');
+    tree.innerHTML = CHAPTER_TREE.map(ch=>{
+      const varCount = ch.vars.length;
+      const isActive = state.activeChapter===ch.id;
+      return `
+        <div class="nav-node ${isActive?'active':''}" onclick="selectChapter('${ch.id}')">
+          <div class="nav-node-chapter">
+            <span class="ico">📁</span>
+            <span class="name">${ch.name}</span>
+            ${varCount>0 ? `<span class="var-count">${varCount} 个变量</span>` : ''}
+          </div>
+          ${ch.vars.map(v=>`<div class="nav-node-var"><span class="dot ${v.filled?'':'unfilled'}"></span>${v.name}</div>`).join('')}
+        </div>
+      `;
+    }).join('');
+    $('catalog-count').textContent = CHAPTER_TREE.length;
+  }
+  function selectChapter(id){
+    state.activeChapter=id;
+    renderNavTree();
+    toast('已定位到「'+CHAPTER_TREE.find(c=>c.id===id).name+'」');
+  }
+
+  // 文档画布（OnlyOffice 风占位）
+  const DOC_CANVAS_HTML = `
+    <h3 class="doc-title">武汉市轨道交通12号线工程<br>土建施工总承包招标文件</h3>
+    <h4 class="doc-h">第一章 投标须知</h4>
+    <p>本招标项目名称为「<span class="doc-field" data-field="projectName">${PROJECT_INFO.projectName}</span>」，项目编号：<span class="doc-field" data-field="projectCode">${PROJECT_INFO.projectCode}</span>。招标方式：公开招标。</p>
+    <p>招标人：<span class="doc-field" data-field="tenderer">${PROJECT_INFO.tenderer}</span>。代理机构：<span class="doc-field" data-field="agency">${PROJECT_INFO.agency}</span>。</p>
+    <h4 class="doc-h">第二章 项目概况与招标范围</h4>
+    <p>建设地点：<span class="doc-field" data-field="location">${PROJECT_INFO.location}</span>。资金来源：<span class="doc-field" data-field="fundSource">${PROJECT_INFO.fundSource}</span>。</p>
+    <p>武汉市轨道交通12号线工程为环线，线路全长约59.9km，设站37座，全部为地下站…</p>
+    <h4 class="doc-h">第三章 投标资格要求</h4>
+    <p>3.1 资质：投标人须具备市政公用工程施工总承包特级资质。</p>
+    <p>3.2 业绩：近5年承担过单项合同额≥10亿元的轨道交通工程。</p>
+    <p>3.3 项目经理：一级建造师（市政公用工程）+ 高级工程师。</p>
+    <h4 class="doc-h">第四章 评标办法</h4>
+    <p>本次评标采用综合评估法，总分100分。商务分40分，技术分40分，价格分<span class="doc-field unfilled" data-field="priceScore">__待填写__</span>。</p>
+    <h4 class="doc-h">第五章 合同条款</h4>
+    <p>合同估算价：<span class="doc-field" data-field="controlPrice">${PROJECT_INFO.controlPrice}</span>。投标保证金：<span class="doc-field" data-field="deposit">${PROJECT_INFO.deposit}</span>。</p>
+    <p>履约期限：<span class="doc-field unfilled" data-field="duration">__待填写__</span>。</p>
+  `;
+  function renderDocCanvas(){
+    $('doc-canvas').innerHTML = DOC_CANVAS_HTML;
+    // 字段点击高亮
+    $('doc-canvas').querySelectorAll('.doc-field').forEach(el=>{
+      el.addEventListener('click', ()=>{
+        $('doc-canvas').querySelectorAll('.doc-field').forEach(x=>x.classList.remove('active'));
+        el.classList.add('active');
+        const code=el.dataset.field;
+        state.activeField=code;
+        toast('已选中字段：'+code);
+      });
+    });
+    // 绑定选中工具条
+    bindSelectionToolbar();
+  }
+
+  /* ============================================================
+     选中内容浮动工具条
+     ============================================================ */
+  function bindSelectionToolbar(){
+    const canvas=$('doc-canvas');
+    if(!canvas || canvas._stBound) return;
+    canvas._stBound=true;
+    // 鼠标松开时检测是否有选区
+    canvas.addEventListener('mouseup', handleSelection);
+    // 触摸支持
+    canvas.addEventListener('touchend', handleSelection);
+    // 点击空白处隐藏工具条
+    document.addEventListener('mousedown', (e)=>{
+      if(!e.target.closest('#selection-toolbar') && !e.target.closest('#st-action-panel') && !e.target.closest('#doc-canvas')){
+        hideSelectionToolbar();
+        hideActionPanel();
+      }
+    });
+  }
+  function handleSelection(){
+    setTimeout(()=>{
+      const sel = window.getSelection ? window.getSelection() : null;
+      const text = sel ? sel.toString().trim() : '';
+      if(!text || text.length < 2){
+        hideSelectionToolbar();
+        return;
+      }
+      // 必须选在 doc-canvas 内
+      if(sel.rangeCount===0) return;
+      const range = sel.getRangeAt(0);
+      if(!$('doc-canvas').contains(range.commonAncestorContainer)) return;
+      state.lastSelection = { text, range };
+      // 用 range 的 boundingRect 定位工具条
+      const rect = range.getBoundingClientRect();
+      const canvasRect = $('doc-canvas').getBoundingClientRect();
+      const editorView = $('doc-canvas').closest('.editor-view');
+      const viewRect = editorView ? editorView.getBoundingClientRect() : canvasRect;
+      const tb = $('selection-toolbar');
+      // 相对 editor-view 定位（工具条 append 在 editor-root，用 fixed 视口坐标更稳）
+      tb.style.left = (rect.left + rect.width/2) + 'px';
+      tb.style.top  = (rect.top - 44) + 'px';
+      tb.classList.add('show');
+      hideActionPanel();
+    }, 10);
+  }
+  function hideSelectionToolbar(){
+    $('selection-toolbar').classList.remove('show');
+  }
+
+  /* 工具条触发的动作面板 */
+  const ST_ACTIONS = {
+    polish: {
+      title: '✨ AI 润色 — 选择风格',
+      items: [
+        { ico:'商务',   name:'商务化润色',   sub:'推荐', desc:'增强正式度、统一术语' },
+        { ico:'简洁',   name:'简洁化润色',   desc:'压缩冗余，提升可读性' },
+        { ico:'法务',   name:'法务合规化润色', desc:'强化条款严谨性' },
+      ],
+    },
+    format: {
+      title: '📐 格式标准化 — 选择类型',
+      items: [
+        { ico:'H',   name:'套用标题样式',   desc:'H1-H4 按范本规范' },
+        { ico:'¶',   name:'规范段落格式',   desc:'首行缩进 2 字 · 1.5 倍行距' },
+        { ico:'№',   name:'应用自动编号',   desc:'章节/图表/公式编号' },
+      ],
+    },
+    insert: {
+      title: '＋ 插入变量 — 选择字段',
+      items: [
+        { ico:'P',   name:'项目名称',       desc:'{{项目名称}}' },
+        { ico:'T',   name:'招标人',         desc:'{{招标人}}' },
+        { ico:'$',   name:'招标控制价',     desc:'{{招标控制价}}' },
+        { ico:'D',   name:'投标保证金',     desc:'{{投标保证金}}' },
+      ],
+    },
+  };
+  let stActionMode = null;
+  let stActionPick = null;
+  function showActionPanel(mode){
+    if(!state.lastSelection){
+      toast('请先选中内容');
+      return;
+    }
+    stActionMode = mode;
+    stActionPick = 0;
+    const conf = ST_ACTIONS[mode];
+    $('st-panel-title').textContent = conf.title;
+    $('st-action-list').innerHTML = conf.items.map((it, i)=>`
+      <div class="st-action-item ${i===0?'selected':''}" data-idx="${i}" onclick="pickStAction(${i})">
+        <span class="ico">${it.ico}</span>
+        <div>
+          <div>${it.name}${it.sub?'<span class="nav-tpl-rec" style="margin-left:6px">'+it.sub+'</span>':''}</div>
+          <div style="font-size:11px;color:var(--ink-3)">${it.desc||''}</div>
+        </div>
+      </div>
+    `).join('');
+    // 定位面板（在工具条下方）
+    const tb=$('selection-toolbar');
+    const panel=$('st-action-panel');
+    panel.style.left = tb.style.left;
+    panel.style.top  = (parseInt(tb.style.top) + 50) + 'px';
+    panel.classList.add('show');
+  }
+  function pickStAction(idx){
+    stActionPick = idx;
+    $$('#st-action-list .st-action-item').forEach((el,i)=>el.classList.toggle('selected', i===idx));
+  }
+  function hideActionPanel(){
+    $('st-action-panel').classList.remove('show');
+  }
+  function applyStAction(){
+    if(!stActionMode || state.lastSelection===null) return;
+    const conf = ST_ACTIONS[stActionMode];
+    const item = conf.items[stActionPick];
+    const modeLabel = {polish:'AI 润色', format:'格式标准化', insert:'插入变量'}[stActionMode];
+    // 演示：用"已应用"反馈（真实场景会替换选区文本）
+    toast(modeLabel+'：已应用「'+item.name+'」到选中内容');
+    hideActionPanel();
+    hideSelectionToolbar();
+    // 清除选区
+    if(window.getSelection) window.getSelection().removeAllRanges();
+    state.lastSelection = null;
+  }
+
+  /* ============================================================
+     AI 抽屉
+     ============================================================ */
+  /* AI 助手：step4 时点击打开，其他步骤不可见 */
+  /* AI 助手已嵌入编辑器右侧栏，open/close 控制显隐（仅 step4 编辑模块下可见） */
+  function openAIDrawer(){
+    if(!document.body.classList.contains('step4')){
+      toast('AI 助手仅在详细编辑时可用');
+      return;
+    }
+    const pane = $('ai-drawer');
+    pane.classList.remove('hidden');
+  }
+  function closeAIDrawer(){
+    $('ai-drawer').classList.add('hidden');
+  }
+  function newChat(){
+    state.agentRunning=null;
+    state.agentPicks={qual:null,eval:null,polish:null};
+    state.chat = [];
+    $('agent-progress').classList.remove('show');
+    $('agent-result').classList.remove('show');
+    renderAgentGrid();
+    renderChat();
+    toast('已新建对话');
+  }
+
+  /* AI 对话：渲染消息列表 */
+  function renderChat(){
+    const list = $('ai-chat-list');
+    if(!list) return;
+    if(state.chat.length === 0){
+      list.innerHTML = `
+        <div class="ai-chat-empty">
+          <div class="ai-chat-empty-ico">🤖</div>
+          <div class="ai-chat-empty-ttl">有什么可以帮你？</div>
+          <div class="ai-chat-empty-sub">可在下方直接提问，或点击下方智能体快速运行。</div>
+        </div>
+      `;
+      return;
+    }
+    list.innerHTML = state.chat.map(m => `
+      <div class="ai-msg ${m.role}">
+        <div class="ai-msg-bubble">${escapeHtml(m.text)}</div>
+        <div class="ai-msg-meta">${m.role==='user'?'我':'AI 助手'} · ${m.time}</div>
+      </div>
+    `).join('');
+    // 滚动到底部
+    list.scrollTop = list.scrollHeight;
+  }
+
+  /* 追加一条消息并刷新 */
+  function appendChat(role, text){
+    const now = new Date();
+    const time = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+    state.chat.push({ role, text, time });
+    renderChat();
+  }
+
+  /* 发送对话 */
+  function sendChat(){
+    const input = $('ai-chat-input');
+    if(!input) return;
+    const text = input.value.trim();
+    if(!text) return;
+    appendChat('user', text);
+    input.value = '';
+    // 模拟 AI 回复
+    setTimeout(()=>{
+      const reply = mockAIReply(text);
+      appendChat('bot', reply);
+    }, 600);
+  }
+
+  /* 简单的关键词模拟回复（演示用） */
+  function mockAIReply(q){
+    if(/资格|资质/.test(q)) return '根据本项目（轨道交通土建施工总承包），建议投标人具备市政公用工程施工总承包特级资质，近 5 年承担过单项合同额≥10 亿元的轨道交通工程。';
+    if(/评标|评审|办法/.test(q)) return '推荐采用综合评估法（轨道交通专业）v2.1，匹配度 94%，含 4 维度 + 12 子项，完全适配本项目。';
+    if(/润色|修改|优化/.test(q)) return '已对当前段落做商务化润色：统一了术语、修正了标点、增强了合规表述。可在文档中查看修订。';
+    if(/你好|hello|hi/i.test(q)) return '你好！我是标书 AI 助手，可以帮你推荐资格条件、评审办法，也能润色段落、解答编制问题。';
+    return '收到你的问题：「' + q + '」。这是一个演示回复，正式环境将接入大模型生成专业建议。';
+  }
+
+  /* HTML 转义，防止消息中的 HTML 被解析 */
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  // 渲染智能体卡片（范本推荐已移到左侧导航「模板」tab）
+  function renderAgentGrid(){
+    const grid=$('agent-grid');
+    grid.innerHTML = AGENTS.map(a=>{
+      const done = !!state.agentPicks[a.key];
+      return `
+        <div class="agent-card ${done?'done':''}" onclick="runAgent('${a.key}')" title="${a.desc}">
+          <div class="agent-card-head">
+            <div class="agent-card-ico">${a.ico}</div>
+            <div class="agent-card-name">${a.name}${done?' <span class=\"agent-done-mark\">✓</span>':''}</div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // 单独运行某个智能体
+  function runAgent(key){
+    if(state.agentRunning) { toast('已有智能体运行中…'); return; }
+    const agent = AGENTS.find(a=>a.key===key);
+    state.agentRunning=key;
+    const prog=$('agent-progress');
+    prog.classList.add('show');
+    $('agent-progress-text').textContent=agent.name+' · 检索中…';
+    $('agent-result').classList.remove('show');
+    renderAgentGrid();
+
+    setTimeout(()=>{
+      state.agentRunning=null;
+      prog.classList.remove('show');
+      renderAgentResult(key);
+      renderAgentGrid();
+      toast(agent.name+'完成');
+    }, 1400);
+  }
+  function renderAgentResult(key){
+    const list=AGENT_CANDIDATES[key];
+    const agent=AGENTS.find(a=>a.key===key);
+    $('agent-result-name').textContent=agent.ico+' '+agent.name+' 结果';
+    $('agent-result-count').textContent=list.length+' 项';
+    $('agent-result-list').innerHTML = list.map(c=>`
+      <div class="agent-cand ${state.agentPicks[key]===c.id?'selected':''}" data-id="${c.id}" onclick="pickAgent('${key}','${c.id}')">
+        <div class="agent-cand-head">
+          <div class="agent-cand-name">${c.name}${c.rec?'<span class="agent-cand-rec">推荐</span>':''}</div>
+          <div class="agent-cand-score">匹配度 ${c.score}%</div>
+        </div>
+        <p class="agent-cand-reason">${c.reason}</p>
+      </div>
+    `).join('');
+    $('agent-result').classList.add('show');
+    // 默认选中推荐项
+    if(!state.agentPicks[key]){
+      const rec = list.find(c=>c.rec) || list[0];
+      pickAgent(key, rec.id, true);
+    }
+  }
+  function pickAgent(key, id, silent=false){
+    state.agentPicks[key]=id;
+    $$(`#agent-result-list .agent-cand`).forEach(el=>el.classList.toggle('selected', el.dataset.id===id));
+    renderAgentGrid();
+    if(!silent){
+      const agent=AGENTS.find(a=>a.key===key);
+      toast('已采纳「'+agent.name+'」推荐项');
+    }
+  }
+
+  /* ============================================================
+     浮窗：文件标准格式生成
+     ============================================================ */
+  function openFormatModal(){
+    $('format-modal-mask').classList.add('show');
+    renderFormatPanel();
+  }
+  function closeFormatModal(){
+    $('format-modal-mask').classList.remove('show');
+  }
+  function renderFormatPanel(){
+    const status=state.fmtStatus;
+    const subs=FORMAT_SUB_STEPS;
+    const activeIdx=status==='running'?state.fmtSubsDone:-1;
+    const badge=$('fmt-badge');
+    badge.className='ai-panel__badge '+(status==='running'?'running':status==='done'?'success':'idle');
+    badge.textContent=status==='running'?'处理中':status==='done'?'已完成':'待启动';
+    $('fmt-text').textContent=status==='running'
+      ? (subs[activeIdx]?subs[activeIdx].txt+'…':'处理中…')
+      : (status==='done'?'共 '+subs.length+' 项全部完成':'等待启动');
+    const percent=status==='done'?100:(status==='running'?Math.round(activeIdx/subs.length*100):0);
+    $('fmt-bar').classList.toggle('success',status==='done');
+    $('fmt-bar').style.width=percent+'%';
+    $('fmt-pct').textContent=percent+'%';
+    $('fmt-steps').innerHTML=subs.map((s,i)=>{
+      let sst='pending';
+      if(status==='running'){ if(i<activeIdx) sst='success'; else if(i===activeIdx) sst='running'; }
+      else if(status==='done') sst='success';
+      const meta=sst==='success'?'已完成':sst==='running'?'进行中':'等待中';
+      return `<li class="ai-step is-${sst}"><span class="ai-step__icon is-${sst}">${sst==='success'?'✓':''}</span><span class="ai-step__label">${s.txt}</span><span class="ai-step__meta">${meta}</span></li>`;
+    }).join('');
+    const done=$('fmt-done');
+    if(status==='done'){
+      done.classList.add('show');
+      done.innerHTML='<span class="ai-done__icon">✓</span><span class="ai-done__text">应用 <span class="num">4</span> 类共 <span class="num">16</span> 条格式化规则</span>';
+    } else done.classList.remove('show');
+
+    // 按钮区
+    $('fmt-run').style.display = status==='idle' ? '' : 'none';
+    $('fmt-retry').style.display = status==='done' ? '' : 'none';
+
+    // 结果
+    if(status==='done') renderFormatResult();
+  }
+  function renderFormatResult(){
+    let total=0;
+    const cellsHtml=FMT_CELLS.map(cell=>`<div class="fmt-cell"><div class="fmt-cell__head"><span class="ico">${cell.ico}</span>${cell.title}</div>${cell.rules.map(rule=>{ total++; return `<div class="fmt-rule"><span class="k">${rule.k}</span><span class="v ok">✓ ${rule.v}</span></div>`; }).join('')}</div>`).join('');
+    $('fmt-result').innerHTML=`
+      <div class="result-block">
+        <div class="result-head">格式化规则应用 <span class="rh-count">${total} 项</span></div>
+        <div class="header-footer">
+          <div class="hf-row"><span class="left">{{项目名称}}招标文件</span><span class="right">招标编号：{{招标编号}}</span></div>
+          <div class="hf-row"><span class="left">第 {{页码}} 页 · 共 {{总页数}} 页</span><span class="right">{{招标人}} · {{日期}}</span></div>
+        </div>
+        <div class="fmt-grid">${cellsHtml}</div>
+      </div>`;
+    $('fmt-result').style.display='';
+  }
+  function runFormat(){
+    if(state.fmtStatus==='running'||state.fmtStatus==='done') return;
+    state.fmtStatus='running';
+    state.fmtSubsDone=0;
+    renderFormatPanel();
+    let i=0;
+    const timer=setInterval(()=>{
+      if(i>=FORMAT_SUB_STEPS.length){
+        clearInterval(timer);
+        state.fmtStatus='done';
+        state.fmtSubsDone=FORMAT_SUB_STEPS.length;
+        renderFormatPanel();
+        toast('文件标准格式生成完成');
+        // 步4 预览里的格式状态更新
+        if($('preview-fmt')){ $('preview-fmt').textContent='已应用 ✓'; $('preview-fmt').className='val ok'; }
+        return;
+      }
+      state.fmtSubsDone=i+1;
+      renderFormatPanel();
+      i++;
+    }, 850);
+  }
+  function retryFormat(){
+    state.fmtStatus='idle';
+    state.fmtSubsDone=0;
+    $('fmt-result').style.display='none';
+    renderFormatPanel();
+    runFormat();
+  }
+
+  /* ============================================================
+     浮窗：合规校验
+     ============================================================ */
+  function openComplianceModal(){
+    $('compliance-modal-mask').classList.add('show');
+    renderCompliancePanel();
+  }
+  function closeComplianceModal(){
+    $('compliance-modal-mask').classList.remove('show');
+  }
+  function renderCompliancePanel(){
+    const status=state.compStatus;
+    const subs=COMPLIANCE_SUB_STEPS;
+    const activeIdx=status==='running'?state.compSubsDone:-1;
+    const badge=$('comp-badge');
+    badge.className='ai-panel__badge '+(status==='running'?'running':status==='done'?'success':'idle');
+    badge.textContent=status==='running'?'处理中':status==='done'?'已完成':'待启动';
+    $('comp-text').textContent=status==='running'
+      ? (subs[activeIdx]?subs[activeIdx].txt+'…':'处理中…')
+      : (status==='done'?'共 '+subs.length+' 项全部完成':'等待启动');
+    const percent=status==='done'?100:(status==='running'?Math.round(activeIdx/subs.length*100):0);
+    $('comp-bar').classList.toggle('success',status==='done');
+    $('comp-bar').style.width=percent+'%';
+    $('comp-pct').textContent=percent+'%';
+    $('comp-steps').innerHTML=subs.map((s,i)=>{
+      let sst='pending';
+      if(status==='running'){ if(i<activeIdx) sst='success'; else if(i===activeIdx) sst='running'; }
+      else if(status==='done') sst='success';
+      const meta=sst==='success'?'已完成':sst==='running'?'进行中':'等待中';
+      return `<li class="ai-step is-${sst}"><span class="ai-step__icon is-${sst}">${sst==='success'?'✓':''}</span><span class="ai-step__label">${s.txt}</span><span class="ai-step__meta">${meta}</span></li>`;
+    }).join('');
+    const done=$('comp-done');
+    if(status==='done'){
+      const fail=COMPLIANCE_CHECKS.filter(c=>c.status==='fail').length;
+      const warn=COMPLIANCE_CHECKS.filter(c=>c.status==='warn').length;
+      const pass=COMPLIANCE_CHECKS.filter(c=>c.status==='pass').length;
+      const icon=fail>0?'is-err':(warn>0?'is-warn':'');
+      const txt=fail>0?'审查未通过':(warn>0?'审查完成（有警告）':'审查全部通过');
+      done.classList.add('show');
+      done.innerHTML=`<span class="ai-done__icon ${icon}">${fail>0?'✗':'✓'}</span><span class="ai-done__text">${txt} · 通过 <span class="num">${pass}</span> / 警告 <span class="num">${warn}</span> / 不通过 <span class="num">${fail}</span></span>`;
+    } else done.classList.remove('show');
+
+    $('comp-run').style.display = status==='idle' ? '' : 'none';
+    $('comp-retry').style.display = status==='done' ? '' : 'none';
+
+    if(status==='done') renderComplianceResult();
+  }
+  function renderComplianceResult(){
+    const CHECKS=COMPLIANCE_CHECKS;
+    const pass=CHECKS.filter(c=>c.status==='pass').length;
+    const warn=CHECKS.filter(c=>c.status==='warn').length;
+    const fail=CHECKS.filter(c=>c.status==='fail').length;
+    const overall=fail>0?'fail':(warn>0?'warn':'pass');
+    const big=fail>0?'不通过':(warn>0?'有警告':'通过');
+    const STATUS_LABEL={pass:'通过',warn:'警告',fail:'不通过'};
+    const STATUS_ICON={pass:'✓',warn:'!',fail:'✗'};
+    $('comp-result').innerHTML=`
+      <div class="result-block">
+        <div class="cmp-summary ${overall==='pass'?'':('is-'+overall)}">
+          <div><div class="cmp-summary__big">${big}</div><div class="cmp-summary__label">整体合规结论</div></div>
+          <div class="cmp-summary__items">
+            <span class="cmp-pill pass"><span class="n">${pass}</span> 通过</span>
+            <span class="cmp-pill warn"><span class="n">${warn}</span> 警告</span>
+            <span class="cmp-pill fail"><span class="n">${fail}</span> 不通过</span>
+          </div>
+        </div>
+        <div class="result-head">检查明细 <span class="rh-count">共 ${CHECKS.length} 项</span></div>
+        <div class="cmp-check-head"><span></span><span>审查维度</span><span>具体内容</span><span>技术手段</span><span>结果</span></div>
+        <div>${CHECKS.map(c=>`<div class="cmp-row ${c.status}"><div class="cmp-row__icon">${STATUS_ICON[c.status]}</div><div class="cmp-row__body"><div class="cmp-row__title">${c.title}</div><div class="cmp-row__desc">${c.desc}<br/><span style="color:var(--ink-3);font-size:11px;">📍 ${c.loc}</span></div></div><div class="cmp-row__method"><b>${c.method}</b></div><span class="cmp-status ${c.status}">${STATUS_LABEL[c.status]}</span></div>`).join('')}</div>
+      </div>`;
+    $('comp-result').style.display='';
+    // 更新顶栏徽章和预览状态
+    state.compHasIssue = (warn+fail)>0;
+    const badge=$('compliance-badge');
+    if(state.compHasIssue){
+      badge.textContent = warn+fail;
+      badge.style.display='';
+    } else badge.style.display='none';
+    if($('preview-comp')){
+      if(fail>0){ $('preview-comp').textContent='不通过'; $('preview-comp').className='val warn'; }
+      else if(warn>0){ $('preview-comp').textContent='有警告'; $('preview-comp').className='val warn'; }
+      else { $('preview-comp').textContent='全部通过'; $('preview-comp').className='val ok'; }
+    }
+  }
+  function runCompliance(){
+    if(state.compStatus==='running'||state.compStatus==='done') return;
+    state.compStatus='running';
+    state.compSubsDone=0;
+    renderCompliancePanel();
+    let i=0;
+    const timer=setInterval(()=>{
+      if(i>=COMPLIANCE_SUB_STEPS.length){
+        clearInterval(timer);
+        state.compStatus='done';
+        state.compSubsDone=COMPLIANCE_SUB_STEPS.length;
+        renderCompliancePanel();
+        toast('合规校验完成');
+        return;
+      }
+      state.compSubsDone=i+1;
+      renderCompliancePanel();
+      i++;
+    }, 850);
+  }
+  function retryCompliance(){
+    state.compStatus='idle';
+    state.compSubsDone=0;
+    $('comp-result').style.display='none';
+    renderCompliancePanel();
+    runCompliance();
+  }
+
+  /* ============================================================
+     重置
+     ============================================================ */
+  function resetAll(){
+    state.current=1;
+    state.entryMode='preset';
+    state.uploadFile=null;
+    state.parsing=false;
+    state.infoDone=false;
+    state.genStatus='idle';
+    state.genSubsDone=0;
+    state.activeChapter='ch1';
+    state.activeField=null;
+    state.editorModule='edit';
+    state.templateSource='ai';
+    state.templateRan=false;
+    state.templateDone=false;
+    state.templatePick=null;
+    state.agentRunning=null;
+    state.agentPicks={qual:null,eval:null,polish:null};
+    state.fmtStatus='idle';
+    state.fmtSubsDone=0;
+    state.compStatus='idle';
+    state.compSubsDone=0;
+    state.compHasIssue=false;
+    state.submitting=false;
+    state.lastSelection=null;
+
+    // 步1
+    selectEntry('preset');
+    $('upload-zone').classList.remove('has-file','show');
+    $('parse-progress').classList.remove('show','done');
+    $('upload-input').value='';
+    $('upload-ttl').textContent='点击上传采购方案';
+    $('upload-sub').textContent='支持 .docx / .pdf，单文件 ≤ 20MB';
+
+    // 步2：范本推荐
+    setTemplateRecStatus('idle');
+    $('template-rec-list').innerHTML='';
+    $('template-rec-count').textContent='— 项';
+    $('template-rec-dot').classList.remove('done');
+    $('template-rec-text').textContent='待检索';
+
+    // 步3：生成文件
+    renderGenPanel();
+    $('gen-summary').classList.remove('show');
+
+    // 步4：回到左侧「模板」模块
+    $$('.module-rail-item').forEach(item => item.classList.toggle('active', item.dataset.module==='template'));
+    $$('.module-pane').forEach(pane => pane.classList.remove('show'));
+    $('pane-template').classList.add('show');
+    $('editor-template-source') && ($('editor-template-source').textContent='已基于推荐范本生成当前招标文件。');
+    // 默认选中推荐项后，同步右侧概览卡的范本名称
+    const picked=AGENT_CANDIDATES.template.find(item=>item.id===state.templatePick);
+    if(picked) $('editor-template-source').textContent='已基于「'+picked.name+'」生成当前招标文件。';
+    // 步4 抽屉
+    $('agent-progress').classList.remove('show');
+    $('agent-result').classList.remove('show');
+    renderAgentGrid();
+    // 选中工具条/动作面板隐藏
+    hideSelectionToolbar();
+    hideActionPanel();
+
+    // 浮窗重置
+    state.fmtStatus='idle'; state.fmtSubsDone=0;
+    $('fmt-result').style.display='none';
+    state.compStatus='idle'; state.compSubsDone=0;
+    $('comp-result').style.display='none';
+    $('compliance-badge').style.display='none';
+
+    // 提交态重置
+    const submitBtn=$('btn-submit');
+    if(submitBtn){ submitBtn.disabled=false; submitBtn.textContent='完成编辑'; submitBtn.style.opacity=''; }
+    $('save-overlay').classList.remove('show','done');
+
+    document.body.className='';
+    document.body.classList.add('step1');
+    document.querySelector('main > .content-inner').classList.remove('wide');
+    $$('.chapter').forEach(c=>c.classList.remove('show'));
+    $('ch-1').classList.add('show');
+    $$('.portal-tab').forEach(t=>t.classList.toggle('active', t.dataset.portalTab==='ai'));
+    renderStepper();
+    updateActions();
+    const c0=document.querySelector('.content'); if(c0) c0.scrollTop=0;
+  }
+
+  function init(){
+    renderStepper();
+    document.body.classList.add('step1');
+    $('ch-1').classList.add('show');
+    renderTemplateCandidates();
+    renderGenPanel();        // 初始化步3面板为 idle
+    updateActions();
+    // AI 对话输入框：回车发送，Shift+回车换行
+    const aiInput = $('ai-chat-input');
+    if(aiInput){
+      aiInput.addEventListener('keydown', e => {
+        if(e.key === 'Enter' && !e.shiftKey){
+          e.preventDefault();
+          sendChat();
+        }
+      });
+    }
+  }
+  init();
+</script>
+</body>
+</html>

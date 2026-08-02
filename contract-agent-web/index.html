@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>contract-agent-web</title>
+    <!-- OnlyOffice 文档编辑器 JS SDK（若 Docker 未启动，加载失败由组件内占位提示兜底） -->
+    <script src="http://localhost:8080/web-apps/apps/api/documents/api.js" onerror="console.warn('[OnlyOffice] SDK 加载失败，请确认 8080 端口服务已启动')"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

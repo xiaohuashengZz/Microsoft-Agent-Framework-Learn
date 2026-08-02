@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  onlyoffice:
+    image: onlyoffice/documentserver:latest
+    container_name: ci-onlyoffice
+    ports:
+      - "8080:80"
+    environment:
+      - JWT_SECRET=ci_onlyoffice_jwt_secret_2026
+      - JWT_ENABLED=true
+      - USE_UNAUTHORIZED_STORAGE=true
+    volumes:
+      - onlyoffice-data:/var/www/onlyoffice/Data
+      - onlyoffice-logs:/var/log/onlyoffice
+      - onlyoffice-cache:/var/lib/onlyoffice
+      - ./contract-files:/files
+    restart: unless-stopped
+    networks:
+      - ci-network
+
+volumes:
+  onlyoffice-data:
+  onlyoffice-logs:
+  onlyoffice-cache:
+
+networks:
+  ci-network:
+    driver: bridge
